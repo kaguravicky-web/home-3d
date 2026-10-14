@@ -226,7 +226,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <div class="row">
       <button class="seg" id="kb-09" aria-pressed="true">0.9m 床（床架 95）</button>
       <button class="seg" id="kb-10" aria-pressed="false">1m 床（床架 102）</button>
-      <button class="seg" id="kb-bunk" aria-pressed="false">1m 双层床</button>
       <button class="seg" id="kb-ikea" aria-pressed="false">宜家 SLÄKT/NATTAPA 储物床 ×2</button>
     </div>
     <p class="note" id="kbNote"></p>
@@ -1187,7 +1186,7 @@ function applyLiving() {
  ['e-low', 'entry', 'low'], ['e-tall', 'entry', 'tall'], ['e-none', 'entry', 'none']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['dr-black', 'drum', 'black'], ['dr-white', 'drum', 'white'], ['pl-none', 'pil', 'none'], ['pl-bg', 'pil', 'bg'],  ['ws-55', 'wsd', '55'], ['ws-50', 'wsd', '50'], ['ws-none', 'wsd', 'none'], ['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['gy-off', 'gym', false], ['gy-on', 'gym', 'room'], ['gy-bal', 'gym', 'bal'], ['st-wing', 'tvst', 'wing'], ['st-w124', 'tvst', 'w124'], ['ls-slim', 'lstyle', 'slim'], ['ls-cap', 'lstyle', 'cap'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
- ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10'], ['kb-bunk', 'kbed', 'bunk'], ['kb-ikea', 'kbed', 'ikea'], ['kt-on', 'ktoy', 'on'], ['kt-off', 'ktoy', 'off'], ['pp-none', 'ppl', 'none'], ['pp-living', 'ppl', 'living'], ['pp-dining', 'ppl', 'dining']]
+ ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10'], ['kb-ikea', 'kbed', 'ikea'], ['kt-on', 'ktoy', 'on'], ['kt-off', 'ktoy', 'off'], ['pp-none', 'ppl', 'none'], ['pp-living', 'ppl', 'living'], ['pp-dining', 'ppl', 'dining']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['b-up', 'blinds', 'up'], ['b-open', 'blinds', 'open'], ['b-70', 'blinds', 'up70'], ['mw-cur-open', 'mw', 'cur-open'], ['mw-cur-closed', 'mw', 'cur-closed'], ['mw-blind', 'mw', 'blind']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
@@ -1790,9 +1789,9 @@ const kidsToy = new THREE.Group();
 }
 scene.add(kidsToy);
 hook(() => {
-  const kb = ['09', '10', 'bunk', 'ikea'].includes(state.kbed) ? state.kbed : '10';
+  const kb = ['09', '10', 'ikea'].includes(state.kbed) ? state.kbed : '10';
   kids09.visible = kb === '09'; kids10.visible = kb === '10'; kidsBunk.visible = kb === 'bunk'; kidsIkea.visible = kb === 'ikea';
-  press(['kb-09', 'kb-10', 'kb-bunk', 'kb-ikea'], 'kb-' + kb);
+  press(['kb-09', 'kb-10', 'kb-ikea'], 'kb-' + kb);
   // toy shelf: at the bed ends, centred across the two beds; along the left wall with the bunk bed
   const toy = state.ktoy !== 'off';
   kidsToy.visible = toy; press(['kt-on', 'kt-off'], toy ? 'kt-on' : 'kt-off');
