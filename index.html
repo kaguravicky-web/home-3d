@@ -169,6 +169,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       <button class="seg" id="dr-white" aria-pressed="true">白色</button>
       <button class="seg" id="dr-black" aria-pressed="false">黑色</button>
     </div>
+    <span class="label">窗边玻璃边几 Φ38 颜色</span>
+    <div class="row" id="glassc"></div>
   </div>
   <div class="group">
     <span class="label">茶几</span>
@@ -1099,7 +1101,7 @@ function buildLiving(Lo, key) {
 mat.chair.side = THREE.DoubleSide;
 function ensureLiving(k) { if (!livings[k] && S.layouts[k]) { livings[k] = buildLiving(S.layouts[k], k); livings[k].userData.acc = {}; } return livings[k]; }
 // two potted olive trees on the balcony, >= 1 m in from the railing, right half (the left panel is the way out)
-const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'M', dir: 'B', tv: 'R', chairs: 1, table: 'A', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', eb: '50', wsd: '55', ms: 'mc', tvs: '55', tvst: 'n90', lstyle: 'slim', rug: 'none', sbt: 'B', kbed: '09', stab: 'glass', entry: 'low', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
+const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, table: 'B', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', eb: '65', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'n90', lstyle: 'cap', rug: 'small', sbt: 'B', kbed: '10', stab: 'glass', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
 function press(ids, on) { ids.forEach(id => document.getElementById(id).setAttribute('aria-pressed', id === on)); }
 function applyLiving() {
   const key = state.model + state.dir + (state.seat === 'emmi' && S.layouts[state.model + state.dir + 'e'] ? 'e' : '');
@@ -1262,6 +1264,7 @@ function syncAccent() { Object.values(livings).forEach(g => Object.entries(g.use
 hook(syncAccent);
 document.getElementById('c-1').addEventListener('click', () => setChairs(1));
 document.getElementById('c-2').addEventListener('click', () => setChairs(2));
+setChairs(state.chairs);
 const sbA = box(5465, 6400, 5865, 8000, 0, 0.8, mat.walnut);
 const wallCab = new THREE.Group(); target = wallCab;
 { // walnut wall cabinet over the sideboard, four handleless doors, LED strip underneath
@@ -1364,7 +1367,7 @@ hook(() => {
 });
 
 // ---------- master bedroom: walnut king bed, rattan nightstand, cowhide bench, wall TV, wardrobe
-// low walnut platform bed (frame 150, mattress top 400, headboard 850), King or Queen, rattan cabinet each side
+// low walnut bed on short tapered legs (H120), open underneath; rails to 280, mattress top 460, headboard to 900
 function nightstand(x1, y1, x2, y2, face, wood, cane) {
   // bedside cabinet on four tapered round legs (H160): carcass to 500, top drawer with a small knob, woven-cane
   // door below in a wooden frame, 25 mm top overhanging 10 mm; face '+x' or '+y'
@@ -1395,13 +1398,26 @@ function nightstand(x1, y1, x2, y2, face, wood, cane) {
 }
 function masterBed(y0, y1, cabs) {
   const g = new THREE.Group(), prev = target; target = g;
-  box(60, y0 + 10, 1990, y1 - 10, 0, 0.15, mat.walnut);
-  box(90, y0 + 40, 1960, y1 - 40, 0.15, 0.40, mat.bedding);
-  box(0, y0, 60, y1, 0, 0.85, mat.walnut);
-  box(1250, y0 + 35, 1965, y1 - 35, 0.40, 0.44, mat.linenBed);
+  const W = mat.walnut, dark = M('#2b2420', { roughness: 0.8 }), slat = M('#b48a5a', { roughness: 0.8 }), lg = 0.12, r1 = 0.28;
   const mid = (y0 + y1) / 2, pw = (y1 - y0) > 1700 ? 700 : 600;
-  pillow(330, mid - pw / 2 - 40, 380, pw, 0.13, mat.bedding).position.y = 0.465;
-  pillow(330, mid + pw / 2 + 40, 380, pw, 0.13, mat.bedding).position.y = 0.465;
+  const leg = (x, y, h, m, rt = 0.022, rb = 0.015) => { const l = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 16), m); l.position.set(x * MM, h / 2, y * MM); add(l); };
+  // headboard panel 60 thick from 120 to 900 with a shadow groove, standing on its own two legs
+  box(0, y0, 60, y1, lg, 0.9, W);
+  box(60, y0 + 40, 63, y1 - 40, 0.615, 0.625, dark, false);
+  leg(30, y0 + 25, lg, W); leg(30, y1 - 25, lg, W);
+  // perimeter rails 30 thick, 120 -> 280, on tapered legs at the foot corners
+  box(60, y0, 1990, y0 + 30, lg, r1, W); box(60, y1 - 30, 1990, y1, lg, r1, W);
+  box(1960, y0 + 30, 1990, y1 - 30, lg, r1, W); box(60, y0 + 30, 90, y1 - 30, lg, r1, W);
+  leg(1965, y0 + 25, lg, W); leg(1965, y1 - 25, lg, W);
+  // inside: ledges, a dark centre beam on two support legs, slats
+  box(90, y0 + 30, 1960, y0 + 50, 0.18, 0.2, dark, false); box(90, y1 - 50, 1960, y1 - 30, 0.18, 0.2, dark, false);
+  box(90, mid - 20, 1960, mid + 20, 0.16, 0.2, dark); leg(700, mid, 0.16, dark, 0.018, 0.018); leg(1350, mid, 0.16, dark, 0.018, 0.018);
+  for (let x = 110; x < 1940; x += 75) box(x, y0 + 30, x + 50, y1 - 30, 0.2, 0.214, slat, false);
+  // mattress sits inside the rails, 250 thick; throw over the foot end
+  box(75, y0 + 32, 1958, y1 - 32, 0.214, 0.46, mat.bedding);
+  box(1250, y0 + 35, 1965, y1 - 35, 0.46, 0.49, mat.linenBed); box(1958, y0 + 35, 1975, y1 - 35, 0.31, 0.49, mat.linenBed);
+  pillow(330, mid - pw / 2 - 40, 380, pw, 0.13, mat.bedding).position.y = 0.525;
+  pillow(330, mid + pw / 2 + 40, 380, pw, 0.13, mat.bedding).position.y = 0.525;
   cabs.forEach(([a, b]) => {
     nightstand(0, a, 400, b, '+x', mat.rattan, mat.caneSolid);
   });
@@ -2073,7 +2089,7 @@ function chips(el, list, onPick) {
   onPick(list[0][1]);
 }
 glassParts.forEach(p => { p.visible = true; }); stoneParts.forEach(p => { p.visible = false; });
-mat.glass.color.set('#6f7d72');
+chips('glassc', [['灰绿', '#6f7d72'], ['蓝色', '#2f4f8a'], ['翡翠绿', '#5d7b6b'], ['灰色', '#6f7672'], ['粉色', '#c79aa2'], ['琥珀', '#b0621f']], hex => mat.glass.color.set(hex));
 chips('chair', [['米白', '#e9e1d3'], ['棕色', '#8b5e3c']], hex => leather.color.set(hex));
 const sheet = document.getElementById('sheet');
 document.getElementById('fold').addEventListener('click', e => {
