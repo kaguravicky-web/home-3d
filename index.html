@@ -229,12 +229,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       <button class="seg" id="kb-ikea" aria-pressed="false">宜家 SLÄKT/NATTAPA 储物床 ×2</button>
     </div>
     <p class="note" id="kbNote"></p>
-    <span class="label">玩具架（宜家 KALLAX 横放 + 布盒子）</span>
-    <div class="row">
-      <button class="seg" id="kt-on" aria-pressed="true">放</button>
-      <button class="seg" id="kt-off" aria-pressed="false">不放</button>
-    </div>
-    <p class="note" id="ktNote"></p>
     <span class="label">主卧床 King 1.8m</span>
     <p class="note">两边各一个藤编床头柜。床尾对面、衣柜前面那块放什么：</p>
     <div class="row">
@@ -1186,7 +1180,7 @@ function applyLiving() {
  ['e-low', 'entry', 'low'], ['e-tall', 'entry', 'tall'], ['e-none', 'entry', 'none']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['dr-black', 'drum', 'black'], ['dr-white', 'drum', 'white'], ['pl-none', 'pil', 'none'], ['pl-bg', 'pil', 'bg'],  ['ws-55', 'wsd', '55'], ['ws-50', 'wsd', '50'], ['ws-none', 'wsd', 'none'], ['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['gy-off', 'gym', false], ['gy-on', 'gym', 'room'], ['gy-bal', 'gym', 'bal'], ['st-wing', 'tvst', 'wing'], ['st-w124', 'tvst', 'w124'], ['ls-slim', 'lstyle', 'slim'], ['ls-cap', 'lstyle', 'cap'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
- ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10'], ['kb-ikea', 'kbed', 'ikea'], ['kt-on', 'ktoy', 'on'], ['kt-off', 'ktoy', 'off'], ['pp-none', 'ppl', 'none'], ['pp-living', 'ppl', 'living'], ['pp-dining', 'ppl', 'dining']]
+ ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10'], ['kb-ikea', 'kbed', 'ikea'], ['pp-none', 'ppl', 'none'], ['pp-living', 'ppl', 'living'], ['pp-dining', 'ppl', 'dining']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['b-up', 'blinds', 'up'], ['b-open', 'blinds', 'open'], ['b-70', 'blinds', 'up70'], ['mw-cur-open', 'mw', 'cur-open'], ['mw-cur-closed', 'mw', 'cur-closed'], ['mw-blind', 'mw', 'blind']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
@@ -1792,15 +1786,7 @@ hook(() => {
   const kb = ['09', '10', 'ikea'].includes(state.kbed) ? state.kbed : '10';
   kids09.visible = kb === '09'; kids10.visible = kb === '10'; kidsBunk.visible = kb === 'bunk'; kidsIkea.visible = kb === 'ikea';
   press(['kb-09', 'kb-10', 'kb-ikea'], 'kb-' + kb);
-  // toy shelf: at the bed ends, centred across the two beds; along the left wall with the bunk bed
-  const toy = state.ktoy !== 'off';
-  kidsToy.visible = toy; press(['kt-on', 'kt-off'], toy ? 'kt-on' : 'kt-off');
-  if (kb === 'bunk') { kidsToy.position.set(3.19, 0, 3.1); kidsToy.rotation.y = Math.PI / 2; }
-  else { const foot = kb === 'ikea' ? 3560 : 3450; kidsToy.position.set(4.02, 0, (foot + 30 + 390) * MM); kidsToy.rotation.y = 0; }
-  const gapW = kb === 'ikea' ? 46 : kb === 'bunk' ? null : 57;
-  document.getElementById('ktNote').textContent = !toy ? '' : kb === 'bunk'
-    ? '宜家 KALLAX 横放（147×39×42）+ 4 个 DRÖNA 布盒子（33×38×33）：双层床时靠左墙放，左半边地方宽，孩子自己拿放玩具，上面能当长凳、放书。'
-    : '宜家 KALLAX 横放（147×39×42）+ 4 个 DRÖNA 布盒子（33×38×33）：横在两张床的床尾，孩子自己拿放玩具，上面能坐、能放书；离衣柜还有约 ' + gapW + 'cm，衣柜推拉门照常开。玩具换了，盒子里的东西换就行。';
+  kidsToy.visible = false;   // toy shelf dropped: it blocked the way into bed
   document.getElementById('kbNote').textContent = {
     '09': '0.9m 床：两张床架各 95，两床之间约 54cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。',
     '10': '1m 床：两张床架各 102，两床之间约 40cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。',
