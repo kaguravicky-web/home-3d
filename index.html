@@ -122,8 +122,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   <div class="group">
     <span class="label">餐椅</span>
     <div class="row">
-      <button class="seg" id="c-1" aria-pressed="true">藤编扶手椅</button>
-      <button class="seg" id="c-2" aria-pressed="false">竹节椅（马黑）</button>
+      <button class="seg" id="c-1" aria-pressed="false">藤编扶手椅</button>
+      <button class="seg" id="c-2" aria-pressed="true">竹节椅（马黑）</button>
     </div>
     <div class="row">
       <button class="seg" id="cn-5s" aria-pressed="true">5 把 + Stokke 宝宝椅</button>
@@ -135,8 +135,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <span class="label">餐边柜</span>
     <div class="row">
       <button class="seg" id="sb-none" aria-pressed="false">不做</button>
-      <button class="seg" id="sb-oak" aria-pressed="false">圆角原木柜（佳美）</button>
-      <button class="seg" id="sb-curve" aria-pressed="true">中古圆弧柜（YOUNSUN）</button>
+      <button class="seg" id="sb-oak" aria-pressed="true">圆角原木柜（佳美）</button>
+      <button class="seg" id="sb-curve" aria-pressed="false">中古圆弧柜（YOUNSUN）</button>
     </div>
     <div class="row" id="sbPosRow">
       <button class="seg" id="sp-dine" aria-pressed="false">放餐厅墙</button>
@@ -196,11 +196,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <div class="row" id="glassc"></div>
   </div>
   <div class="group">
-    <span class="label">茶几</span>
-    <div class="row">
-      <button class="seg" id="tb-A" aria-pressed="true">A 中古拱腿 1000×500×400</button>
-      <button class="seg" id="tb-B" aria-pressed="false">B Aminohome 1135×530×390</button>
-    </div>
     <span class="label">地毯</span>
     <div class="row">
       <button class="seg" id="rg-none" aria-pressed="true">不铺</button>
@@ -336,7 +331,7 @@ const mat = {
   glassPane: new THREE.MeshStandardMaterial({ color: '#dfe9e4', transparent: true, opacity: 0.12, roughness: 0.05 }),
   zip: new THREE.MeshStandardMaterial({ color: '#3a3b38', transparent: true, opacity: 0.62, roughness: 1, side: THREE.DoubleSide }),
   leaf: M('#5d7d58'), leafDark: M('#3f5f45'),
-  glass: new THREE.MeshStandardMaterial({ color: '#6f7672', transparent: true, opacity: 0.62, roughness: 0.06, metalness: 0.05 }),
+  glass: new THREE.MeshStandardMaterial({ color: '#b0621f', transparent: true, opacity: 0.62, roughness: 0.06, metalness: 0.05 }),
   chair: M('#d9cfc0', { roughness: 1 }),
   wardrobe: M('#d9d2c6', { roughness: 0.7 }), bedding: M('#f3f1ec', { roughness: 1 }), linenBed: M('#d8cdbd', { roughness: 1 }),
   rattan: M('#b48c5a', { roughness: 0.95 }), kidsA: M('#b9c7d1', { roughness: 1 }), kidsB: M('#e2c8b6', { roughness: 1 }),
@@ -1139,7 +1134,7 @@ function buildLiving(Lo, key) {
 mat.chair.side = THREE.DoubleSide;
 function ensureLiving(k) { if (!livings[k] && S.layouts[k]) { livings[k] = buildLiving(S.layouts[k], k); livings[k].userData.acc = {}; } return livings[k]; }
 // two potted olive trees on the balcony, >= 1 m in from the railing, right half (the left panel is the way out)
-const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 1, dcount: '5s', table: 'B', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'curve', sbpos: 'ent', sbdep: '55', sbcol: 'white', mns: 'acrylic', ebul: '50', sbed: 'malm', sbopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'on', mw: 'cur-open', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'cap', rug: 'none', sbt: 'B', kbed: '10', stab: 'glass', entry: 'none', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
+const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, dcount: '5s', table: 'B', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'oak', sbpos: 'ent', sbdep: '55', sbcol: 'white', mns: 'acrylic', ebul: '50', sbed: 'malm', sbopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'on', mw: 'cur-open', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'cap', rug: 'none', sbt: 'B', kbed: '10', stab: 'glass', entry: 'none', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
 function press(ids, on) { ids.forEach(id => document.getElementById(id).setAttribute('aria-pressed', id === on)); }
 function applyLiving() {
   const key = state.model + state.dir + (state.seat === 'emmi' && S.layouts[state.model + state.dir + 'e'] ? 'e' : '');
@@ -1165,7 +1160,7 @@ function applyLiving() {
       ? '网篮支架 124×42：床尾 60cm 过道里斜约 8°，屏幕中心离枕头约 2.05m，' + { '65': '65 寸最满，但在主卧有点压迫。', '55': '55 寸这个距离刚好。', '50': '50 寸也够看，最轻巧。' }[state.tvs] + '会挡住去主卧阳台的路，晾衣服时推开（有轮子）。'
       : '银翼 V 脚支架：立柱贴着床尾那面墙，两条腿（785 和 555，夹角 100°）在 60cm 床尾过道里往前伸，最远离墙约 50cm，不碰床；屏幕正对枕头，离枕头约 2.1m。看电视时过道占住，要过人就推开（带轮子）。适配 40–70 寸，承重 30kg。' + { '65': '65 寸最满，但在主卧有点压迫。', '55': '55 寸这个距离刚好。', '50': '50 寸也够看，最轻巧。' }[state.tvs])
     : (state.tvst !== 'w124' ? '银翼 V 脚支架放在客厅靠窗的右边墙角，斜 45° 对着沙发中间，屏幕离沙发约 2.2m。右边窗角那盏落地灯原地不动，正好在电视后面，晚上当电视背光；玻璃边几和兰花往左挪到电视腿旁边。阳台门在左边，电视不挡门；要挪电视时推开就行（带轮子）。' : '网篮支架放客厅右墙，正对沙发：底座深 42cm，到茶几只剩约 ' + Math.round((10285 - (state.table === 'B' ? S.layouts[key].tableB : S.layouts[key].tableA)[2]) / 10) + 'cm，右边去阳台的过道会变窄。');
-  press(['tb-A', 'tb-B'], 'tb-' + state.table);  press(['ly-one', 'ly-two'], 'ly-' + state.ly); press(['dr-black', 'dr-white'], 'dr-' + state.drum); press(['rg-none', 'rg-small'], 'rg-' + state.rug); cushM.forEach(m => { m.visible = false; });   // no sofa cushions press(['ls-slim', 'ls-cap'], 'ls-' + (state.lstyle === 'slim' ? 'slim' : 'cap')); drumMat.color.set(state.drum === 'white' ? '#f1eee8' : '#1f1d1b'); if (typeof wallCab !== 'undefined') wallCab.visible = state.wcab;
+  press(['ly-one', 'ly-two'], 'ly-' + state.ly); press(['dr-black', 'dr-white'], 'dr-' + state.drum); press(['rg-none', 'rg-small'], 'rg-' + state.rug); cushM.forEach(m => { m.visible = false; });   // no sofa cushions press(['ls-slim', 'ls-cap'], 'ls-' + (state.lstyle === 'slim' ? 'slim' : 'cap')); drumMat.color.set(state.drum === 'white' ? '#f1eee8' : '#1f1d1b'); if (typeof wallCab !== 'undefined') wallCab.visible = state.wcab;
 
   const Lk = S.layouts[key], cn = document.getElementById('chairNote');
   if (Lk.swivel_where === 'kitchen') cn.textContent = '转椅在靠厨房那一侧，靠右墙、贴近茶几尾端，面向沙发；去阳台的路从转椅和贵妃位之间过，最窄处约 ' + Math.round(Lk.pass_sw / 10) + 'cm（稍挤）。白色 Φ20 圆几一个，在转椅内侧（靠窗、靠墙那边）放杯子；玻璃边几 + 兰花留在窗边。';
@@ -1189,7 +1184,7 @@ function applyLiving() {
 }
 [['m-M', 'model', 'M'], ['m-K', 'model', 'K'], ['d-A', 'dir', 'A'], ['d-B', 'dir', 'B'], ['tv-R', 'tv', 'R'], ['tv-L', 'tv', 'L']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
-[['tb-A', 'table', 'A'], ['tb-B', 'table', 'B'], ['cn-5s', 'dcount', '5s'], ['cn-6', 'dcount', '6'], ['ly-one', 'ly', 'one'], ['ly-two', 'ly', 'two'], 
+[['cn-5s', 'dcount', '5s'], ['cn-6', 'dcount', '6'], ['ly-one', 'ly', 'one'], ['ly-two', 'ly', 'two'], 
 
 
 
@@ -2815,7 +2810,7 @@ function chips(el, list, onPick) {
   onPick(list[0][1]);
 }
 glassParts.forEach(p => { p.visible = true; }); stoneParts.forEach(p => { p.visible = false; });
-chips('glassc', [['灰色', '#6f7672'], ['琥珀', '#b0621f'], ['灰绿', '#6f7d72'], ['蓝色', '#2f4f8a'], ['翡翠绿', '#5d7b6b'], ['粉色', '#c79aa2']], hex => mat.glass.color.set(hex));
+chips('glassc', [['琥珀', '#b0621f'], ['灰色', '#6f7672'], ['灰绿', '#6f7d72'], ['蓝色', '#2f4f8a'], ['翡翠绿', '#5d7b6b'], ['粉色', '#c79aa2']], hex => mat.glass.color.set(hex));
 const sheet = document.getElementById('sheet');
 document.getElementById('fold').addEventListener('click', e => {
   sheet.classList.toggle('min'); e.target.textContent = sheet.classList.contains('min') ? '展开面板' : '收起面板';
