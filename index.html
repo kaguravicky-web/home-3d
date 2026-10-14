@@ -33,6 +33,8 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); ove
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   max-height: calc(100% - 32px); overflow-y: auto;
 }
+.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+#langBtn { flex: none; font-size: 12px; padding: 4px 10px; }
 .sheet h1 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; text-wrap: balance; }
 .sheet .sub { margin: 2px 0 0; font-size: 12px; color: var(--muted); font-family: var(--font-data); }
 .group { display: grid; gap: 6px; }
@@ -61,9 +63,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 <canvas id="view" aria-label="全屋三维模型，可拖动旋转"></canvas>
 
 <section class="sheet" id="sheet">
-  <div>
-    <h1>C2 户型 · 全屋模拟</h1>
-    <p class="sub">按平面图 v61 + 灯光图建模 · 单位 mm · 层高按 2800 假设</p>
+  <div class="head">
+    <div>
+      <h1>C2 户型 · 全屋模拟</h1>
+      <p class="sub">按平面图 v61 + 灯光图建模 · 单位 mm · 层高按 2800 假设</p>
+    </div>
+    <button class="seg" id="langBtn" type="button">中文</button>
   </div>
   <div class="group">
     <span class="label">视角</span>
@@ -83,6 +88,15 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       <button class="seg" id="v-entry" aria-pressed="false">玄关</button>
       <button class="seg" id="v-top" aria-pressed="false">俯视全屋</button>
     </div>
+  </div>
+  <div class="group">
+    <span class="label">人物（3 个大人 + 9 岁孩子）</span>
+    <div class="row">
+      <button class="seg" id="pp-none" aria-pressed="true">不显示</button>
+      <button class="seg" id="pp-living" aria-pressed="false">客厅坐着</button>
+      <button class="seg" id="pp-dining" aria-pressed="false">餐桌吃饭</button>
+    </div>
+    <p class="note">身高按爸爸 175、妈妈 162、另一位大人 165、孩子 135（9 岁）；客厅是三个人坐沙发、一个坐转椅。</p>
   </div>
   <div class="group">
     <span class="label">沙发款式</span>
@@ -215,14 +229,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <div class="row">
       <button class="seg" id="kb-09" aria-pressed="true">0.9m 床（床架 95）</button>
       <button class="seg" id="kb-10" aria-pressed="false">1m 床（床架 102）</button>
+      <button class="seg" id="kb-bunk" aria-pressed="false">1m 双层床</button>
     </div>
-    <p class="note">1m 床：两张床架各 102，两床之间只剩 40cm，床头柜要换成 35cm 宽的窄款；地台床只有 22cm 高，孩子从床尾、床边上下都方便。</p>
+    <p class="note" id="kbNote"></p>
     <span class="label">主卧床 King 1.8m</span>
     <p class="note">两边各一个藤编床头柜。床尾对面、衣柜前面那块放什么：</p>
     <div class="row">
       <button class="seg" id="ms-mc" aria-pressed="true">按摩椅</button>
-      <button class="seg" id="ms-thin" aria-pressed="false">贴墙超薄小桌</button>
-      <button class="seg" id="ms-vanity" aria-pressed="false">翻盖梳妆台 Φ63</button>
+      <button class="seg" id="ms-thin" aria-pressed="false">悬浮弧形小桌</button>
     </div>
     <p class="note" id="msNote"></p>
   </div>
@@ -1102,7 +1116,7 @@ function buildLiving(Lo, key) {
 mat.chair.side = THREE.DoubleSide;
 function ensureLiving(k) { if (!livings[k] && S.layouts[k]) { livings[k] = buildLiving(S.layouts[k], k); livings[k].userData.acc = {}; } return livings[k]; }
 // two potted olive trees on the balcony, >= 1 m in from the railing, right half (the left panel is the way out)
-const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, table: 'B', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', eb: '65', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'n90', lstyle: 'cap', rug: 'small', sbt: 'B', kbed: '10', stab: 'glass', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
+const state = { shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, table: 'B', lamp: 'none', ly: 'two', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', eb: '65', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'n90', lstyle: 'cap', rug: 'small', sbt: 'B', kbed: '10', stab: 'glass', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'open', bm: true };
 function press(ids, on) { ids.forEach(id => document.getElementById(id).setAttribute('aria-pressed', id === on)); }
 function applyLiving() {
   const key = state.model + state.dir + (state.seat === 'emmi' && S.layouts[state.model + state.dir + 'e'] ? 'e' : '');
@@ -1157,8 +1171,8 @@ function applyLiving() {
 
  ['e-low', 'entry', 'low'], ['e-tall', 'entry', 'tall'], ['e-none', 'entry', 'none'], ['eb-50', 'eb', '50'], ['eb-65', 'eb', '65']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
-[['dr-black', 'drum', 'black'], ['dr-white', 'drum', 'white'], ['pl-none', 'pil', 'none'], ['pl-bg', 'pil', 'bg'],  ['ws-55', 'wsd', '55'], ['ws-50', 'wsd', '50'], ['ws-none', 'wsd', 'none'], ['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['ms-vanity', 'ms', 'vanity'], ['ts-65', 'tvs', '65'], ['ts-55', 'tvs', '55'], ['ts-50', 'tvs', '50'], ['st-n90', 'tvst', 'n90'], ['st-w124', 'tvst', 'w124'], ['ls-slim', 'lstyle', 'slim'], ['ls-arm', 'lstyle', 'arm'], ['ls-cap', 'lstyle', 'cap'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
- ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10']]
+[['dr-black', 'drum', 'black'], ['dr-white', 'drum', 'white'], ['pl-none', 'pil', 'none'], ['pl-bg', 'pil', 'bg'],  ['ws-55', 'wsd', '55'], ['ws-50', 'wsd', '50'], ['ws-none', 'wsd', 'none'], ['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['ts-65', 'tvs', '65'], ['ts-55', 'tvs', '55'], ['ts-50', 'tvs', '50'], ['st-n90', 'tvst', 'n90'], ['st-w124', 'tvst', 'w124'], ['ls-slim', 'lstyle', 'slim'], ['ls-arm', 'lstyle', 'arm'], ['ls-cap', 'lstyle', 'cap'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
+ ['kb-09', 'kbed', '09'], ['kb-10', 'kbed', '10'], ['kb-bunk', 'kbed', 'bunk'], ['pp-none', 'ppl', 'none'], ['pp-living', 'ppl', 'living'], ['pp-dining', 'ppl', 'dining']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['b-up', 'blinds', 'up'], ['b-open', 'blinds', 'open'], ['b-70', 'blinds', 'up70'], ['bm-on', 'bm', true], ['bm-off', 'bm', false]]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
@@ -1249,6 +1263,47 @@ const seats = [[DX - 350, DY - 425 - 260], [DX + 350, DY - 425 - 260], [DX - 350
   scene.add(chairSets[st]);
 });
 chairSets[2].visible = false;
+function person(H, seatH, shirt) {
+  // seated figure facing +z: hips over the seat centre, thighs forward, shins down, hands resting on the thighs
+  const g = new THREE.Group(), prev = target; target = g;
+  const k = H / 1.7, skin = M('#d8b597', { roughness: 0.75 }), top = M(shirt, { roughness: 0.9 }), legM = M('#3f434b', { roughness: 0.9 });
+  const ball = (p, r, m) => { const s = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 10), m); s.position.set(p[0], p[1], p[2]); add(s); };
+  const limb = (a, b, r, m) => { tube([a, b], r, m, 6); ball(a, r, m); ball(b, r, m); };
+  const hy = seatH + 0.075 * k, shY = hy + 0.5 * k;
+  [-1, 1].forEach(s => {
+    const hip = [s * 0.09 * k, hy, 0], knee = [s * 0.1 * k, hy + 0.01, 0.43 * k], ank = [s * 0.1 * k, Math.max(0.07, hy + 0.01 - 0.45 * k), 0.47 * k];
+    limb(hip, knee, 0.068 * k, legM); limb(knee, ank, 0.05 * k, legM);
+    const ft = new THREE.Mesh(new THREE.BoxGeometry(0.085 * k, 0.07 * k, 0.24 * k), M('#e8e4dc')); ft.position.set(ank[0], ank[1] - 0.02, ank[2] + 0.07 * k); add(ft);
+    const sh = [s * 0.18 * k, shY - 0.03 * k, -0.08 * k], el = [s * 0.21 * k, shY - 0.3 * k, -0.02 * k], hd = [s * 0.13 * k, hy + 0.1 * k, 0.24 * k];
+    limb(sh, el, 0.045 * k, top); limb(el, hd, 0.038 * k, skin);
+  });
+  const tor = new THREE.Mesh(new THREE.CylinderGeometry(0.17 * k, 0.145 * k, 0.5 * k, 20), top);
+  tor.scale.z = 0.62; tor.position.set(0, hy + 0.25 * k, -0.055 * k); tor.rotation.x = -0.1; add(tor);
+  ball([0, hy + 0.02, -0.02 * k], 0.15 * k, legM);
+  const nk = new THREE.Mesh(new THREE.CylinderGeometry(0.045 * k, 0.05 * k, 0.09 * k, 12), skin); nk.position.set(0, shY + 0.03 * k, -0.09 * k); add(nk);
+  ball([0, shY + 0.17 * k, -0.09 * k], 0.105 * k, skin);
+  const hr = new THREE.Mesh(new THREE.SphereGeometry(0.112 * k, 16, 10, 0, Math.PI * 2, 0, Math.PI * 0.55), M('#2a221d', { roughness: 0.9 }));
+  hr.position.set(0, shY + 0.175 * k, -0.1 * k); add(hr);
+  target = prev; return g;
+}
+// family: dad 175, mum 162, another adult 165, child (9) 135
+const FAM = { dad: [1.75, '#5d7486'], mum: [1.62, '#a8556a'], adult: [1.65, '#8a9a7b'], kid: [1.35, '#e3a34a'] };
+const pplLiving = new THREE.Group(), pplDining = new THREE.Group();
+const livP = ['mum', 'dad', 'kid', 'adult'].map(n => { const p = person(FAM[n][0], 0.42, FAM[n][1]); pplLiving.add(p); return p; });
+['dad', 'mum', 'adult', 'kid'].forEach((n, i) => {
+  const [x, y] = seats[i], d = Math.hypot(DX - x, DY - y), p = person(FAM[n][0], 0.47, FAM[n][1]);
+  p.position.set((x + (DX - x) / d * 60) * MM, 0, (y + (DY - y) / d * 60) * MM); p.rotation.y = Math.atan2(DX - x, DY - y); pplDining.add(p);
+});
+scene.add(pplLiving); scene.add(pplDining);
+hook(() => {
+  const pp = ['living', 'dining'].includes(state.ppl) ? state.ppl : 'none';
+  pplLiving.visible = pp === 'living'; pplDining.visible = pp === 'dining'; press(['pp-none', 'pp-living', 'pp-dining'], 'pp-' + pp);
+  const Lo = S.layouts[state.model + state.dir]; if (!Lo) return;
+  const cs = [...Lo.cushions].sort((a, b) => a[1] - b[1]);       // window end -> dining end
+  cs.forEach(([x, y], i) => { livP[i].position.set((x + 380) * MM, 0, y * MM); livP[i].rotation.y = Math.PI / 2; });
+  const [sx, sy] = Lo.swivel, dx = cs[1][0] + 380 - sx, dy = cs[1][1] - sy, d = Math.hypot(dx, dy);   // swivel chair faces the sofa middle
+  livP[3].position.set((sx + dx / d * 40) * MM, 0, (sy + dy / d * 40) * MM); livP[3].rotation.y = Math.atan2(dx, dy);
+});
 function setChairs(st) { state.chairs = st; chairSets[1].visible = st === 1; chairSets[2].visible = st === 2; press(['c-1', 'c-2'], 'c-' + st); syncAccent(); }
 // a dining armchair carried to the living-room window (both styles built, the chosen one shown)
 function addAccent(k, g) {
@@ -1512,7 +1567,42 @@ const kids09 = new THREE.Group(), kids10 = new THREE.Group();
 target = kids09; kidsBeds([[2800, 3750, mat.kidsA], [4290, 5240, mat.kidsB]], 3820, 4220);
 target = kids10; kidsBeds([[2800, 3820, mat.kidsA], [4220, 5240, mat.kidsB]], 3845, 4195);
 target = scene; scene.add(kids09); scene.add(kids10);
-hook(() => { kids09.visible = state.kbed !== '10'; kids10.visible = state.kbed === '10'; press(['kb-09', 'kb-10'], 'kb-' + state.kbed); });
+const kidsBunk = new THREE.Group();
+{ // 1 m bunk bed (frame 1060 x 1960, H1620) against the right wall, 650 from the window (the top bunk is not next to
+  // the glass), ending before the door leaf that opens against this wall; oak posts and rails, guard rails round the
+  // top bunk, ladder on the room side near the foot
+  target = kidsBunk;
+  const x0 = 4180, x1 = 5240, y0 = 2150, y1 = 4110, P = 60;
+  [[x0, y0], [x1 - P, y0], [x0, y1 - P], [x1 - P, y1 - P]].forEach(([x, y]) => box(x, y, x + P, y + P, 0, 1.62, oak));
+  [[0.18, 0.24], [1.1, 1.16]].forEach(([a, b]) => {
+    box(x0 + P, y0, x1 - P, y0 + 25, a, b, oak); box(x0 + P, y1 - 25, x1 - P, y1, a, b, oak);
+    box(x0, y0 + P, x0 + 25, y1 - P, a, b, oak); box(x1 - 25, y0 + P, x1, y1 - P, a, b, oak);
+  });
+  box(x0 + 30, y0 + 30, x1 - 30, y1 - 30, 0.2, 0.22, oak); box(x0 + 30, y0 + 30, x1 - 30, y1 - 30, 1.12, 1.14, oak);
+  box(x0 + 40, y0 + 40, x1 - 40, y1 - 40, 0.22, 0.38, mattressMat); box(x0 + 40, y0 + 40, x1 - 40, y1 - 40, 1.14, 1.3, mattressMat);
+  box(x0 + 38, y0 + 700, x1 - 38, y1 - 38, 0.38, 0.41, mat.kidsB); box(x0 + 38, y0 + 700, x1 - 38, y1 - 38, 1.3, 1.33, mat.kidsA);
+  pillow((x0 + x1) / 2, y0 + 250, 600, 300, 0.1, mat.bedding).position.y = 0.43;
+  pillow((x0 + x1) / 2, y0 + 250, 600, 300, 0.1, mat.bedding).position.y = 1.35;
+  box(x0 + P, y0, x1 - P, y0 + 22, 0.24, 0.6, oak); box(x0 + P, y1 - 22, x1 - P, y1, 0.24, 0.6, oak);
+  box(x0 + P, y0, x1 - P, y0 + 22, 1.16, 1.62, oak); box(x0 + P, y1 - 22, x1 - P, y1, 1.16, 1.62, oak);
+  box(x1 - 22, y0 + P, x1, y1 - P, 1.16, 1.62, oak);
+  box(x0, y0 + P, x0 + 22, y1 - 480, 1.36, 1.44, oak); box(x0, y0 + P, x0 + 22, y1 - 480, 1.54, 1.62, oak);
+  box(x0, y1 - 480, x0 + 22, y1 - 440, 1.16, 1.62, oak);
+  const lx = x0 - 30;
+  [y1 - 470, y1 - P - 10].forEach(y => box(lx - 15, y - 15, lx + 15, y + 15, 0, 1.62, oak));
+  for (let h = 0.32; h < 1.2; h += 0.27) box(lx - 12, y1 - 470, lx + 12, y1 - P - 10, h, h + 0.03, oak);
+  target = scene;
+}
+scene.add(kidsBunk);
+hook(() => {
+  const kb = ['09', '10', 'bunk'].includes(state.kbed) ? state.kbed : '10';
+  kids09.visible = kb === '09'; kids10.visible = kb === '10'; kidsBunk.visible = kb === 'bunk'; press(['kb-09', 'kb-10', 'kb-bunk'], 'kb-' + kb);
+  document.getElementById('kbNote').textContent = {
+    '09': '0.9m 床：两张床架各 95，中间一个床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。',
+    '10': '1m 床：两张床架各 102，两床之间只剩 40cm，床头柜要换成 35cm 宽的窄款；地台床只有 22cm 高，孩子从床尾、床边上下都方便。',
+    bunk: '1m 双层床：床架约 106×196、高 162，靠右墙放，离窗 65cm（上铺不贴窗）；床尾停在房门开到墙边之前，梯子在靠床尾的侧面。上铺床垫面离天花约 1.5m，坐起来不碰头。左半边空出来，放书桌或玩都行。窗户一定要装限位器或隐形防护网。'
+  }[kb];
+});
 greyWardrobe(2800, 4444, 4000, 5000, H - 0.002, '-y', 2);
 
 // ---------- study: gaming desk, clamp extension, gaming chair, massage chair, 0.9 m bed, shelves
@@ -1741,50 +1831,29 @@ target = scene; scene.add(study1);
 const masterMC = new THREE.Group();
 target = masterMC; massageChair(); target = scene;
 masterMC.position.set(-4.09, 0, 2.01); scene.add(masterMC);
-const masterThin = new THREE.Group(), masterVanity = new THREE.Group();
-{ // ultra-thin wall table on the right wall below the bed foot: walnut top 800 x 200 at 750, slim black legs,
-  // a stone tray and a stem vase - for clothes, phone and jewellery before a shower
+const masterThin = new THREE.Group();
+{ // floating wall table on the right wall below the bed end: walnut slab 800 long, 30 thick at 735-765, no legs;
+  // the front is a shallow arc (140 deep at the ends, 200 in the middle) with rounded corners; a stone tray and a
+  // stem vase on top - for clothes, phone and jewellery before a shower
   target = masterThin;
-  box(2400, 4250, 2600, 5050, 0.75, 0.772, mat.walnut);
-  [[2415, 4265], [2415, 5035], [2585, 4265], [2585, 5035]].forEach(([x, y]) => box(x - 8, y - 8, x + 8, y + 8, 0, 0.75, mat.black));
-  box(2410, 4270, 2590, 4290, 0.12, 0.135, mat.black); box(2410, 5010, 2590, 5030, 0.12, 0.135, mat.black);
-  box(2425, 4800, 2575, 4980, 0.772, 0.784, M('#cfc8bc', { roughness: 0.7 }));
-  cyl(2500, 4400, 45, 0.772, 0.98, M('#2b2826', { roughness: 0.4 }), 24);
-  tube([[2.5, 0.98, 4.4], [2.49, 1.15, 4.41], [2.47, 1.32, 4.43]], 0.003, M('#6b5a44'), 8);
+  const y0 = 4250, y1 = 5050, ym = (y0 + y1) / 2, hl = (y1 - y0) / 2, depth = y => 140 + 60 * (1 - Math.pow((y - ym) / hl, 2));
+  const pts = [[2600, y0], [2600, y1]];
+  for (let k = 0; k <= 32; k++) { const y = y1 - k * (y1 - y0) / 32, c = Math.min(1, Math.min(y - y0, y1 - y) / 30); pts.push([2600 - depth(y) * (0.82 + 0.18 * Math.sqrt(c)), y]); }
+  extrude(pts, 0.735, 0.765, mat.walnut, 0.004);
+  box(2594, y0 + 60, 2600, y1 - 60, 0.7, 0.735, M('#3a3632', { roughness: 0.6 }), false);
+  box(2425, 4800, 2575, 4980, 0.765, 0.777, M('#cfc8bc', { roughness: 0.7 }));
+  cyl(2510, 4400, 45, 0.765, 0.975, M('#2b2826', { roughness: 0.4 }), 24);
+  tube([[2.51, 0.975, 4.4], [2.5, 1.145, 4.41], [2.48, 1.315, 4.43]], 0.003, M('#6b5a44'), 8);
   target = scene;
 }
-{ // flip-top round vanity D630 H780 (cream boucle): C-shaped lower body open toward the stool, full drum on top
-  // with a walnut rim; the lid (walnut ring, mirror underneath) stands open at the back. Curved-back stool in front.
-  // Sits where the massage chair was, user facing the bed and the window.
-  target = masterVanity;
-  const bou = M('#ece6dc', { roughness: 1 }), cx = 1625, cy = 5000, R = 315, r = 255;
-  const arc = (rr, a0, a1, n = 40) => Array.from({ length: n + 1 }, (_, k) => { const a = (a0 + (a1 - a0) * k / n) * D2R; return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)]; });
-  extrude([...arc(R, 160, 380), ...arc(r, 380, 160)], 0.015, 0.58, bou, 0.006);
-  cyl(cx, cy, R, 0.58, 0.755, bou, 64);
-  cyl(cx, cy, R + 3, 0.755, 0.768, mat.walnut, 64);
-  cyl(cx, cy, R - 35, 0.7681, 0.7685, M('#1f1d1b', { roughness: 0.8 }), 48);
-  const lid = new THREE.Group(); lid.position.set(cx * MM, 0.768, (cy - R) * MM); masterVanity.add(lid);
-  const ringG = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.016, 10, 64), mat.walnut); ringG.rotation.x = -Math.PI / 2; ringG.position.set(0, 0.008, R * MM); lid.add(ringG);
-  const back = new THREE.Mesh(new THREE.CylinderGeometry(0.296, 0.296, 0.01, 64), mat.walnut); back.position.set(0, 0.008, R * MM); lid.add(back);
-  const glassM = new THREE.Mesh(new THREE.CircleGeometry(0.284, 64), M('#dfe6e6', { roughness: 0.08, metalness: 0.6 }));
-  glassM.rotation.x = Math.PI / 2; glassM.position.set(0, 0.002, R * MM); lid.add(glassM);
-  lid.rotation.x = -100 * D2R;
-  tube([[(cx + 240) * MM, 0.77, (cy - 120) * MM], [(cx + 200) * MM, 0.95, (cy - 290) * MM]], 0.003, mat.metal, 4);
-  // stool: round seat drum D440 H450 with a curved back shell to 740 on the far side, pulled out a little
-  const sx = cx, sy = cy + 300, sarc = (rr, a0, a1, n = 30) => Array.from({ length: n + 1 }, (_, k) => { const a = (a0 + (a1 - a0) * k / n) * D2R; return [sx + rr * Math.cos(a), sy + rr * Math.sin(a)]; });
-  cyl(sx, sy, 210, 0.01, 0.45, bou, 48);
-  extrude([...sarc(228, 5, 175), ...sarc(178, 175, 5)], 0.01, 0.74, bou, 0.012);
-  target = scene;
-}
-scene.add(masterThin); scene.add(masterVanity);
+scene.add(masterThin);
 hook(() => {
-  const ms = ['mc', 'thin', 'vanity'].includes(state.ms) ? state.ms : 'mc';
-  study1.visible = true; masterMC.visible = ms === 'mc'; masterThin.visible = ms === 'thin'; masterVanity.visible = ms === 'vanity';
-  press(['ms-mc', 'ms-thin', 'ms-vanity'], 'ms-' + ms);
+  const ms = state.ms === 'thin' ? 'thin' : 'mc';
+  study1.visible = true; masterMC.visible = ms === 'mc'; masterThin.visible = ms === 'thin';
+  press(['ms-mc', 'ms-thin'], 'ms-' + ms);
   document.getElementById('msNote').textContent = {
     mc: '按摩椅 75×148 放在床尾对面、面朝床，长边和进门方向平行；躺平要 174cm 长。',
-    thin: '贴墙超薄小桌 80×20、高 75，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。',
-    vanity: '翻盖梳妆台 Φ63 高 78 + 配套靠背凳，放在原来按摩椅的位置：坐着面朝床和窗，白天光线好；镜子在盖子背面，翻起来用，盖上就是一个圆柜。到衣柜 71cm，到右墙 66cm（去床尾的路），离床边 60cm。'
+    thin: '悬浮弧形小桌：胡桃木 80 长，前沿一道小弧线（两头深 14、中间深 20），挂墙离地 75，没有桌腿，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。'
   }[ms];
 });
 // low study bed, head to the window
@@ -2087,7 +2156,7 @@ const VIEWS = {
   mbed:    { pos: [0.45, 0.85, 3.12], target: [2.27, 1.0, 2.63], fov: 62 },
   dine:    { pos: [9.65, 1.5, 7.95], target: [6.6, 0.85, 6.85], fov: 62 },
   entry:   { pos: [7.35, 1.6, 11.4], target: [6.75, 1.05, 7.9], fov: 68 },
-  kids:    { pos: [4.75, 1.6, 4.75], target: [3.95, 0.5, 2.0], fov: 66 },
+  kids:    { pos: [3.45, 1.7, 4.35], target: [4.2, 0.6, 2.0], fov: 74 },
   study:   { pos: [7.3, 1.9, 4.2], target: [6.2, 0.55, 2.1], fov: 78 },
   desk:    { pos: [6.75, 1.5, 3.3], target: [5.55, 0.85, 3.05], fov: 64 },
   top:     { pos: [5.4, 17, 7.6], target: [5.4, 0, 5.4], fov: 48 },
@@ -2149,4 +2218,37 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// ---------- language: English by default, 中文 on the switch (remembered per device; ?lang=zh / ?lang=en in the link)
+const EN = {"C2 全屋三维模拟": "C2 Home · 3D Model", "全屋三维模型，可拖动旋转": "3D model of the whole flat — drag to rotate", "C2 户型 · 全屋模拟": "Canninghill Piers C2 · Whole-home model", "C2 户型 · 全屋模拟": "C2 Home · Whole-home model", "按平面图 v61 + 灯光图建模 · 单位 mm · 层高按 2800 假设": "Built from floor plan v61 + lighting plan · units mm · ceiling height assumed 2800", "视角": "View", "餐厅看客厅": "Dining → living", "阳台看回来": "From the balcony", "坐在沙发上": "On the sofa", "转椅角落": "Swivel-chair corner", "茶几": "Coffee table", "从转椅看沙发": "Chair → sofa", "主卧": "Master bedroom", "躺床看电视": "TV from the bed", "孩子房": "Kids' room", "书房": "Study", "书桌": "Desk", "餐厅": "Dining", "玄关": "Entrance", "俯视全屋": "Top-down", "沙发款式": "Sofa", "牧森 2.4m": "Musen 2.4 m", "组合2 弧形 3.2m": "Combo 2 curved 3.2 m", "沙发抱枕": "Sofa cushions", "不放": "None", "蓝绿抱枕": "Blue-green cushions", "沙发方向": "Sofa direction", "A：深的一头靠阳台": "A: deep end by the balcony", "B：深的一头靠餐厅": "B: deep end by the dining room", "电视（银色网篮移动支架，单层，带轮，不挂墙）": "TV (silver mesh rolling stand, single shelf, on wheels, not wall-mounted)", "放主卧床尾": "Foot of the master bed", "放客厅左墙": "Living-room wall", "65 寸（宽 145）": "65\" (145 wide)", "55 寸（宽 123）": "55\" (123 wide)", "50 寸（宽 112）": "50\" (112 wide)", "窄款支架 约 90 宽": "Narrow stand ~90 wide", "原款 124 宽": "Original 124 wide", "餐椅 ×6": "Dining chairs ×6", "藤编扶手椅": "Rattan armchair", "竹节椅（马黑）": "Bamboo-style chair (black)", "餐厅墙面": "Dining wall", "餐边柜先不做；这面墙下半截刷灰色到 1.4m 高（和衣柜同一系的暖灰）。": "No sideboard for now; the lower part of this wall is painted grey up to 1.4 m (the same warm grey family as the wardrobes).", "时间": "Time", "白天": "Day", "晚上": "Night", "晚上开哪些灯": "Lights at night", "氛围：洗墙 + 落地灯 + 灯带": "Mood: wall wash + floor lamps + strips", "全开：再加轨道 / 线灯 / 吊灯": "All on: + track / linear lights / pendant", "客厅磁吸轨道在茶几中线正上方：中间两段 60cm 线条泛光模块照茶几一带（柔、不刺眼），两头各一个射灯，窗边那个照兰花、里面那个照转椅；洗墙灯把整面右墙均匀洗亮，上亮下渐暗，不出光斑。": "The living-room magnetic track runs right above the coffee table's centre line: two 60 cm linear flood modules in the middle light the coffee-table area (soft, no glare), with a spotlight at each end — the window one on the orchid, the inner one on the swivel chair. The wall washer lights the whole right wall evenly, brighter at the top and fading downward, with no hot spots.", "木百叶 50mm（书房 / 孩子房 / 主卧）": "50 mm wooden blinds (study / kids' room / master)", "拉起": "Raised", "叶片放平": "Slats open", "拉起 70% · 叶片平": "70% raised · slats open", "主卧也装": "Also in master", "主卧不装": "Not in master", "胡桃木色 50mm 木百叶。": "Walnut-colour 50 mm wooden blinds.", "卡萨驰转椅 Φ77": "Casa swivel chair Φ77", "转椅颜色": "Swivel chair colour", "单椅旁的圆几 Φ20 高50": "Drum table by the chair Φ20 H50", "白色": "White", "黑色": "Black", "窗边玻璃边几 Φ38 颜色": "Glass side table by the window Φ38 — colour", "A 中古拱腿 1000×500×400": "A Vintage arched legs 1000×500×400", "D 日式碳化矮桌 斜腿（按 100×50 高38）": "D Japanese carbonised low table, splayed legs (100×50 H38)", "地毯": "Rug", "不铺": "None", "小地毯 160×230": "Small rug 160×230", "窗角落地灯": "Window-corner floor lamps", "LiangYi 超细": "LiangYi ultra-slim", "平衡臂灯 D140 H170": "Balance-arm lamp D140 H170", "大理石底锥罩灯 H155": "Marble-base cone lamp H155", "一盏（沙发那侧窗角）": "One (sofa-side corner)", "两盏（两个窗角对称）": "Two (both corners, mirrored)", "玄关鞋柜 130×30 长方形 + 弧形前脸": "Entrance shoe cabinet: 130×30 rectangle + curved front", "弧形凸出 50（最深 80，走道 1.52m）": "Curve +50 (max depth 80, hallway 1.52 m)", "半圆凸出 65（最深 95，走道 1.37m）": "Semicircle +65 (max depth 95, hallway 1.37 m)", "低柜 H900": "Low H900", "顶天柜 H2600": "Full height H2600", "不做": "None", "孩子房床（地台床）": "Kids' beds (platform beds)", "0.9m 床（床架 95）": "0.9 m beds (frame 95)", "1m 床（床架 102）": "1 m beds (frame 102)", "1m 床：两张床架各 102，两床之间只剩 40cm，床头柜要换成 35cm 宽的窄款；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "1 m beds: two 102 frames leave only 40 cm between the beds, so the bedside cabinet must be a narrow 35 cm one. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "主卧床 King 1.8m": "Master bed King 1.8 m", "两边各一个藤编床头柜。床尾对面、衣柜前面那块放什么：": "A rattan bedside cabinet on each side. What goes below the bed, in front of the wardrobe:", "按摩椅": "Massage chair", "悬浮弧形小桌": "Floating curved wall table", "2m 双人桌靠左墙：孩子靠窗（24 寸屏 + 打印机）；大人在里面坐电竞椅看盘：两块 24 寸屏 V 字摆 + 桌尾一台笔记本。大人这半边只有约 1.1m，两块 27 寸并排要 1.25m 放不下。两边中间一盏长条台灯；白色悬浮书架加长到 2.05m（从飘窗柜边到门那头，和桌子一样长）。": "2 m shared desk on the left wall: the child by the window (24\" screen + printer); the adult further in on the gaming chair for trading — two 24\" screens in a V + a laptop at the desk end. The adult half is only about 1.1 m; two 27\" side by side need 1.25 m and don't fit. One LED bar lamp between the two halves; the white floating shelves run 2.05 m, the same length as the desk.", "飘窗柜深 55（放 28 寸箱）": "Window seat 55 deep (28\" cases)", "深 50（放 24 寸箱）": "50 deep (24\" cases)", "飘窗柜做满整面窗墙，长 2.44m、高 50cm、三块掀盖。": "The window-seat cabinet runs the whole window wall: 2.44 m long, 50 cm high, three lift-up lids.", "深 55": "55 deep", "：后面用 5mm 薄背板，净深约 52.5，28 寸大箱（约 76×52×31cm，含轮子）刚好平躺，一排 3 个；书桌、床、椅子、书架全部往里挪 55cm，床尾到衣柜 44cm，桌尾离开着的房门约 10cm。": ": a 5 mm back panel gives about 52.5 net depth — a 28\" case (about 76×52×31 cm incl. wheels) just lies flat, three in a row. Desk, bed, chairs and shelves all move 55 cm further in; bed end to wardrobe 44 cm, desk end to the open door about 10 cm.", "深 50": "50 deep", "：净深约 47.5，只放得下 24 寸箱（约 66×44×27cm），28 寸放不进；家具少挪 5cm，床尾到衣柜 49cm，桌尾离门约 15cm。": ": about 47.5 net depth — only 24\" cases (about 66×44×27 cm) fit, 28\" don't; the furniture moves 5 cm less; bed end to wardrobe 49 cm, desk end to the door about 15 cm.", "：书桌和床贴回窗边，床尾到衣柜 99cm。做柜子时床不要床头板，飘窗柜当床头。买箱子前量一下宽度（含轮子）。": ": desk and bed go back against the window; bed end to wardrobe 99 cm. With the cabinet, the bed needs no headboard — the window seat acts as one. Measure suitcase widths (incl. wheels) before buying.", "体块示意，不是照片级效果图：家具尺寸和位置跟图纸一致，材质和颜色是示意。地板按浅橡木假设。拖动旋转，双指或滚轮缩放。": "Block model, not a photo-real render: furniture sizes and positions follow the plans; materials and colours are indicative. Floor assumed light oak. Drag to rotate, pinch or scroll to zoom.", "收起面板": "Hide panel", "展开面板": "Show panel", "原款支架 124×42：比 55 寸电视还宽，看着体量大；": "Original stand 124×42: wider than a 55\" TV, looks bulky; ", "窄款支架约 90×42：体量小很多，适合 55 寸以内（买前看商家写的适用尺寸）；": "Narrow stand about 90×42: much lighter, for TVs up to 55\" (check the seller's size range); ", "床尾 60cm 过道里斜约 8°，屏幕中心离枕头约 2.05m，": "angled about 8° in the 60 cm aisle at the bed end, screen centre about 2.05 m from the pillows. ", "65 寸最满，但在主卧有点压迫。": "65\" fills the view but feels heavy in the bedroom. ", "55 寸这个距离刚好。": "55\" is just right at this distance. ", "50 寸也够看，最轻巧。": "50\" is still fine and the lightest. ", "会挡住去主卧阳台的路，晾衣服时推开（有轮子）。": "It blocks the way to the master balcony — roll it aside when hanging laundry (it has wheels).", "网篮支架放客厅右墙，正对沙发：底座深 42cm，到茶几只剩约": "Mesh stand on the living-room right wall, facing the sofa: base 42 cm deep, the gap to the coffee table is only about", "cm，右边去阳台的过道会变窄。": " cm; the way to the balcony on the right gets narrower.", "转椅在靠厨房那一侧，靠右墙、贴近茶几尾端，面向沙发；去阳台的路从转椅和贵妃位之间过，最窄处约": "The swivel chair is on the kitchen side, against the right wall near the end of the coffee table, facing the sofa; the way to the balcony passes between the chair and the chaise, narrowest about", "cm（稍挤）。白色 Φ20 圆几一个，在转椅内侧（靠窗、靠墙那边）放杯子；玻璃边几 + 兰花留在窗边。": " cm (a bit tight). One white Φ20 drum table on the chair's inner side (toward the window and the wall) for a cup; the glass side table + orchid stay by the window.", "注意：这个组合下找不到留出 70cm 去阳台的位置，": "Note: with this combination there is no spot that leaves 70 cm to the balcony; ", "EMMI 椅（90×85）": "the EMMI chair (90×85)", "转椅": "the swivel chair", "放在这里会挡路。": " placed here blocks the way. ", "弧形沙发 3.2m 太长，客厅只剩够走路的宽度，建议不放单椅。": "The 3.2 m curved sofa is long — only walking width is left, so better without the armchair.", "建议用转椅，或选牧森 A。": "Use the swivel chair, or choose Musen A.", "EMMI 艾米单椅 90×85 座高42（奶油白羊羔绒 + 黑色蜡木架，¥603）：比转椅宽 13cm，": "EMMI armchair 90×85, seat 42 (cream lamb-wool + black ash frame, ¥603): 13 cm wider than the swivel chair; ", "放在窗边，后面是玻璃边几，右边去阳台留 70cm。": "placed by the window with the glass side table behind it; 70 cm left on the right to the balcony.", "放在餐厅那头，旁边过道约": "placed at the dining end, aisle beside it about", "cm。": " cm.", "不能转，朝向是按放得下的角度摆的。": " It can't swivel; it is angled the way it fits.", "转椅在窗边，面向沙发；Φ20 圆几在旁边（伸手能放杯子），转椅正后方是蓝色玻璃边几 Φ38 + 黑色花瓶插高枝，就是参考图": "The swivel chair is by the window facing the sofa; the Φ20 drum table beside it (within reach for a cup); right behind the chair, the blue glass side table Φ38 + a black vase with tall branches — the reference photo's ", "桌子在椅子后面": "table behind the chair", "。右边去阳台的路留 70cm。": ". 70 cm left on the right to the balcony.", "这个方向转椅在餐厅那头（后面就是进客厅的路，不能放东西）；蓝色玻璃边几 + 黑色花瓶插高枝放在窗边，做从餐厅看过去的尽头焦点。": "In this direction the swivel chair is at the dining end (the way into the living room is right behind it); the blue glass side table + black vase with tall branches stand by the window as the focal point seen from the dining room.", "转椅 + 白色圆几，灯放在圆几后面。": "Swivel chair + white drum table, lamp behind the drum table.", "转椅正后方": "right behind the swivel chair", "窗边左角": "left window corner", "窗边只放转椅和蓝色玻璃边几。": "Only the swivel chair and the blue glass side table by the window.", "把一把餐椅（跟着上面选的餐椅款式）搬到窗边另一个角，朝着房间，和转椅并排在窗前：多一个座位，藤编通透不挡光，也和餐厅呼应。餐厅剩 5 把，来客人时搬回去就行。": "Move one dining chair (the style chosen above) to the other window corner, facing the room, beside the swivel chair: one more seat, see-through so it doesn't block light, and it echoes the dining room. 5 stay at the table; move it back when guests come.", "这个方向窗边被沙发头占了，放一把餐椅会把去阳台的路挤到 70cm 以下，放不下。": "In this direction the sofa end takes the window side; a dining chair there would squeeze the way to the balcony below 70 cm — it doesn't fit.", "LiangYi 超细：底座 16cm 见方，一根细黑线加一小圈光，最轻、最像 Lounge 参考图。": "LiangYi ultra-slim: 16 cm square base, a thin black line with a small ring of light — the lightest, closest to the Lounge reference.", "平衡臂灯（水磨石圆柱底座 Φ16，臂长 1.4m，高 1.7m）：两盏一模一样、左右对称，灯臂都朝窗户中间、稍微偏向室内，灯罩挂在玻璃边几和窗前上方。注意门那一侧的灯臂 1.6m 高横在阳台门前，大人进出可能碰头，可以平时把灯臂转到贴着玻璃。": "Balance-arm lamp (terrazzo cylinder base Φ16, arm 1.4 m, height 1.7 m): two identical lamps, mirrored, arms pointing to the middle of the window and slightly into the room, shades over the glass side table and the window. The door-side arm crosses the balcony door at 1.6 m — adults may bump their heads; swing it against the glass when not in use.", "大理石底锥罩灯（黑色大理石底座 Φ32，高 155，锥罩 Φ20，¥324）：顶部弯出 22cm 挂一个黑色锥罩，往下照。底座是 LiangYi 的两倍大、很重，孩子不容易推倒。": "Marble-base cone lamp (black marble base Φ32, H155, cone shade Φ20, ¥324): the top bends out 22 cm and hangs a black cone shade pointing down. The base is twice LiangYi's and heavy — hard for kids to knock over.", "现在是两盏，对称放在两个窗角，两个窗角都要留插座。": "Now two, mirrored in both window corners — both corners need a socket.", "现在是一盏，放在沙发靠窗那头的窗角。": "Now one, in the window corner at the sofa end.", "按摩椅 75×148 放在床尾对面、面朝床，长边和进门方向平行；躺平要 174cm 长。": "Massage chair 75×148 below the bed, facing the bed, long side parallel to the way in; it needs 174 cm when reclined.", "悬浮弧形小桌：胡桃木 80 长，前沿一道小弧线（两头深 14、中间深 20），挂墙离地 75，没有桌腿，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。": "Floating curved wall table: walnut, 80 long, a gentle curve on the front (14 deep at the ends, 20 in the middle), wall-mounted 75 off the floor with no legs, on the right wall below the bed end — for clothes, phone and jewellery before a shower. No massage chair, so a big dressing area opens up in front of the wardrobe.", "灰绿": "Grey-green", "蓝色": "Blue", "翡翠绿": "Emerald", "灰色": "Grey", "粉色": "Pink", "琥珀": "Amber", "米白": "Off-white", "棕色": "Brown", "人物（3 个大人 + 9 岁孩子）": "People (3 adults + a 9-year-old)", "不显示": "Hide", "客厅坐着": "Seated in the living room", "餐桌吃饭": "At the dining table", "身高按爸爸 175、妈妈 162、另一位大人 165、孩子 135（9 岁）；客厅是三个人坐沙发、一个坐转椅。": "Heights: dad 175, mum 162, another adult 165, child 135 (9 years old). In the living room three sit on the sofa and one on the swivel chair.", "1m 双层床": "1 m bunk bed", "0.9m 床：两张床架各 95，中间一个床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "0.9 m beds: two 95 frames with one bedside cabinet between them. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "1m 双层床：床架约 106×196、高 162，靠右墙放，离窗 65cm（上铺不贴窗）；床尾停在房门开到墙边之前，梯子在靠床尾的侧面。上铺床垫面离天花约 1.5m，坐起来不碰头。左半边空出来，放书桌或玩都行。窗户一定要装限位器或隐形防护网。": "1 m bunk bed: frame about 106×196, 162 high, against the right wall, 65 cm from the window (the top bunk isn't next to the glass); it ends before the spot where the open door rests against the wall, with the ladder on the side near the foot. The top mattress is about 1.5 m below the ceiling — room to sit up. The left half of the room is free for a desk or play. Fit window restrictors or invisible grilles."};
+const ENK = Object.keys(EN).sort((a, b) => b.length - a.length), HAS_ZH = /[　-〿一-鿿＀-￯]/;
+const TITLE_ZH = document.title, VIEW_ZH = document.getElementById('view').getAttribute('aria-label');
+let LANG = 'en';
+try { const q = new URLSearchParams(location.search).get('lang'); LANG = q === 'zh' || q === 'en' ? q : (localStorage.getItem('c2lang') === 'zh' ? 'zh' : 'en'); } catch (e) {}
+const trZh = s => { for (const k of ENK) if (s.includes(k)) s = s.split(k).join(EN[k]); return s; };
+function trNode(n) {
+  if (n.__zh === undefined || n.nodeValue !== n.__shown) n.__zh = n.nodeValue;     // text the page wrote (always Chinese)
+  const v = LANG === 'en' && HAS_ZH.test(n.__zh) ? trZh(n.__zh) : n.__zh;
+  n.__shown = v; if (n.nodeValue !== v) n.nodeValue = v;
+}
+function trTree(root) {
+  if (root.nodeType === 3) { trNode(root); return; }
+  if (root.nodeType !== 1) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) trNode(n);
+}
+const sheetEl = document.getElementById('sheet'), langBtn = document.getElementById('langBtn');
+new MutationObserver(ms => ms.forEach(m => { if (m.type === 'characterData') trNode(m.target); else m.addedNodes.forEach(trTree); }))
+  .observe(sheetEl, { childList: true, subtree: true, characterData: true });
+function setLang(l) {
+  LANG = l; try { localStorage.setItem('c2lang', l); } catch (e) {}
+  document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN';
+  document.title = l === 'en' ? (EN[TITLE_ZH] || TITLE_ZH) : TITLE_ZH;
+  document.getElementById('view').setAttribute('aria-label', l === 'en' ? (EN[VIEW_ZH] || VIEW_ZH) : VIEW_ZH);
+  langBtn.textContent = l === 'en' ? '中文' : 'EN';
+  langBtn.setAttribute('aria-label', l === 'en' ? '切换到中文' : 'Switch to English');
+  trTree(sheetEl);
+}
+langBtn.addEventListener('click', () => setLang(LANG === 'en' ? 'zh' : 'en'));
+setLang(LANG);
 </script>
