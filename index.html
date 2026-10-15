@@ -3174,7 +3174,7 @@ document.getElementById('fold').addEventListener('click', e => {
   sheet.classList.toggle('min'); e.target.textContent = sheet.classList.contains('min') ? '展开面板' : '收起面板';
   sheet.scrollTop = 0;
 });
-{ const vw = window.innerWidth || screen.width; if (vw > 0 && vw <= 520) document.getElementById('fold').click(); }   // phones start folded so the 3D view shows (a hidden frame may report 0: leave it open)
+document.getElementById('fold').click();   // the panel starts folded on every screen (the user shares the page; the 3D view comes first)
 
 // ---------- loop
 function resize() {
