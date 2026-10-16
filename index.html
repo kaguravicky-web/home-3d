@@ -271,8 +271,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <span class="label">床头台灯</span>
     <div class="row">
       <button class="seg" id="ml-none" aria-pressed="false">不放</button>
-      <button class="seg" id="ml-linen" aria-pressed="true">宜家白方座亚麻灯罩</button>
-      <button class="seg" id="ml-ranarp" aria-pressed="false">宜家 RANARP 摇臂灯</button>
+      <button class="seg" id="ml-linen" aria-pressed="false">宜家白方座亚麻灯罩</button>
+      <button class="seg" id="ml-ranarp" aria-pressed="true">宜家 RANARP 摇臂灯</button>
     </div>
     <p class="note" id="mnNote"></p>
     <p class="note">床尾对面、衣柜前面那块放什么：</p>
@@ -1206,7 +1206,7 @@ function buildLiving(Lo, key) {
 mat.chair.side = THREE.DoubleSide;
 function ensureLiving(k) { if (!livings[k] && S.layouts[k]) { livings[k] = buildLiving(S.layouts[k], k); livings[k].userData.acc = {}; } return livings[k]; }
 // two potted olive trees on the balcony, >= 1 m in from the railing, right half (the left panel is the way out)
-const state = { wstool: 'a', wspos: 'swap', sidek: 'sq', mlamp: 'linen', mbed: 'k', shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, dcount: '6', table: 'B', lamp: 'none', ly: 'one', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'oak', sbpos: 'dine', sbdep: '45', sbcol: 'white', mns: 'rattan', ebul: '40', edep: '65', efin: 'smooth', sbed: 'floor', sbopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'on', mw: 'blind', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'moon', rug: 'none', sbt: 'B', kbed: '10', stab: 'none', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'up', bm: true };
+const state = { wstool: 'a', wspos: 'swap', sidek: 'sq', mlamp: 'ranarp', mbed: 'k', shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, dcount: '6', table: 'B', lamp: 'none', ly: 'one', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'oak', sbpos: 'dine', sbdep: '45', sbcol: 'white', mns: 'rattan', ebul: '40', edep: '65', efin: 'smooth', sbed: 'floor', sbopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'on', mw: 'blind', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'moon', rug: 'none', sbt: 'B', kbed: '10', stab: 'none', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'up', bm: true };
 function press(ids, on) { ids.forEach(id => document.getElementById(id).setAttribute('aria-pressed', id === on)); }
 function applyLiving() {
   const key = state.model + state.dir + (state.seat === 'emmi' && S.layouts[state.model + state.dir + 'e'] ? 'e' : '');
