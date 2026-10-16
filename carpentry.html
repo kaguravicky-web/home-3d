@@ -107,7 +107,6 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
 .dwg .thin { stroke: var(--fg); stroke-width: 1; }
 .dwg .shelf { stroke: var(--fg); stroke-width: 0.9; stroke-dasharray: 4 2.5; }
 .dwg .holes { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 1 3; }
-.dwg .deep { fill: none; stroke: var(--fg); stroke-width: 1.1; stroke-dasharray: 5 3; }
 .dwg .dim { stroke: var(--accent); stroke-width: 1; }
 .dwg .t { fill: var(--fg); font-size: 10px; font-family: var(--font-data); }
 </style>
@@ -190,6 +189,14 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
     </div>
   </div>
   <div class="group">
+    <span class="label">阳台 Zipblind（全遮光）</span>
+    <div class="row">
+      <button class="seg" id="z-up" aria-pressed="true">收起</button>
+      <button class="seg" id="z-down" aria-pressed="false">放下</button>
+    </div>
+    <p class="note" id="zNote"></p>
+  </div>
+  <div class="group">
     <span class="label">晚上的灯：全开（轨道、线灯、吊灯、洗墙、落地灯、灯带）</span>
     <p class="note">客厅磁吸轨道在茶几中线正上方：中间两段 60cm 线条泛光模块照茶几一带（柔、不刺眼），两头各一个射灯，窗边那个照兰花、里面那个照转椅；洗墙灯把整面右墙均匀洗亮，上亮下渐暗，不出光斑。</p>
   </div>
@@ -240,13 +247,8 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
   <div class="group">
     <span class="label">窗角落地灯</span>
     <div class="row">
-      <button class="seg" id="ls-moon" aria-pressed="true">黑色平衡臂环形灯</button>
-      <button class="seg" id="ls-globe" aria-pressed="false">金色平衡臂球灯</button>
-    </div>
-    <div class="row">
       <button class="seg" id="ly-one" aria-pressed="true">一盏（左边窗角）</button>
       <button class="seg" id="ly-oneR" aria-pressed="false">一盏（右边窗角）</button>
-      <button class="seg" id="ly-two" aria-pressed="false">两盏（两个窗角对称）</button>
     </div>
     <p class="note" id="liangyiNote"></p>
   </div>
@@ -257,16 +259,12 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
       <button class="seg" id="e-tall" aria-pressed="true">做</button>
     </div>
     <div class="row" id="esRow">
-      <button class="seg" id="es-corner" aria-pressed="true">圆角柜（厂家圆弧件）</button>
-      <button class="seg" id="es-facet" aria-pressed="false">三面平门（折线）</button>
+      <button class="seg" id="es-corner" aria-pressed="false">圆角柜（厂家圆弧件）</button>
+      <button class="seg" id="es-facet" aria-pressed="true">三面平门（折线）</button>
     </div>
     <div class="row" id="erRow">
       <button class="seg" id="er-150" aria-pressed="true">圆角 R150</button>
       <button class="seg" id="er-100" aria-pressed="false">R100</button>
-    </div>
-    <div class="row" id="edRow">
-      <button class="seg" id="ed-std" aria-pressed="true">标准深度</button>
-      <button class="seg" id="ed-deep" aria-pressed="false">加深</button>
     </div>
     <div class="row" id="efRow">
       <button class="seg" id="ef-smooth" aria-pressed="true">门面平滑墙色</button>
@@ -287,19 +285,12 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
     <p class="note" id="kyNote"></p>
     <span class="label">主卧床：源氏木语黑胡桃木低铺斜靠床 1.8m</span>
     <p class="note" id="bedNote"></p>
-    <span class="label">床头柜</span>
-    <div class="row">
-      <button class="seg" id="mn-rattan" aria-pressed="false">藤编床头柜（只放窗边）</button>
-      <button class="seg" id="mn-acrylic" aria-pressed="false">亚克力透明边几（只放窗边）</button>
-      <button class="seg" id="mn-elijah" aria-pressed="true">Elijah 圆柜（只放窗边）</button>
-      <button class="seg" id="mn-stone" aria-pressed="false">胡桃木岩板柜（只放窗边）</button>
-    </div>
+    <span class="label">床头柜：亚克力透明边几（只放窗边）</span>
     <span class="label">床头灯</span>
     <div class="row">
       <button class="seg" id="ml-none" aria-pressed="false">不放</button>
       <button class="seg" id="ml-linen" aria-pressed="false">宜家白方座亚麻灯罩</button>
-      <button class="seg" id="ml-ranarp" aria-pressed="false">宜家 RANARP 摇臂灯</button>
-      <button class="seg" id="ml-floor" aria-pressed="true">自家全光谱落地灯（床左侧）</button>
+      <button class="seg" id="ml-ranarp" aria-pressed="true">宜家 RANARP 摇臂灯</button>
     </div>
     <p class="note" id="mnNote"></p>
     <p class="note">床尾对面、衣柜前面那块放什么：</p>
@@ -320,12 +311,13 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
     <span class="label">书房</span>
     <span class="label">书房床（阿姨睡）</span>
     <div class="row">
-      <button class="seg" id="sbd-floor" aria-pressed="true">0.9m 地台床</button>
-      <button class="seg" id="sbd-lift" aria-pressed="false">0.9m 液压储物床</button>
+      <button class="seg" id="sbd-brim" aria-pressed="true">宜家 BRIMNES（白色，2 抽屉）</button>
+      <button class="seg" id="sbd-hemnes" aria-pressed="false">宜家 HEMNES（白色，3 抽屉）</button>
+      <button class="seg" id="sbd-floor" aria-pressed="false">0.9m 地台床</button>
     </div>
-    <div class="row" id="sboRow">
-      <button class="seg" id="sbo-closed" aria-pressed="true">收起</button>
-      <button class="seg" id="sbo-open" aria-pressed="false">打开储物</button>
+    <div class="row" id="sdoRow">
+      <button class="seg" id="sdo-closed" aria-pressed="true">平时（单人）</button>
+      <button class="seg" id="sdo-open" aria-pressed="false">拉开成双人（椅子搬走）</button>
     </div>
     <p class="note" id="sbdNote"></p>
     <p class="note">2m 双人桌靠左墙：孩子靠窗（24 寸屏 + 打印机）；大人在里面坐电竞椅看盘：两块 24 寸屏 V 字摆 + 桌尾一台笔记本。大人这半边只有约 1.1m，两块 27 寸并排要 1.25m 放不下。两边中间一盏长条台灯；白色悬浮书架 2.05m，和桌子一样长。</p>
@@ -343,17 +335,12 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
   <div class="group">
     <span class="label"><span class="zh">玄关柜形状</span><span class="en">Cabinet shape</span></span>
     <div class="row">
-      <button class="seg" id="qh-corner" aria-pressed="true"><span class="zh">圆角柜</span><span class="en">Rounded corners</span></button>
-      <button class="seg" id="qh-facet" aria-pressed="false"><span class="zh">三面平门</span><span class="en">Three flat doors</span></button>
+      <button class="seg" id="qh-facet" aria-pressed="true"><span class="zh">三面平门</span><span class="en">Three flat doors</span></button>
+      <button class="seg" id="qh-corner" aria-pressed="false"><span class="zh">圆角柜</span><span class="en">Rounded corners</span></button>
     </div>
-    <div class="row" id="qbRow">
+    <div class="row" id="qbRow" style="display:none">
       <button class="seg" id="qb-150" aria-pressed="true">R150</button>
       <button class="seg" id="qb-100" aria-pressed="false">R100</button>
-    </div>
-    <span class="label"><span class="zh">深度</span><span class="en">Depth</span></span>
-    <div class="row">
-      <button class="seg" id="qe-std" aria-pressed="true"><span class="zh">标准</span><span class="en">Standard</span></button>
-      <button class="seg" id="qe-deep" aria-pressed="false"><span class="zh">加深</span><span class="en">Deep</span></button>
     </div>
     <span class="label"><span class="zh">门面</span><span class="en">Door finish</span></span>
     <div class="row">
@@ -374,32 +361,30 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
   </div>
   <div class="group">
     <span class="label"><span class="zh">① 玄关储物柜 ×1</span><span class="en">① Entrance storage cabinet ×1</span></span>
-    <table class="spec"><tr><th><span class="zh">位置</span><span class="en">Where</span></th><td><span class="zh">进门左边墙，贴墙长 1300</span><span class="en">Left wall inside the door, 1300 along the wall</span></td></tr><tr data-sh="facet"><th><span class="zh">外形</span><span class="en">Shape</span></th><td><span class="zh">三扇平门折成凸窗形：两头 300 深，中间 737</span><span class="en">Three flat doors folded like a bay: 300 at the ends, 737 in the middle</span></td></tr><tr data-sh="corner"><th><span class="zh">外形</span><span class="en">Shape</span></th><td><span class="zh">长方形，前两角用厂家圆弧件 R150（或 R100）：1300 × 750 深</span><span class="en">Rectangle, front corners from the factory's arc pieces R150 (or R100): 1300 × 750</span></td></tr><tr data-sh="facet"><th><span class="zh">加深款</span><span class="en">Deep</span></th><td><span class="zh">长方形再深 350：最深 1087，走道约 1.23m</span><span class="en">Rectangle 350 deeper: 1087 at most, passage ~1.23 m</span></td></tr><tr data-sh="corner"><th><span class="zh">加深款</span><span class="en">Deep</span></th><td><span class="zh">980 深（厂家最大），走道约 1.34m</span><span class="en">980 deep (factory maximum), passage ~1.34 m</span></td></tr><tr data-sh="facet"><th><span class="zh">走道</span><span class="en">Passage</span></th><td><span class="zh">最窄约 1.58m</span><span class="en">Narrowest ~1.58 m</span></td></tr><tr data-sh="corner"><th><span class="zh">走道</span><span class="en">Passage</span></th><td><span class="zh">约 1.57m</span><span class="en">~1.57 m</span></td></tr><tr data-sh="corner"><th><span class="zh">分节</span><span class="en">Modules</span></th><td><span class="zh">宽 400 + 500 + 400；圆弧件高 ≤ 2400，所以下柜 1850 + 上柜 780 两节</span><span class="en">Widths 400 + 500 + 400; arc pieces are ≤ 2400 high, so lower 1850 + upper 780</span></td></tr><tr><th><span class="zh">高度</span><span class="en">Height</span></th><td><span class="zh">到天花约 2800，踢脚 150 内缩</span><span class="en">To the ceiling (~2800), 150 recessed plinth</span></td></tr><tr data-sh="facet"><th><span class="zh">门</span><span class="en">Doors</span></th><td><span class="zh">6 扇平板门，2000 处分上下，每扇宽 570</span><span class="en">6 flat doors split at 2000, 570 wide each</span></td></tr><tr data-sh="corner"><th><span class="zh">门</span><span class="en">Doors</span></th><td><span class="zh">6 扇门，2000 处分上下：两边门 400 带圆弧边包住柜角，中间平门 500</span><span class="en">6 doors split at 2000: the side doors (400) wrap the rounded corners, the middle one flat (500)</span></td></tr><tr data-sh="corner"><th><span class="zh">圆弧型号</span><span class="en">Arc type</span></th><td><span class="zh">外 R150 / 内 R150（或外 R100 / 内 R100）</span><span class="en">Outer R150 / inner R150 (or R100 / R100)</span></td></tr><tr><th><span class="zh">门面</span><span class="en">Finish</span></th><td><span class="zh">无把手，按压开。A 平滑墙色；B 奶白竖条纹</span><span class="en">No handles, push-to-open. A smooth, wall colour; B off-white flutes</span></td></tr><tr><th><span class="zh">层板</span><span class="en">Shelves</span></th><td><span class="zh">门内层板活动，32mm 系统孔 300–1950，备 4 块</span><span class="en">Loose shelves on 32 mm holes (300–1950), 4 spares</span></td></tr><tr><th><span class="zh">右格·近餐厅</span><span class="en">Right · dining end</span></th><td><span class="zh">清洁工具：吸尘器（背板 300 高插座）、拖把桶、扫把、窄熨衣板</span><span class="en">Cleaning kit: vacuum (socket 300 up), mop bucket, broom, narrow ironing board</span></td></tr><tr><th><span class="zh">中格</span><span class="en">Middle</span></th><td><span class="zh">球包 ×2（加深款 ×3）+ 补充装箱；上面清洁剂</span><span class="en">2 golf bags (deep: 3) + refill bin; detergents above</span></td></tr><tr data-sh="facet"><th><span class="zh">左格·近大门</span><span class="en">Left · door end</span></th><td><span class="zh">球包 ×1（加深款放 28 寸行李箱）；上面清洁剂</span><span class="en">1 golf bag (deep: 28-inch suitcase); detergents above</span></td></tr><tr data-sh="corner"><th><span class="zh">左格·近大门</span><span class="en">Left · door end</span></th><td><span class="zh">两个 28 寸行李箱上下放（中间层板约 950 高）；最上面放清洁剂</span><span class="en">Two 28-inch suitcases, one above the other (shelf at ~950); detergents on top</span></td></tr><tr><th><span class="zh">顶部</span><span class="en">Top</span></th><td><span class="zh">2000 以上放纸巾囤货</span><span class="en">Above 2000: bulk paper</span></td></tr><tr><th><span class="zh">材料</span><span class="en">Material</span></th><td><span class="zh">18mm 防潮多层板，内奶白；门 PU 哑光或条纹面板</span><span class="en">18 mm moisture-resistant ply, off-white inside; doors matt PU or fluted</span></td></tr><tr><th><span class="zh">五金</span><span class="en">Hardware</span></th><td><span class="zh">按压反弹器 + 暗铰链（无阻尼）+ 层板托</span><span class="en">Push latches + concealed hinges (non-soft-close) + shelf pins</span></td></tr></table>
+    <table class="spec"><tr><th><span class="zh">位置</span><span class="en">Where</span></th><td><span class="zh">进门左边墙，贴墙长 1300</span><span class="en">Left wall inside the door, 1300 along the wall</span></td></tr><tr data-sh="facet"><th><span class="zh">外形</span><span class="en">Shape</span></th><td><span class="zh">三扇平门折成凸窗形：两头 300 深，中间 737</span><span class="en">Three flat doors folded like a bay: 300 at the ends, 737 in the middle</span></td></tr><tr data-sh="corner"><th><span class="zh">外形</span><span class="en">Shape</span></th><td><span class="zh">长方形，前两角用厂家圆弧件 R150（或 R100）：1300 × 750 深</span><span class="en">Rectangle, front corners from the factory's arc pieces R150 (or R100): 1300 × 750</span></td></tr><tr data-sh="facet"><th><span class="zh">走道</span><span class="en">Passage</span></th><td><span class="zh">最窄约 1.58m</span><span class="en">Narrowest ~1.58 m</span></td></tr><tr data-sh="corner"><th><span class="zh">走道</span><span class="en">Passage</span></th><td><span class="zh">约 1.57m</span><span class="en">~1.57 m</span></td></tr><tr data-sh="corner"><th><span class="zh">分节</span><span class="en">Modules</span></th><td><span class="zh">宽 400 + 500 + 400；圆弧件高 ≤ 2400，所以下柜 1850 + 上柜 780 两节</span><span class="en">Widths 400 + 500 + 400; arc pieces are ≤ 2400 high, so lower 1850 + upper 780</span></td></tr><tr><th><span class="zh">高度</span><span class="en">Height</span></th><td><span class="zh">到天花约 2800，踢脚 150 内缩</span><span class="en">To the ceiling (~2800), 150 recessed plinth</span></td></tr><tr data-sh="facet"><th><span class="zh">门</span><span class="en">Doors</span></th><td><span class="zh">6 扇平板门，2000 处分上下，每扇宽 570</span><span class="en">6 flat doors split at 2000, 570 wide each</span></td></tr><tr data-sh="corner"><th><span class="zh">门</span><span class="en">Doors</span></th><td><span class="zh">6 扇门，2000 处分上下：两边门 400 带圆弧边包住柜角，中间平门 500</span><span class="en">6 doors split at 2000: the side doors (400) wrap the rounded corners, the middle one flat (500)</span></td></tr><tr data-sh="corner"><th><span class="zh">圆弧型号</span><span class="en">Arc type</span></th><td><span class="zh">外 R150 / 内 R150（或外 R100 / 内 R100）</span><span class="en">Outer R150 / inner R150 (or R100 / R100)</span></td></tr><tr><th><span class="zh">门面</span><span class="en">Finish</span></th><td><span class="zh">无把手，按压开。A 平滑墙色；B 奶白竖条纹</span><span class="en">No handles, push-to-open. A smooth, wall colour; B off-white flutes</span></td></tr><tr><th><span class="zh">层板</span><span class="en">Shelves</span></th><td><span class="zh">门内层板活动，32mm 系统孔 300–1950，备 4 块</span><span class="en">Loose shelves on 32 mm holes (300–1950), 4 spares</span></td></tr><tr><th><span class="zh">右格·近餐厅</span><span class="en">Right · dining end</span></th><td><span class="zh">清洁工具：吸尘器（背板 300 高插座）、拖把桶、扫把、窄熨衣板</span><span class="en">Cleaning kit: vacuum (socket 300 up), mop bucket, broom, narrow ironing board</span></td></tr><tr><th><span class="zh">中格</span><span class="en">Middle</span></th><td><span class="zh">球包 ×2 + 补充装箱；上面清洁剂</span><span class="en">2 golf bags + refill bin; detergents above</span></td></tr><tr data-sh="facet"><th><span class="zh">左格·近大门</span><span class="en">Left · door end</span></th><td><span class="zh">球包 ×1；上面清洁剂</span><span class="en">1 golf bag; detergents above</span></td></tr><tr data-sh="corner"><th><span class="zh">左格·近大门</span><span class="en">Left · door end</span></th><td><span class="zh">两个 28 寸行李箱上下放（中间层板约 950 高）；最上面放清洁剂</span><span class="en">Two 28-inch suitcases, one above the other (shelf at ~950); detergents on top</span></td></tr><tr><th><span class="zh">顶部</span><span class="en">Top</span></th><td><span class="zh">2000 以上放纸巾囤货</span><span class="en">Above 2000: bulk paper</span></td></tr><tr><th><span class="zh">材料</span><span class="en">Material</span></th><td><span class="zh">18mm 防潮多层板，内奶白；门 PU 哑光或条纹面板</span><span class="en">18 mm moisture-resistant ply, off-white inside; doors matt PU or fluted</span></td></tr><tr><th><span class="zh">五金</span><span class="en">Hardware</span></th><td><span class="zh">按压反弹器 + 暗铰链（无阻尼）+ 层板托</span><span class="en">Push latches + concealed hinges (non-soft-close) + shelf pins</span></td></tr></table>
     <span class="label"><span class="zh">平面图</span><span class="en">Plan</span></span>
     <svg viewBox="0 0 360 350" class="dwg" data-sh="facet" role="img" aria-label="plan">
   <line x1="46" y1="12" x2="46" y2="335.45454545454544" class="wall"/>
   <line x1="24" y1="26" x2="24" y2="321.5" class="dim"/>
   <text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t zh">1300 沿墙</text><text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t en">1300 along the wall</text>
   <text x="52.0" y="69.2" text-anchor="start" class="t zh">清洁</text><text x="52.0" y="69.2" text-anchor="start" class="t en">cleaning</text><text x="52.0" y="161.7" text-anchor="start" class="t zh">球包</text><text x="52.0" y="161.7" text-anchor="start" class="t en">golf</text><text x="52.0" y="278.3" text-anchor="start" class="t zh">球包</text><text x="52.0" y="278.3" text-anchor="start" class="t en">golf</text>
-  <text x="8.0" y="342.0" text-anchor="start" class="t zh">实线 = 标准，虚线 = 加深 · 上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">solid = standard, dashed = deep · top = dining end</text>
+  <text x="8.0" y="342.0" text-anchor="start" class="t zh">上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">top = dining end</text>
   <polygon points="46.0,26.0 114.2,26.0 213.5,109.0 213.5,238.5 114.2,321.5 46.0,321.5" class="cab"/>
   <line x1="46" y1="109.0" x2="213.5" y2="109.0" class="thin"/>
   <line x1="46" y1="238.5" x2="213.5" y2="238.5" class="thin"/>
-  <polyline points="46.0,26.0 193.7,26.0 293.0,109.0 293.0,238.5 193.7,321.5 46.0,321.5" class="deep"/>
-  <text x="110.2" y="22.0" text-anchor="end" class="t zh">两头 300</text><text x="110.2" y="22.0" text-anchor="end" class="t en">300 at ends</text><text x="197.7" y="22.0" text-anchor="start" class="t">650</text>
-  <text x="218.5" y="177.7" text-anchor="start" class="t">737</text><text x="297.0" y="177.7" text-anchor="start" class="t">1087</text>
+  <text x="110.2" y="22.0" text-anchor="end" class="t zh">两头 300</text><text x="110.2" y="22.0" text-anchor="end" class="t en">300 at ends</text>
+  <text x="218.5" y="177.7" text-anchor="start" class="t">737</text>
   <text x="169.9" y="53.3" text-anchor="start" class="t zh">门 570</text><text x="169.9" y="53.3" text-anchor="start" class="t en">door 570</text><text x="215.3" y="132.8" text-anchor="start" class="t zh">门 570</text><text x="215.3" y="132.8" text-anchor="start" class="t en">door 570</text><text x="169.9" y="298.7" text-anchor="start" class="t zh">门 570</text><text x="169.9" y="298.7" text-anchor="start" class="t en">door 570</text>
 </svg><svg viewBox="0 0 360 350" class="dwg" data-sh="corner" data-bu="150" role="img" aria-label="plan">
   <line x1="46" y1="12" x2="46" y2="335.45454545454544" class="wall"/>
   <line x1="24" y1="26" x2="24" y2="321.5" class="dim"/>
   <text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t zh">1300 沿墙</text><text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t en">1300 along the wall</text>
   <text x="52.0" y="69.2" text-anchor="start" class="t zh">清洁</text><text x="52.0" y="69.2" text-anchor="start" class="t en">cleaning</text><text x="52.0" y="161.7" text-anchor="start" class="t zh">球包</text><text x="52.0" y="161.7" text-anchor="start" class="t en">golf</text><text x="52.0" y="278.3" text-anchor="start" class="t zh">球包</text><text x="52.0" y="278.3" text-anchor="start" class="t en">golf</text>
-  <text x="8.0" y="342.0" text-anchor="start" class="t zh">实线 = 标准，虚线 = 加深 · 上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">solid = standard, dashed = deep · top = dining end</text>
+  <text x="8.0" y="342.0" text-anchor="start" class="t zh">上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">top = dining end</text>
   <path d="M 46.0,26.0 L 182.4,26.0 A 34.1 34.1 0 0 1 216.5,60.1 L 216.5,287.4 A 34.1 34.1 0 0 1 182.4,321.5 L 46.0,321.5 Z" class="cab"/>
-  <path d="M 46.0,26.0 L 234.6,26.0 A 34.1 34.1 0 0 1 268.7,60.1 L 268.7,287.4 A 34.1 34.1 0 0 1 234.6,321.5 L 46.0,321.5" class="deep"/>
   <line x1="46" y1="116.9" x2="216.5" y2="116.9" class="thin"/>
   <line x1="46" y1="230.5" x2="216.5" y2="230.5" class="thin"/>
-  <text x="212.5" y="22.0" text-anchor="end" class="t zh">750 深</text><text x="212.5" y="22.0" text-anchor="end" class="t en">750 deep</text><text x="272.7" y="22.0" text-anchor="start" class="t">980</text>
+  <text x="212.5" y="22.0" text-anchor="end" class="t zh">750 深</text><text x="212.5" y="22.0" text-anchor="end" class="t en">750 deep</text>
   <text x="218.7" y="71.5" text-anchor="start" class="t zh">门 400</text><text x="218.7" y="71.5" text-anchor="start" class="t en">door 400</text><text x="218.7" y="177.7" text-anchor="start" class="t zh">门 500</text><text x="218.7" y="177.7" text-anchor="start" class="t en">door 500</text><text x="218.7" y="276.0" text-anchor="start" class="t zh">门 400</text><text x="218.7" y="276.0" text-anchor="start" class="t en">door 400</text>
   <text x="182.4" y="10.0" text-anchor="start" class="t zh">两角 R150</text><text x="182.4" y="10.0" text-anchor="start" class="t en">corners R150</text>
 </svg><svg viewBox="0 0 360 350" class="dwg" data-sh="corner" data-bu="100" role="img" aria-label="plan">
@@ -407,12 +392,11 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
   <line x1="24" y1="26" x2="24" y2="321.5" class="dim"/>
   <text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t zh">1300 沿墙</text><text x="18.0" y="173.7" text-anchor="middle" transform="rotate(-90 18 173.7)" class="t en">1300 along the wall</text>
   <text x="52.0" y="69.2" text-anchor="start" class="t zh">清洁</text><text x="52.0" y="69.2" text-anchor="start" class="t en">cleaning</text><text x="52.0" y="161.7" text-anchor="start" class="t zh">球包</text><text x="52.0" y="161.7" text-anchor="start" class="t en">golf</text><text x="52.0" y="278.3" text-anchor="start" class="t zh">球包</text><text x="52.0" y="278.3" text-anchor="start" class="t en">golf</text>
-  <text x="8.0" y="342.0" text-anchor="start" class="t zh">实线 = 标准，虚线 = 加深 · 上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">solid = standard, dashed = deep · top = dining end</text>
+  <text x="8.0" y="342.0" text-anchor="start" class="t zh">上 = 餐厅那头</text><text x="8.0" y="342.0" text-anchor="start" class="t en">top = dining end</text>
   <path d="M 46.0,26.0 L 193.7,26.0 A 22.7 22.7 0 0 1 216.5,48.7 L 216.5,298.7 A 22.7 22.7 0 0 1 193.7,321.5 L 46.0,321.5 Z" class="cab"/>
-  <path d="M 46.0,26.0 L 246.0,26.0 A 22.7 22.7 0 0 1 268.7,48.7 L 268.7,298.7 A 22.7 22.7 0 0 1 246.0,321.5 L 46.0,321.5" class="deep"/>
   <line x1="46" y1="116.9" x2="216.5" y2="116.9" class="thin"/>
   <line x1="46" y1="230.5" x2="216.5" y2="230.5" class="thin"/>
-  <text x="212.5" y="22.0" text-anchor="end" class="t zh">750 深</text><text x="212.5" y="22.0" text-anchor="end" class="t en">750 deep</text><text x="272.7" y="22.0" text-anchor="start" class="t">980</text>
+  <text x="212.5" y="22.0" text-anchor="end" class="t zh">750 深</text><text x="212.5" y="22.0" text-anchor="end" class="t en">750 deep</text>
   <text x="218.7" y="71.5" text-anchor="start" class="t zh">门 400</text><text x="218.7" y="71.5" text-anchor="start" class="t en">door 400</text><text x="218.7" y="177.7" text-anchor="start" class="t zh">门 500</text><text x="218.7" y="177.7" text-anchor="start" class="t en">door 500</text><text x="218.7" y="276.0" text-anchor="start" class="t zh">门 400</text><text x="218.7" y="276.0" text-anchor="start" class="t en">door 400</text>
   <text x="182.4" y="10.0" text-anchor="start" class="t zh">两角 R100</text><text x="182.4" y="10.0" text-anchor="start" class="t en">corners R100</text>
 </svg>
@@ -567,19 +551,15 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
     <table class="spec"><tr><th><span class="zh">尺寸</span><span class="en">Size</span></th><td><span class="zh">床架 1020 × 1950 × 120 高</span><span class="en">Frame 1020 × 1950 × H120</span></td></tr><tr><th><span class="zh">床垫</span><span class="en">Mattress</span></th><td><span class="zh">约 970 × 1900，床架 = 床垫四周 +25</span><span class="en">~970 × 1900; frame = mattress + 25 all round</span></td></tr><tr><th><span class="zh">做法</span><span class="en">Build</span></th><td><span class="zh">实心地台，圆角，透气床板；两床间留 400</span><span class="en">Solid platform, rounded corners, ventilated base; 400 between beds</span></td></tr></table>
   </div>
   <div class="group">
-    <span class="label"><span class="zh">③ 书房地台床 ×1</span><span class="en">③ Study platform bed ×1</span></span>
-    <table class="spec"><tr><th><span class="zh">尺寸</span><span class="en">Size</span></th><td><span class="zh">床架 920 × 1905 × 120 高，配 90 × 190 床垫</span><span class="en">Frame 920 × 1905 × H120 for a 90 × 190 mattress</span></td></tr><tr><th><span class="zh">做法</span><span class="en">Build</span></th><td><span class="zh">同孩子房，无床头板</span><span class="en">As the kids' beds, no headboard</span></td></tr></table>
-  </div>
-  <div class="group">
-    <span class="label"><span class="zh">④ 餐边柜 ×1</span><span class="en">④ Dining sideboard ×1</span></span>
+    <span class="label"><span class="zh">③ 餐边柜 ×1</span><span class="en">③ Dining sideboard ×1</span></span>
     <table class="spec"><tr><th><span class="zh">尺寸</span><span class="en">Size</span></th><td><span class="zh">1870（墙到墙）× 450 深 × 800 高</span><span class="en">1870 (wall to wall) × 450 × H800</span></td></tr><tr><th><span class="zh">外形</span><span class="en">Shape</span></th><td><span class="zh">长方体，前两角 R80；四扇平门无把手；内缩踢脚</span><span class="en">A box with R80 front corners; four flat handleless doors; recessed plinth</span></td></tr><tr><th><span class="zh">颜色</span><span class="en">Colour</span></th><td><span class="zh">奶白</span><span class="en">Off-white</span></td></tr></table>
   </div>
   <div class="group">
-    <span class="label"><span class="zh">⑤ 餐边柜上方搁板 ×3</span><span class="en">⑤ Ledges above the sideboard ×3</span></span>
+    <span class="label"><span class="zh">④ 餐边柜上方搁板 ×3</span><span class="en">④ Ledges above the sideboard ×3</span></span>
     <table class="spec"><tr><th><span class="zh">尺寸</span><span class="en">Size</span></th><td><span class="zh">3 块 1870 × 150 × 25，前沿 20 挡边</span><span class="en">3 × 1870 × 150 × 25, 20 mm front lip</span></td></tr><tr><th><span class="zh">高度</span><span class="en">Height</span></th><td><span class="zh">离地 1400 / 1750 / 2100</span><span class="en">At 1400 / 1750 / 2100</span></td></tr><tr><th><span class="zh">做法</span><span class="en">Build</span></th><td><span class="zh">隐形托架；最下一块留灯带槽</span><span class="en">Concealed brackets; LED groove under the lowest</span></td></tr></table>
   </div>
   <div class="group">
-    <span class="label"><span class="zh">⑥ 书房书架层板 ×3</span><span class="en">⑥ Study wall shelves ×3</span></span>
+    <span class="label"><span class="zh">⑤ 书房书架层板 ×3</span><span class="en">⑤ Study wall shelves ×3</span></span>
     <table class="spec"><tr><th><span class="zh">尺寸</span><span class="en">Size</span></th><td><span class="zh">3 块 2050 × 245 × 30</span><span class="en">3 × 2050 × 245 × 30</span></td></tr><tr><th><span class="zh">高度</span><span class="en">Height</span></th><td><span class="zh">书桌上方，离地 1450 / 1800 / 2150</span><span class="en">Above the desk at 1450 / 1800 / 2150</span></td></tr><tr><th><span class="zh">做法</span><span class="en">Build</span></th><td><span class="zh">隐形托架，放满书要撑得住</span><span class="en">Concealed brackets rated for full shelves of books</span></td></tr></table>
   </div>
   <div class="group">
@@ -606,7 +586,6 @@ body:not(.q-en) #qsheet .en, body:not(.q-en) #viewbar .en, body.q-en #qsheet .zh
     <button class="seg" id="v-qsb" aria-pressed="false"><span class="zh">餐边柜</span><span class="en">Sideboard</span></button>
     <button class="seg" id="v-qshelf" aria-pressed="false"><span class="zh">书房书架</span><span class="en">Study shelves</span></button>
     <button class="seg" id="v-qkids" aria-pressed="false"><span class="zh">孩子房床</span><span class="en">Kids' beds</span></button>
-    <button class="seg" id="v-qstudy" aria-pressed="false"><span class="zh">书房床</span><span class="en">Study bed</span></button>
     <button class="seg" id="v-qhome" aria-pressed="false"><span class="zh">全屋</span><span class="en">Whole flat</span></button>
     <button class="seg" id="v-dining" aria-pressed="true">餐厅看客厅</button>
     <button class="seg" id="v-balcony" aria-pressed="false">阳台看回来</button>
@@ -671,7 +650,7 @@ const mat = {
   marble: M('#eeece7', { roughness: 0.22 }), walnut: M('#5c4232', { roughness: 0.75 }), greige: M('#cbbfae'),
   linen: M('#efe6d6', { roughness: 1, emissive: '#ffd9a8', emissiveIntensity: 0.3, side: THREE.DoubleSide }), screen: M('#0e0f10', { roughness: 0.3 }),
   glassPane: new THREE.MeshStandardMaterial({ color: '#dfe9e4', transparent: true, opacity: 0.12, roughness: 0.05 }),
-  zip: new THREE.MeshStandardMaterial({ color: '#3a3b38', transparent: true, opacity: 0.62, roughness: 1, side: THREE.DoubleSide }),
+  zip: new THREE.MeshStandardMaterial({ color: '#8f8a82', roughness: 1, side: THREE.DoubleSide }),   // full-blackout Zipblind fabric
   leaf: M('#5d7d58'), leafDark: M('#3f5f45'),
   glass: new THREE.MeshStandardMaterial({ color: '#b0621f', transparent: true, opacity: 0.62, roughness: 0.06, metalness: 0.05 }),
   chair: M('#d9cfc0', { roughness: 1 }),
@@ -792,7 +771,12 @@ for (let i = 0; i < 26; i++) {
   }
 }
 
+// Zipblinds (full blackout) on the outer edge of both balconies: cassette under the slab edge, screen 40-60 in
 const zips = [];
+[[7995, 10700], [0, 2600]].forEach(([a, b]) => {
+  box(a, 0, b, 120, 2.66, 2.8, mat.metal, false);
+  const z = box(a, 40, b, 60, 0, 2.66, mat.zip, false); z.visible = false; zips.push(z);
+});
 
 // ---------- living balcony: left empty
 
@@ -890,7 +874,7 @@ const blackWood = (() => {
 })();
 { // sisal rug texture and caramel cushions, like the lounge photo
   const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
-  g.fillStyle = '#b59a6c'; g.fillRect(0, 0, 64, 64); g.strokeStyle = 'rgba(80, 60, 30, 0.35)'; g.lineWidth = 2;
+  g.fillStyle = '#ddd0b6'; g.fillRect(0, 0, 64, 64); g.strokeStyle = 'rgba(130, 110, 80, 0.22)'; g.lineWidth = 2;
   for (let k = 0; k < 64; k += 4) { g.beginPath(); g.moveTo(0, k); g.lineTo(64, k + (k % 8 ? 2 : -2)); g.stroke(); }
   const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(24, 30);
   mat.rug.map = tx; mat.rug.color.set('#ffffff'); mat.rug.needsUpdate = true;
@@ -1046,29 +1030,6 @@ function rodTo(p, q, r, m, seg) {
   c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v.normalize()); add(c); return c;
 }
 const vAdd = (p, u, s) => [p[0] + u[0] * s, p[1] + u[1] * s, p[2] + u[2] * s];
-function globeLamp(x, y, deg) {
-  // gold balance-arm floor lamp: white marble disc D250, brass rod to a knuckle at 1.40 m, a 64 cm arm tilted up 28 deg
-  // toward deg (18 cm behind the knuckle to the counterweight, 46 cm in front to the globe), white opal glass globe
-  // D200 hanging from a brass cup at the long end; 160 high to the top of the globe
-  const g = new THREE.Group(), prev = target; target = g;
-  const brass = M('#c9a557', { roughness: 0.28, metalness: 0.8 }), marbleW = M('#eeede9', { roughness: 0.22 });
-  const a = deg * D2R, dx = Math.cos(a), dz = Math.sin(a), X = x * MM, Z = y * MM, th = 28 * D2R;
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.121, 0.125, 0.026, 48), marbleW); base.position.set(X, 0.013, Z); add(base);
-  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.02, 0.012, 20), brass); foot.position.set(X, 0.032, Z); add(foot);
-  rodTo([X, 0.026, Z], [X, 1.385, Z], 0.008, brass);
-  const Pv = [X, 1.4, Z], u = [dx * Math.cos(th), Math.sin(th), dz * Math.cos(th)], w = [-dz, 0, dx];
-  const col = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.03, 16), brass); col.position.set(X, 1.37, Z); add(col);
-  rodTo(vAdd(Pv, w, -0.024), vAdd(Pv, w, 0.024), 0.014, brass, 18);           // knuckle across the arm
-  const E = vAdd(Pv, u, 0.46), Sx = vAdd(Pv, u, -0.18);
-  rodTo(Sx, E, 0.0065, brass);
-  rodTo(Sx, vAdd(Sx, u, 0.09), 0.013, brass, 18);                             // counterweight
-  rodTo(E, [E[0], E[1] - 0.035, E[2]], 0.017, brass, 20);                     // cup holding the globe
-  const C = [E[0], E[1] - 0.035 - 0.097, E[2]];
-  const globe = new THREE.Mesh(new THREE.SphereGeometry(0.1, 36, 24), glowMat({ color: '#f6f4f0', emissive: '#ffd9a8', emissiveIntensity: 0.06, roughness: 0.35 }, 0.06, 1.2));
-  globe.position.set(C[0], C[1], C[2]); add(globe, false, false);
-  const l = new THREE.PointLight('#ffcf94', 0.4, 4, 2); l.position.set(C[0], C[1] - 0.06, C[2]); g.add(l); floorLamps.push(l);
-  target = prev; return g;
-}
 let terrazzoBlk = null;
 function terrazzoDark() {
   if (terrazzoBlk) return terrazzoBlk;
@@ -1486,17 +1447,17 @@ function buildLiving(Lo, key) {
 
   Object.values(lamps).forEach(o => grp.add(o));
   const lw = Lo.ly_win || [];
-  // window-corner lamps in three styles, the pair identical and mirrored, each pulled in so its base clears the
+  // the window-corner lamp (black balance arm with a ring light), the pair identical and mirrored, each pulled in so its base clears the
   // side wall and the glass
   const mk = (i, st) => {
     if (!lw[i]) return new THREE.Group();
-    const r = { globe: 125, moon: 70 }[st];
+    const r = 70;
     let [x, y] = lw[i]; const toMid = x < 9347 ? 20 : 160;     // mirror images, both reaching toward the middle of the window
     x = x < 9347 ? Math.max(x, 7995 + r + 25) : Math.min(x, 10700 - r - 25); y = Math.max(y, 1830 + r);
-    return st === 'globe' ? globeLamp(x, y, toMid) : moonLamp(x, y, toMid);
+    return moonLamp(x, y, toMid);
   };
   grp.userData.lyS = {};
-  ['globe', 'moon'].forEach(st => { grp.userData.lyS[st] = [mk(0, st), mk(1, st)]; grp.userData.lyS[st].forEach(o => grp.add(o)); });
+  ['moon'].forEach(st => { grp.userData.lyS[st] = [mk(0, st), mk(1, st)]; grp.userData.lyS[st].forEach(o => grp.add(o)); });
   grp.userData.ly1 = new THREE.Group(); grp.add(grp.userData.ly1);
   grp.userData.ly2 = new THREE.Group(); grp.add(grp.userData.ly2);
   grp.userData.lyPair = new THREE.Group(); grp.add(grp.userData.lyPair);
@@ -1506,7 +1467,7 @@ function buildLiving(Lo, key) {
 mat.chair.side = THREE.DoubleSide;
 function ensureLiving(k) { if (!livings[k] && S.layouts[k]) { livings[k] = buildLiving(S.layouts[k], k); livings[k].userData.acc = {}; } return livings[k]; }
 // two potted olive trees on the balcony, >= 1 m in from the railing, right half (the left panel is the way out)
-const state = { wstool: 'a', wspos: 'swap', sidek: 'sq', mlamp: 'floor', shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, dcount: '6', table: 'B', lamp: 'none', ly: 'one', wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'oak', sbpos: 'dine', sbdep: '45', sbcol: 'white', mns: 'elijah', eshape: 'corner', erad: '150', edep: 'std', efin: 'smooth', sbed: 'floor', sbopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'off', mw: 'blind', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'moon', rug: 'none', sbt: 'B', kbed: '10', stab: 'none', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'up', bm: true };
+const state = { wstool: 'a', wspos: 'swap', sidek: 'sq', mlamp: 'ranarp', shoe: 'semi', focal: 'balcony', bed: 'K', model: 'K', dir: 'B', tv: 'R', chairs: 2, dcount: '6', table: 'B', lamp: 'none', ly: 'one', zip: false, wcab: true, seat: 'casa', drum: 'white', dcab: 'on', pil: 'bg', ppl: 'none', sbl: 'oak', sbpos: 'dine', sbdep: '45', sbcol: 'white',  eshape: 'facet', erad: '150', efin: 'smooth', sbed: 'brim', sdopen: 'closed', dshoe: 'on', bcab: 'on', ktoy: 'off', mw: 'blind', gym: false, eb: '50', wsd: 'none', ms: 'mc', tvs: '55', tvst: 'wing', lstyle: 'moon', rug: 'none', sbt: 'B', kbed: '10', stab: 'none', entry: 'tall', study: '1', decor: true, sheer: 'none', blinds: 'up', bm: true };
 function press(ids, on) { ids.forEach(id => document.getElementById(id).setAttribute('aria-pressed', id === on)); }
 function applyLiving() {
   const key = state.model + state.dir + (state.seat === 'emmi' && S.layouts[state.model + state.dir + 'e'] ? 'e' : '');
@@ -1519,9 +1480,9 @@ function applyLiving() {
     const st = state.stab !== 'none' && g.userData.stab[state.stab] ? state.stab : null;   // 'none': nothing by the window
     Object.entries(g.userData.stab).forEach(([n, o]) => { o.visible = n === st; });
     const lyMoved = false;
-    const pair = state.ly === 'two', showL = state.ly !== 'oneR', showR = pair || state.ly === 'oneR';   // default: one, left
-    const lst = state.lstyle === 'globe' ? 'globe' : 'moon';
-    g.userData.ly1.visible = true; g.userData.ly2.visible = pair; g.userData.lyPair.visible = false;
+    const showL = state.ly !== 'oneR', showR = state.ly === 'oneR';   // one lamp, left (default) or right window corner
+    const lst = 'moon';
+    g.userData.ly1.visible = true; g.userData.ly2.visible = false; g.userData.lyPair.visible = false;
     Object.entries(g.userData.lyS).forEach(([st, [a, b]]) => { a.visible = st === lst && showL; b.visible = st === lst && showR; });
     if (g.userData.rug) g.userData.rug.visible = state.rug === 'small';
   });
@@ -1533,8 +1494,8 @@ function applyLiving() {
       ? '网篮支架 124×42：放正、背贴床尾那面墙，对着床中间；床尾到墙约 45cm，支架前沿离床尾只剩约 2.5cm，屏幕中心离枕头约 2.1m，' + { '65': '65 寸最满，但在主卧有点压迫。', '55': '55 寸这个距离刚好。', '50': '50 寸也够看，最轻巧。' }[state.tvs] + '会挡住去主卧阳台的路，晾衣服时推开（有轮子）。'
       : '银翼 V 脚支架：立柱贴着床尾那面墙，对着床中间；两条腿（785 和 555，夹角 100°）往前伸约 50cm，床尾到墙只有约 45cm，长的那条腿会伸进床底约 10cm——床底离地约 12cm、腿只有 3.5cm 高，不会碰；屏幕正对枕头，离枕头约 2.1m。看电视时过道占住，要过人就推开（带轮子）。适配 40–70 寸，承重 30kg。' + { '65': '65 寸最满，但在主卧有点压迫。', '55': '55 寸这个距离刚好。', '50': '50 寸也够看，最轻巧。' }[state.tvs])
     : (state.tvst !== 'w124' ? '银翼 V 脚支架放在客厅靠窗的右边墙角，斜 45° 对着沙发中间，屏幕离沙发约 2.2m。右边窗角那盏落地灯原地不动，正好在电视后面，晚上当电视背光。阳台门在左边，电视不挡门；要挪电视时推开就行（带轮子）。' : '网篮支架放客厅右墙，正对沙发：底座深 42cm，到茶几只剩约 ' + Math.round((10285 - (state.table === 'B' ? S.layouts[key].tableB : S.layouts[key].tableA)[2]) / 10) + 'cm，右边去阳台的过道会变窄。');
-  press(['tb-A', 'tb-B'], 'tb-' + state.table);  press(['ly-one', 'ly-oneR', 'ly-two'], 'ly-' + (['oneR', 'two'].includes(state.ly) ? state.ly : 'one')); press(['rg-none', 'rg-small'], 'rg-' + state.rug); cushM.forEach(m => { m.visible = false; });   // no sofa cushions
-  press(['ls-moon', 'ls-globe'], 'ls-' + (state.lstyle === 'globe' ? 'globe' : 'moon')); drumMat.color.set(state.drum === 'white' ? '#f1eee8' : '#1f1d1b'); if (typeof wallCab !== 'undefined') wallCab.visible = state.wcab;
+  press(['tb-A', 'tb-B'], 'tb-' + state.table);  press(['ly-one', 'ly-oneR'], 'ly-' + (state.ly === 'oneR' ? 'oneR' : 'one')); press(['rg-none', 'rg-small'], 'rg-' + state.rug); cushM.forEach(m => { m.visible = false; });   // no sofa cushions
+  drumMat.color.set(state.drum === 'white' ? '#f1eee8' : '#1f1d1b'); if (typeof wallCab !== 'undefined') wallCab.visible = state.wcab;
 
   const Lk = S.layouts[key], cn = document.getElementById('chairNote');
   if (Lk.swivel_where === 'kitchen') cn.textContent = '转椅在靠厨房那一侧，靠右墙、贴近茶几尾端，面向沙发；去阳台的路从转椅和贵妃位之间过，最窄处约 ' + Math.round(Lk.pass_sw / 10) + 'cm（稍挤）。黑色小边几一个，在转椅内侧（靠窗、靠墙那边）放杯子。';
@@ -1549,25 +1510,23 @@ function applyLiving() {
     chair: Lk.accent ? '把一把餐椅（跟着上面选的餐椅款式）搬到窗边另一个角，朝着房间，和转椅并排在窗前：多一个座位，藤编通透不挡光，也和餐厅呼应。餐厅剩 5 把，来客人时搬回去就行。'
       : '这个方向窗边被沙发头占了，放一把餐椅会把去阳台的路挤到 70cm 以下，放不下。' };
   const LSN = {
-    globe: '金色平衡臂球灯（白色大理石圆底座 Φ25，金色灯杆到 140cm 有一个转节，横臂长 64cm、斜着往上翘约 28°，短的一头是配重，长的一头挂一个白色玻璃球 Φ20，总高约 160）：球朝窗户中间探出去约 40cm，光是柔的暖白，晚上像一个小月亮。',
     moon: '黑色平衡臂环形灯（黑色水磨石圆柱底座 Φ14、高 26，黑色细杆，横臂斜着往上翘，一头配重；灯头是一圈黑色细环，里面半个小碗，外黑内铜色，光往下往前打；卖家标 D140×H170、LED 7W，¥368）：灯头朝窗户中间探出去约 65cm，比金色那款更细、更黑白。' };
   const LYN = {
-    two: '现在是两盏，对称放在两个窗角，灯头都朝窗户中间探出去；两个窗角都要留插座。',
     one: '现在是一盏，放在左边窗角（沙发靠窗那头），灯头朝中间探到沙发那头上方，坐沙发看书正好。',
     oneR: '现在是一盏，放在右边窗角，灯头朝中间探到窗边凳子上方；左边沙发那头的窗角空着。' };
-  document.getElementById('liangyiNote').textContent = (LSN[state.lstyle] || LSN.moon) + ' ' + LYN[['oneR', 'two'].includes(state.ly) ? state.ly : 'one'];
+  document.getElementById('liangyiNote').textContent = LSN.moon + ' ' + LYN[state.ly === 'oneR' ? 'oneR' : 'one'];
   hooks.forEach(f => f());
 }
 [['m-M', 'model', 'M'], ['m-K', 'model', 'K'], ['tv-R', 'tv', 'R'], ['tv-L', 'tv', 'L']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
-[['tb-A', 'table', 'A'], ['tb-B', 'table', 'B'], ['cn-5s', 'dcount', '5s'], ['cn-6', 'dcount', '6'], ['ly-one', 'ly', 'one'], ['ly-oneR', 'ly', 'oneR'], ['ly-two', 'ly', 'two'], 
+[['z-up', 'zip', false], ['z-down', 'zip', true], ['tb-A', 'table', 'A'], ['tb-B', 'table', 'B'], ['cn-5s', 'dcount', '5s'], ['cn-6', 'dcount', '6'], ['ly-one', 'ly', 'one'], ['ly-oneR', 'ly', 'oneR'], 
 
 
 
- ['e-none', 'entry', 'none'], ['e-tall', 'entry', 'tall'], ['es-corner', 'eshape', 'corner'], ['es-facet', 'eshape', 'facet'], ['er-150', 'erad', '150'], ['er-100', 'erad', '100'], ['ed-std', 'edep', 'std'], ['ed-deep', 'edep', 'deep'], ['ef-smooth', 'efin', 'smooth'], ['ef-fluted', 'efin', 'fluted'], ['sb-none', 'sbl', 'none'], ['sb-oak', 'sbl', 'oak'], ['sc-white', 'sbcol', 'white'], ['sc-wood', 'sbcol', 'wood'], ['sp-dine', 'sbpos', 'dine'], ['sp-ent', 'sbpos', 'ent'], ['ds-on', 'dshoe', 'on'], ['ds-off', 'dshoe', 'off'],]
+ ['e-none', 'entry', 'none'], ['e-tall', 'entry', 'tall'], ['es-corner', 'eshape', 'corner'], ['es-facet', 'eshape', 'facet'], ['er-150', 'erad', '150'], ['er-100', 'erad', '100'], ['ef-smooth', 'efin', 'smooth'], ['ef-fluted', 'efin', 'fluted'], ['sb-none', 'sbl', 'none'], ['sb-oak', 'sbl', 'oak'], ['sc-white', 'sbcol', 'white'], ['sc-wood', 'sbcol', 'wood'], ['sp-dine', 'sbpos', 'dine'], ['sp-ent', 'sbpos', 'ent'], ['ds-on', 'dshoe', 'on'], ['ds-off', 'dshoe', 'off'],]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
-[['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['mn-rattan', 'mns', 'rattan'], ['wst-none', 'wstool', 'none'], ['wst-a', 'wstool', 'a'], ['wst-b', 'wstool', 'b'], ['mn-acrylic', 'mns', 'acrylic'], ['mn-elijah', 'mns', 'elijah'], ['mn-stone', 'mns', 'stone'], ['ml-none', 'mlamp', 'none'], ['ml-linen', 'mlamp', 'linen'], ['ml-ranarp', 'mlamp', 'ranarp'], ['ml-floor', 'mlamp', 'floor'], ['wsp-swap', 'wspos', 'swap'], ['wsp-across', 'wspos', 'across'], ['wsp-win', 'wspos', 'win'], ['sk-sq', 'sidek', 'sq'], ['sk-drum', 'sidek', 'drum'], ['gy-off', 'gym', false], ['gy-on', 'gym', 'room'], ['gy-bal', 'gym', 'bal'], ['st-wing', 'tvst', 'wing'], ['st-w124', 'tvst', 'w124'], ['ls-moon', 'lstyle', 'moon'], ['ls-globe', 'lstyle', 'globe'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
- ['pp-none', 'ppl', 'none'], ['pp-all', 'ppl', 'all'], ['pp-lie', 'ppl', 'lie'], ['sbd-lift', 'sbed', 'lift'], ['sbd-floor', 'sbed', 'floor'], ['sbo-closed', 'sbopen', 'closed'], ['sbo-open', 'sbopen', 'open']]
+[['ms-mc', 'ms', 'mc'], ['ms-thin', 'ms', 'thin'], ['wst-none', 'wstool', 'none'], ['wst-a', 'wstool', 'a'], ['wst-b', 'wstool', 'b'], ['ml-none', 'mlamp', 'none'], ['ml-linen', 'mlamp', 'linen'], ['ml-ranarp', 'mlamp', 'ranarp'], ['wsp-swap', 'wspos', 'swap'], ['wsp-across', 'wspos', 'across'], ['wsp-win', 'wspos', 'win'], ['sk-sq', 'sidek', 'sq'], ['sk-drum', 'sidek', 'drum'], ['gy-off', 'gym', false], ['gy-on', 'gym', 'room'], ['gy-bal', 'gym', 'bal'], ['st-wing', 'tvst', 'wing'], ['st-w124', 'tvst', 'w124'], ['rg-none', 'rug', 'none'], ['rg-small', 'rug', 'small'],
+ ['pp-none', 'ppl', 'none'], ['pp-all', 'ppl', 'all'], ['pp-lie', 'ppl', 'lie'], ['sbd-floor', 'sbed', 'floor'], ['sbd-hemnes', 'sbed', 'hemnes'], ['sbd-brim', 'sbed', 'brim'], ['sdo-closed', 'sdopen', 'closed'], ['sdo-open', 'sdopen', 'open']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
 [['b-up', 'blinds', 'up'], ['b-open', 'blinds', 'open'], ['b-70', 'blinds', 'up70']]
   .forEach(([id, k, v]) => document.getElementById(id).addEventListener('click', () => { state[k] = v; applyLiving(); }));
@@ -1898,12 +1857,12 @@ const mirror = new THREE.Mesh(new THREE.CircleGeometry(0.3, 48), M('#dfe6e6', { 
 mirror.rotation.y = Math.PI / 2; mirror.position.set(5.853, 1.55, 9.0); add(mirror, false, false);
 const mring = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.008, 8, 64), mat.black); mring.rotation.y = Math.PI / 2; mring.position.copy(mirror.position); add(mring, false, false);
 cyl(6150, 9150, 90, 0.91, 0.925, mat.black, 24);
-const ENTRY_D = { corner: { std: 750, deep: 980 }, facet: { std: 300, deep: 650 } };
+const ENTRY_D = { corner: { std: 750 }, facet: { std: 300 } };
 function entryCab(shape, dk, RC) {
   // entrance cabinet, outside only (inside, opening doors and contents are on the Carpentry page): left wall x 5850,
   // y 8350-9650, plinth 150 recessed 60, up to the ceiling. 'corner': a rectangle 750 / 980 deep whose two front corners
   // are the factory's arc pieces (R150 / R100), door joints at y 8750 / 9250 (400 + 500 + 400) and at 2.0 m; 'facet': a
-  // rectangle 300 / 650 deep, a 570 flat door (y 8715-9285) standing 437 further out and two slanted doors back to the
+  // rectangle 300 deep, a 570 flat door (y 8715-9285) standing 437 further out and two slanted doors back to the
   // wall ends. Two finishes, one shown: smooth in the wall colour with hairline joints, or off-white flutes
   const g = new THREE.Group(), prev = target; target = g;
   const facet = shape === 'facet', D = ENTRY_D[shape][dk], X0 = 5850 + D, BU = 437, h0 = 0.15, h1 = H - 0.022;
@@ -1949,7 +1908,7 @@ target = entryTall;
 const tallSemi = halfRoundCab(650, 0.15, 2.6, false);
 entryTall.add(tallSemi); tallSemi.visible = false;
 const ENTRY_CABS = {};
-['std', 'deep'].forEach(dk => { ENTRY_CABS['facet-' + dk] = entryCab('facet', dk); [150, 100].forEach(r => { ENTRY_CABS['corner-' + dk + '-' + r] = entryCab('corner', dk, r); }); });
+['std'].forEach(dk => { ENTRY_CABS['facet-' + dk] = entryCab('facet', dk); [150, 100].forEach(r => { ENTRY_CABS['corner-' + dk + '-' + r] = entryCab('corner', dk, r); }); });
 Object.values(ENTRY_CABS).forEach(c => entryTall.add(c));
 target = scene; scene.add(entryLow); scene.add(entryTall);
 const entryRTW = new THREE.Group();
@@ -1986,9 +1945,7 @@ const entryRTW = new THREE.Group();
 scene.add(entryRTW);
 const ENT_NOTE = {
   'corner-std': '圆角柜（厂家能做的柜型）：长方形 130 × 深 75，靠走道的两个前角用厂家的圆弧件，两边的门带圆弧边包住柜角；竖向分 40 + 50 + 40 三格，上下两节（门在 2m 高处分开），一共 6 扇门。柜门正面到对面墙约 1.57m；75 深已经能上下放两个 28 寸行李箱。',
-  'corner-deep': '圆角柜（厂家能做的柜型）：长方形 130 × 深 98（厂家最大深度），靠走道的两个前角用厂家的圆弧件，两边的门带圆弧边包住柜角；竖向分 40 + 50 + 40 三格，上下两节（门在 2m 高处分开），一共 6 扇门。柜门正面到对面墙约 1.34m，能装得最多，走道窄一些。',
-  'facet-std': '三面平门（折线）：靠墙一个长方形，深 30，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.58m。',
-  'facet-deep': '三面平门（折线）：靠墙一个长方形，加深到 65，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.23m，偏窄。' };
+  'facet-std': '三面平门（折线）：靠墙一个长方形，深 30，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.58m；标准深度就能放 3 个高尔夫球包，不用加深。' };
 const ENT_R = {
   150: '圆角用 R150，转角柔和一些。',
   100: '圆角用 R100，转角利落一些，柜里多一点地方。' };
@@ -2002,11 +1959,11 @@ hook(() => {
   const en = state.entry === 'tall' ? 'tall' : 'none';
   entryLow.visible = entryRTW.visible = false; entryTall.visible = en === 'tall';
   press(['e-none', 'e-tall'], 'e-' + en);
-  const shp = state.eshape === 'facet' ? 'facet' : 'corner', rc = state.erad === '100' ? 100 : 150, dk = state.edep === 'deep' ? 'deep' : 'std', fin = state.efin === 'fluted' ? 'fluted' : 'smooth';
-  ['esRow', 'erRow', 'edRow', 'efRow'].forEach(id => { document.getElementById(id).style.display = en === 'tall' && !(id === 'erRow' && shp === 'facet') ? '' : 'none'; });
+  const shp = state.eshape === 'facet' ? 'facet' : 'corner', rc = state.erad === '100' ? 100 : 150, dk = 'std', fin = state.efin === 'fluted' ? 'fluted' : 'smooth';
+  ['esRow', 'erRow', 'efRow'].forEach(id => { document.getElementById(id).style.display = en === 'tall' && !(id === 'erRow' && shp === 'facet') ? '' : 'none'; });
   const key = shp === 'facet' ? 'facet-' + dk : 'corner-' + dk + '-' + rc;
   Object.entries(ENTRY_CABS).forEach(([k, c]) => { c.visible = k === key; c.userData.fin.smooth.visible = fin === 'smooth'; c.userData.fin.fluted.visible = fin === 'fluted'; });
-  press(['es-corner', 'es-facet'], 'es-' + shp); press(['er-150', 'er-100'], 'er-' + rc); press(['ed-std', 'ed-deep'], 'ed-' + dk); press(['ef-smooth', 'ef-fluted'], 'ef-' + fin);
+  press(['es-corner', 'es-facet'], 'es-' + shp); press(['er-150', 'er-100'], 'er-' + rc); press(['ef-smooth', 'ef-fluted'], 'ef-' + fin);
   document.getElementById('euNote').textContent = en === 'tall' ? ENT_NOTE[shp + '-' + dk] + (shp === 'corner' ? ' ' + ENT_R[rc] : '') + ' ' + EF_NOTE[fin] + ' ' + EU_TAIL : '';
 });
 
@@ -2222,50 +2179,10 @@ function rattanWeave(rx, ry = rx) {
   const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(rx, ry);
   return (rattanWeave.c[key] = new THREE.MeshStandardMaterial({ map: tx, roughness: 0.9 }));
 }
-function rattanCabinet(x1, y1, x2, y2) {
-  // the user's Taobao "vintage rattan cabinet" (Y525.8), front at x2: 400 wide, 370 deep, 600 high. Top and both sides
-  // are one waterfall shell (outer top corners R50, 22 thick) wrapped in fine woven rattan, three round reeds edging its
-  // front; woven drawer 410-550 in a two-reed frame with a half-moon pull; open bay 110-410 (no back, plain-wood inner
-  // walls); woven bottom shelf 80-110 with a reed band in front; the sides run down to the floor
-  const wv = rattanWeave(20), wvB = rattanWeave(7), wvD = rattanWeave(7, 2.6), wood = M('#c8955a', { roughness: 0.7 }), reed = M('#d2a464', { roughness: 0.55 });
-  const h = 0.6, T = 0.022, R = 0.05, ya = y1 * MM, yb = y2 * MM, X2 = x2 * MM;
-  const s = new THREE.Shape();                    // inverted U in (−y, height), extruded along x like the acrylic table
-  s.moveTo(-ya, 0); s.lineTo(-ya, h - R); s.absarc(-(ya + R), h - R, R, 0, Math.PI / 2, false); s.lineTo(-(yb - R), h);
-  s.absarc(-(yb - R), h - R, R, Math.PI / 2, Math.PI, false); s.lineTo(-yb, 0); s.lineTo(-(yb - T), 0); s.lineTo(-(yb - T), h - R);
-  s.absarc(-(yb - R), h - R, R - T, Math.PI, Math.PI / 2, true); s.lineTo(-(ya + R), h - T);
-  s.absarc(-(ya + R), h - R, R - T, Math.PI / 2, 0, true); s.lineTo(-(ya + T), 0); s.lineTo(-ya, 0);
-  const sh = new THREE.Mesh(new THREE.ExtrudeGeometry(s, { depth: (x2 - x1 - 8) * MM, bevelEnabled: false, curveSegments: 12 }), wv);
-  sh.rotation.y = Math.PI / 2; sh.position.x = x1 * MM; add(sh);
-  const yi1 = y1 + 22, yi2 = y2 - 22;
-  [[yi1, yi1 + 2], [yi2 - 2, yi2]].forEach(([a, b]) => box(x1 + 15, a, x2 - 10, b, 0.11, 0.41, wood, false));   // inner walls of the bay
-  box(x1 + 15, yi1, x2 - 10, yi2, 0.08, 0.104, wood); box(x1 + 15, yi1, x2 - 10, yi2, 0.104, 0.11, wvB, false);   // bottom shelf
-  [0.086, 0.096, 0.106].forEach(z => rodTo([X2 - 0.006, z, yi1 * MM], [X2 - 0.006, z, yi2 * MM], 0.005, reed, 10));
-  box(x1 + 15, yi1, x2 - 12, yi2, 0.41, 0.556, wood);                                                          // drawer body
-  box(x2 - 12, yi1 + 16, x2 - 6, yi2 - 16, 0.424, 0.542, wvD, false);                                          // woven drawer front
-  const loop = (d, x) => {   // rounded rectangle round the drawer front, d inside the opening
-    const a = (yi1 + d) * MM, b = (yi2 - d) * MM, lo = 0.414 + d * MM, hi = 0.552 - d * MM, r = 0.008, p = [];
-    [[a + r, lo], [b - r, lo], [b, lo + r], [b, hi - r], [b - r, hi], [a + r, hi], [a, hi - r], [a, lo + r], [a + r, lo]].forEach(([y, z]) => p.push([x, z, y]));
-    tube(p, 0.0042, reed, 80);
-  };
-  loop(4, X2 - 0.004); loop(12, X2 - 0.006);
-  const pull = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.012, 28, 1, false, 0, Math.PI), reed);
-  pull.rotation.z = -Math.PI / 2; pull.position.set(X2 + 0.002, 0.506, (y1 + y2) / 2 * MM); add(pull);          // half moon, flat edge up
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.03, 0.0028, 6, 24, Math.PI), M('#a8763e', { roughness: 0.6 }));
-  ring.rotation.set(0, Math.PI / 2, Math.PI); ring.position.set(X2 + 0.009, 0.506, (y1 + y2) / 2 * MM); add(ring, false, false);
-  [0.005, 0.013, 0.021].forEach(d => {            // three reeds round the shell's front edge
-    const p = [], A = ya + d, B = yb - d, r = R - d;
-    for (let k = 0; k <= 6; k++) p.push([X2 - 0.004, (h - R) * k / 6, A]);
-    for (let k = 1; k <= 10; k++) { const q = Math.PI / 2 * k / 10; p.push([X2 - 0.004, h - R + r * Math.sin(q), ya + R - r * Math.cos(q)]); }
-    for (let k = 1; k < 8; k++) p.push([X2 - 0.004, h - d, ya + R + (yb - ya - 2 * R) * k / 8]);
-    for (let k = 0; k <= 10; k++) { const q = Math.PI / 2 * k / 10; p.push([X2 - 0.004, h - R + r * Math.cos(q), yb - R + r * Math.sin(q)]); }
-    for (let k = 5; k >= 0; k--) p.push([X2 - 0.004, (h - R) * k / 6, B]);
-    tube(p, 0.0042, reed, 200);
-  });
-}
 function acrylicTable(x1, y1, x2, y2) {
   // one-piece clear acrylic bedside table: a 12 mm sheet bent into the top and both sides (outer corner radius 40),
-  // open front and back, a tea-tinted shelf half way up; edges drawn as lines so the clear sheet reads; books on the
-  // shelf, a mug on top
+  // open front and back, a tea-tinted shelf half way up; edges drawn as lines so the clear sheet reads; a small rattan
+  // box on the shelf, a mug and the phone (charging) on top
   const acr = new THREE.MeshStandardMaterial({ color: '#e2f1f0', transparent: true, opacity: 0.16, roughness: 0.04, metalness: 0.1, depthWrite: false, side: THREE.DoubleSide });
   const tea = new THREE.MeshStandardMaterial({ color: '#8a5a2b', transparent: true, opacity: 0.5, roughness: 0.05, depthWrite: false });
   const edgeM = new THREE.LineBasicMaterial({ color: '#9fc2c0', transparent: true, opacity: 0.85 });
@@ -2280,10 +2197,16 @@ function acrylicTable(x1, y1, x2, y2) {
   const sheet = new THREE.Mesh(new THREE.ExtrudeGeometry(s, { depth: (x2 - xa) * MM, bevelEnabled: false, curveSegments: 10 }), acr);
   sheet.rotation.y = Math.PI / 2; sheet.position.x = xa * MM; add(edged(sheet, 25), false, false);
   edged(box(xa, y1 + 17, x2, y2 - 17, 0.26, 0.27, tea, false));
-  [['#e9e4da', 0.03], ['#3c4a44', 0.022], ['#f1ede6', 0.026]].forEach(([c, hh], k) => {
-    const z0 = 0.27 + [0, 0.03, 0.052][k]; box(xa + 70, y1 + 70, xa + 300, y2 - 75, z0, z0 + hh, M(c));
-  });
-  cyl(x2 - 80, y2 - 85, 40, h, h + 0.09, M('#f4f1ea', { roughness: 0.4 }), 20);
+  // a small lidded woven-rattan box on the shelf (earphones, hand cream, spare cable): 200 x 180 x 110
+  box(xa + 100, y1 + 110, xa + 300, y2 - 110, 0.27, 0.37, rattanWeave(5));
+  box(xa + 96, y1 + 106, xa + 304, y2 - 106, 0.37, 0.382, M('#a8763e', { roughness: 0.7 }));
+  cyl(x2 - 70, y1 + 70, 40, h, h + 0.09, M('#f4f1ea', { roughness: 0.4 }), 20);
+  // the phone charging on the bed side of the top, its white cable over the back edge and down behind the table
+  const ph = rbox(0.155, 0.008, 0.075, 0.008, M('#1b1b1d', { roughness: 0.25, metalness: 0.3 })); ph.position.set(0.3025, h, (y2 - 57.5) * MM); add(ph, false, false);
+  box(232, y2 - 88, 373, y2 - 27, h + 0.008, h + 0.0085, M('#0d0f12', { roughness: 0.1 }), false);
+  const cz = (y2 - 57.5) * MM;
+  tube([[0.226, h + 0.004, cz], [0.17, h + 0.003, cz + 0.004], [0.09, h + 0.003, cz + 0.012], [0.025, h + 0.003, cz + 0.016], [0.008, h - 0.02, cz + 0.016],
+        [0.006, h - 0.2, cz + 0.01], [0.006, 0.2, cz], [0.012, 0.02, cz - 0.01], [0.06, 0.004, cz - 0.03]], 0.0025, M('#f4f4f2', { roughness: 0.5 }), 60);
 }
 function masterBed(y0, y1) {
   // the user's bed: Yuanshi solid black-walnut low bed K33B10, 1.8 m: 191.5 wide x 214.5 deep, solid headboard 92
@@ -2308,63 +2231,8 @@ function masterBed(y0, y1) {
 }
 const bedK = masterBed(2182, 4098);
 let bedMidMM = 3140;   // middle of the master bed across the room (the bed-foot TV faces it)
-// ---- bedside: one piece by the window: the narrow rattan with the bed centred, or a 40 / 45 cm piece with the bed moved toward the
-// wardrobe (window glass ~1840, wardrobe side face 4450); spots [x, y, top height, side (+1 = bed toward +y), half width]
-function stoneTex(base, veins, n) {
-  const c = document.createElement('canvas'); c.width = c.height = 256; const g2 = c.getContext('2d');
-  g2.fillStyle = base; g2.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < n; i++) {
-    g2.strokeStyle = veins[i % veins.length]; g2.globalAlpha = 0.25 + rnd(i * 7 + 1) * 0.5; g2.lineWidth = 0.6 + rnd(i * 3 + 2) * (i % 4 ? 1.4 : 4);
-    g2.beginPath(); let x = rnd(i * 5 + 3) * 256, y = rnd(i * 11 + 4) * 256; g2.moveTo(x, y);
-    for (let k = 0; k < 5; k++) { const nx = x + (rnd(i * 13 + k) - 0.4) * 90, ny = y + (rnd(i * 17 + k) - 0.5) * 70; g2.quadraticCurveTo((x + nx) / 2 + 12, (y + ny) / 2 - 10, nx, ny); x = nx; y = ny; }
-    g2.stroke();
-  }
-  g2.globalAlpha = 1;
-  const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; return new THREE.MeshStandardMaterial({ map: tx, roughness: 0.3 });
-}
-function elijahTable(cx, cy) {
-  // Comfy "Elijah" round bedside table, D450 x 430: walnut-veneer drum on a recessed dark plinth, two curved drawers
-  // facing the room (+x) with slim black vertical pulls, white sintered-stone top with grey veins
-  const g = new THREE.Group(), prev = target; target = g;
-  const wal = woodMat('#7a5236', '#4a301e'), seamM = M('#24190f', { roughness: 0.8 }), X = cx * MM, Z = cy * MM, R = 0.225;
-  const pl = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.035, 48), M('#2e221a', { roughness: 0.8 })); pl.position.set(X, 0.0175, Z); add(pl);
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 0.38, 64), wal); body.position.set(X, 0.225, Z); add(body);
-  [0.04, 0.228, 0.413].forEach(h => { const s = new THREE.Mesh(new THREE.TorusGeometry(R + 0.0012, 0.0022, 4, 40, 1.92), seamM); s.rotation.set(Math.PI / 2, 0, -0.96); s.position.set(X, h, Z); add(s, false, false); });
-  [-0.96, 0.96].forEach(a => { const s = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.375, 0.004), seamM); s.position.set(X + (R + 0.001) * Math.cos(a), 0.226, Z + (R + 0.001) * Math.sin(a)); add(s, false, false); });
-  [0.37, 0.19].forEach(h => { const p = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.05, 0.008), M('#141312', { roughness: 0.4, metalness: 0.4 })); p.position.set(X + R + 0.004, h, Z); add(p); });
-  const top = new THREE.Mesh(new THREE.CylinderGeometry(R + 0.003, R + 0.003, 0.016, 64), stoneTex('#f1efea', ['#9a968f', '#b8b3ab'], 14)); top.position.set(X, 0.423, Z); add(top);
-  target = prev; return g;
-}
-function stoneCabinet(cx, cy) {
-  // walnut bedside cabinet with a sintered-stone top (Taobao, size assumed 450 wide x 400 deep x 480): rounded-square
-  // plan, two drawers split by a recessed groove that is the finger pull, warm stone top with brown and grey veins
-  const g = new THREE.Group(), prev = target; target = g;
-  const wal = woodMat('#7b5235', '#4b311f'), dk = M('#2a1d14', { roughness: 0.85 }), X = cx * MM, Z = cy * MM;
-  const at = (o, h) => { o.position.set(X, h, Z); add(o); };
-  at(rbox(0.36, 0.02, 0.41, 0.05, dk), 0);
-  at(rbox(0.4, 0.205, 0.45, 0.06, wal), 0.02);
-  at(rbox(0.385, 0.022, 0.435, 0.055, dk), 0.225);
-  at(rbox(0.4, 0.21, 0.45, 0.06, wal), 0.247);
-  at(rbox(0.404, 0.022, 0.454, 0.062, stoneTex('#ece6da', ['#8b6f55', '#a39b8f', '#6f5a48'], 22)), 0.457);
-  target = prev; return g;
-}
-function nsDecor(cx, cy, h, side, hw, vase) {
-  // a few things on a bedside top: two books in the middle, a glass of water at the front by the bed, a small
-  // stoneware bottle at the front corner away from the bed
-  const g = new THREE.Group(), prev = target; target = g;
-  const X = cx * MM, Z = cy * MM, s = side;
-  const b1 = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.024, 0.17), M('#e8e2d5', { roughness: 0.8 })); b1.position.set(X + 0.035, h + 0.012, Z); b1.rotation.y = 0.12; add(b1);
-  const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.115, 0.02, 0.155), M('#5b4636', { roughness: 0.7 })); b2.position.set(X + 0.035, h + 0.034, Z); b2.rotation.y = -0.08; add(b2);
-  const gl = new THREE.MeshStandardMaterial({ color: '#eef5f5', transparent: true, opacity: 0.3, roughness: 0.03, side: THREE.DoubleSide });
-  const gz = Z + s * (hw - 50) * MM;
-  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.03, 0.1, 24, 1, true), gl); cup.position.set(X + 0.135, h + 0.05, gz); add(cup, false, false);
-  const wt = new THREE.Mesh(new THREE.CylinderGeometry(0.031, 0.029, 0.065, 24), new THREE.MeshStandardMaterial({ color: '#d6ecee', transparent: true, opacity: 0.45, roughness: 0.05 })); wt.position.set(X + 0.135, h + 0.034, gz); add(wt, false, false);
-  if (vase) {
-    const vp = [[0.001, 0], [0.036, 0], [0.04, 0.03], [0.038, 0.1], [0.026, 0.15], [0.02, 0.175], [0.023, 0.18]].map(([r, q]) => new THREE.Vector2(r, q));
-    const v = new THREE.Mesh(new THREE.LatheGeometry(vp, 28), M('#cbbda3', { roughness: 0.95 })); v.position.set(X + 0.14, h, Z - s * (hw - 45) * MM); add(v);
-  }
-  target = prev; return g;
-}
+// ---- bedside: the clear acrylic table by the window, the bed moved 78 toward the wardrobe (window glass ~1840,
+// wardrobe side face 4450); lamp spot [x, y, top height, side (+1 = bed toward +y), half width]
 function linenLamp(cx, cy, h) {
   // IKEA table lamp: glossy white square column 90 x 270 with a small brass knob, beige linen square shade
   // (bottom 300, top 170, 200 high); glows warm at night
@@ -2380,7 +2248,7 @@ function linenLamp(cx, cy, h) {
 }
 function ranarpLamp(cx, cy, h, side) {
   // IKEA RANARP work lamp, off-white: round base D170, stem to a brass knuckle at 330, a 420 arm tilted up toward the
-  // bed (side), dome shade D150 at the front end turned down onto the pillow, brass socket ring
+  // bed (side) on a slim joint with a small brass knob, dome shade D150 at the front end turned down onto the pillow
   const g = new THREE.Group(), prev = target; target = g;
   const wh = M('#eeebe3', { roughness: 0.35 }), br = M('#c9a557', { roughness: 0.3, metalness: 0.8 });
   const X = cx * MM, Z = cy * MM, s = side, th = 0.3;
@@ -2388,10 +2256,11 @@ function ranarpLamp(cx, cy, h, side) {
   rodTo([X, h + 0.022, Z], [X, h + 0.31, Z], 0.0075, wh);
   const col = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.03, 16), br); col.position.set(X, h + 0.04, Z); add(col);
   const Pv = [X, h + 0.33, Z], u = [0, Math.sin(th), s * Math.cos(th)];
-  rodTo([X - 0.022, h + 0.33, Z], [X + 0.022, h + 0.33, Z], 0.017, br, 20);      // knuckle across the arm
+  rodTo([X - 0.013, h + 0.33, Z], [X + 0.013, h + 0.33, Z], 0.009, wh, 16);       // slim joint across the arm
+  rodTo([X + 0.013, h + 0.33, Z], [X + 0.019, h + 0.33, Z], 0.006, br, 14);       // small brass tension knob
   const E = vAdd(Pv, u, 0.29), Sx = vAdd(Pv, u, -0.13);
   rodTo(Sx, E, 0.0075, wh);
-  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.035, 20), br); cup.position.set(E[0], E[1] - 0.01, E[2]); add(cup);
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.016, 0.026, 20), br); cup.position.set(E[0], E[1] - 0.01, E[2]); add(cup);
   const dp = [[0.025, 0], [0.032, -0.02], [0.05, -0.06], [0.07, -0.1], [0.075, -0.115]].map(([r, q]) => new THREE.Vector2(r, q));
   const sh = new THREE.Mesh(new THREE.LatheGeometry(dp, 36), wh); sh.material = wh.clone(); sh.material.side = THREE.DoubleSide;
   sh.position.set(E[0], E[1] - 0.02, E[2]); sh.rotation.x = s * 0.35; add(sh);
@@ -2401,61 +2270,29 @@ function ranarpLamp(cx, cy, h, side) {
   sp.target.position.set(E[0], 0.5, E[2] + s * 0.25); g.add(sp); g.add(sp.target); floorLamps.push(sp);
   target = prev; return g;
 }
-const MNS = { rattan: new THREE.Group(), acrylic: new THREE.Group(), elijah: new THREE.Group(), stone: new THREE.Group() };
-const MNS_SHIFT = { rattan: 78, acrylic: 78, elijah: 128, stone: 128 };      // mm the bed moves toward the wardrobe
-const MNS_SPOTS = { rattan: [[195, 2045, 0.6, 1, 200]], acrylic: [[205, 2045, 0.5, 1, 200]],
-                    elijah: [[235, 2070, 0.431, 1, 150]], stone: [[215, 2070, 0.479, 1, 225]] };
-target = MNS.rattan; rattanCabinet(10, 1845, 380, 2245);
+const MNS = { acrylic: new THREE.Group() };
+const MNS_SHIFT = { acrylic: 78 };      // mm the bed moves toward the wardrobe
+const MNS_SPOTS = { acrylic: [[205, 2045, 0.5, 1, 200]] };
 target = MNS.acrylic; acrylicTable(0, 1845, 400, 2245);
-target = MNS.elijah; MNS.elijah.add(elijahTable(235, 2070));
-target = MNS.stone; MNS.stone.add(stoneCabinet(215, 2070));
 target = scene;
-Object.entries(MNS_SPOTS).forEach(([k, spots]) => spots.forEach(([x, y, h, s, hw], i) => { if (k !== 'acrylic') MNS[k].add(nsDecor(x, y, h, s, hw, i === 0)); }));
 const MLAMP = {};
 Object.entries(MNS_SPOTS).forEach(([k, spots]) => ['linen', 'ranarp'].forEach(lp => {
   MLAMP[k + '-' + lp] = spots.map(([x, y, h, s]) => { const o = lp === 'linen' ? linenLamp(x - 95, y, h) : ranarpLamp(x - 110, y - s * 30, h, s); o.visible = false; scene.add(o); return o; });
 }));
 Object.values(MNS).forEach(o => { o.visible = false; scene.add(o); });
-// the user's own full-spectrum floor lamp: one slim black bendable rod (D16) on a round base (taken as D250), up to 1.15 m
-// (switch sleeve at 0.85-1.05), a short bend (R300) toward the window, then a 1.5 m arm rising at 40 deg and easing to
-// 28 deg (a slight upward curve), reaching over the pillows to about 2.2 m; LED strip under the arm.
-// Local frame: rod at x 0.35 m, z 0; group z = middle of the gap between the bed and the wardrobe
-const bedArcLamp = new THREE.Group();
-{
-  const prev = target; target = bedArcLamp;
-  const blk = M('#1a1a1a', { roughness: 0.45 }), X = 0.35, V = 1.15, rb = 0.3, D = Math.PI / 180;
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.125, 0.015, 40), blk); base.position.set(X, 0.0075, 0); add(base);
-  const pts = [[X, 0.015, 0], [X, V * 0.5, 0], [X, V, 0]];
-  for (let k = 1; k <= 8; k++) { const f = 50 * D * k / 8; pts.push([X, V + rb * Math.sin(f), -rb + rb * Math.cos(f)]); }
-  const arm = []; let [, hh, zz] = pts[pts.length - 1];
-  for (let k = 1; k <= 20; k++) { const a = (40 - 12 * (k - 0.5) / 20) * D, ds = 1.5 / 20; zz -= Math.cos(a) * ds; hh += Math.sin(a) * ds; arm.push([X, hh, zz]); }
-  tube([...pts, ...arm], 0.008, blk, 160);
-  const sl = new THREE.Mesh(new THREE.CylinderGeometry(0.013, 0.013, 0.2, 20), blk); sl.position.set(X, 0.95, 0); add(sl);
-  tube(arm.slice(1, 19).map(([x, y, z]) => [x, y - 0.0075, z]), 0.004,
-    glowMat({ color: '#f7f5ef', emissive: '#fff4e2', emissiveIntensity: 0.05, roughness: 0.5 }, 0.05, 1.4), 80);
-  [6, 14].forEach(k => { const l = new THREE.PointLight('#fff2e0', 0.4, 3, 2); l.position.set(X, arm[k][1] - 0.05, arm[k][2]); bedArcLamp.add(l); floorLamps.push(l); });
-  target = prev;
-}
-bedArcLamp.visible = false; scene.add(bedArcLamp);
 const MN_NOTE = {
-  rattan: '藤编床头柜（淘宝「复古藤编柜子」¥525.8：宽 40、深 37、高 60）：顶板和两侧是一整块圆角的瀑布造型，外面包细藤编，前沿三道圆藤条收边；上面一个藤编抽屉配半月形拉手，中间一个 30cm 高的开放格（里面宽 32），底层藤编搁板离地 8cm。宽 40，只放得下窗边一个，床往衣柜那边挪约 8cm，衣柜那边留约 27cm；柜面比床垫面高约 6cm。',
-  acrylic: '亚克力透明边几（宽 40）：两边空位各只有约 35cm，只能放窗边一个；床往衣柜那边挪约 8cm，衣柜那边留约 27cm，放不下柜子。',
-  elijah: 'Comfy「Elijah」圆形床头柜（Φ45、高 43，胡桃木皮 + 白色岩板台面，两个弧形抽屉、黑色细竖把手，S$359）：只放得下窗边一个，床往衣柜那边挪约 13cm，衣柜那边只剩约 22cm；台面比床垫低约 9cm。',
-  stone: '胡桃木 + 岩板台面方柜（淘宝 ¥598 起；四角圆的方形，两个抽屉中间一道凹槽当拉手；尺寸先按宽 45、深 40、高 48 估，买前问卖家）：同样只放窗边一个，床挪约 13cm。',
-  floor: '自家的全光谱落地灯：黑色细杆、圆底座（按 Φ25 估），杆子能弯。放在床左侧（从床尾看是衣柜那边）床和衣柜之间的空当里：竖杆到约 1.15m 弯过来，灯臂约 1.5m、带一点往上凸的弧度，斜着伸过枕头上方，灯头在床中间稍过一点、约 2.2m 高，灯带在灯臂下面往下照。弯头在床外面，靠床头坐起来不碰头。床头柜上不放台灯。',
-  items: '台面上放了两本书、一杯水和一个小陶瓶。',
+  acrylic: '亚克力透明边几（宽 40）：两边空位各只有约 35cm，只能放窗边一个；床往衣柜那边挪约 8cm，衣柜那边留约 27cm，放不下柜子。中间一层放一个带盖的小藤编收纳盒（约 20×18×11），充电线、耳机、护手霜这些小东西收进去，看着不乱；台灯线和充电线用白色或透明的，插线板放在柜子后面地上。手机放在台面靠床那边充电，线从后面垂下去。台面高 50，比床垫面只低几厘米，晚上摸手机顺手。',
   linen: '台灯：宜家白色方柱底座台灯（亮面白方柱 + 小铜旋钮，米色亚麻方锥灯罩，总高约 45），晚上暖光。',
   ranarp: '台灯：宜家 RANARP 工作台灯（米白色、铜色转节，S$49.90），灯臂朝床那边伸，灯罩照到枕头；要配 E27 磨砂球泡。',
   noSconce: '主卧墙上不装阅读壁灯。' };
 hook(() => {
-  const mn = ['rattan', 'acrylic', 'elijah', 'stone'].includes(state.mns) ? state.mns : 'rattan', lp = ['linen', 'ranarp', 'floor'].includes(state.mlamp) ? state.mlamp : 'none';
+  const mn = 'acrylic', lp = ['linen', 'ranarp'].includes(state.mlamp) ? state.mlamp : 'none';
   Object.entries(MNS).forEach(([k, o]) => { o.visible = k === mn; });
   bedK.position.z = MNS_SHIFT[mn] * MM; bedMidMM = 3140 + MNS_SHIFT[mn];
   Object.entries(MLAMP).forEach(([k, arr]) => arr.forEach(o => { o.visible = k === mn + '-' + lp; }));
-  press(['mn-rattan', 'mn-acrylic', 'mn-elijah', 'mn-stone'], 'mn-' + mn); press(['ml-none', 'ml-linen', 'ml-ranarp', 'ml-floor'], 'ml-' + lp);
-  bedArcLamp.visible = lp === 'floor'; bedArcLamp.position.z = Math.min((4098 + MNS_SHIFT[mn] + 4450) / 2, 4450 - 130) * MM;   // the D250 base keeps off the wardrobe, sliding under the bed edge if it must
+  press(['ml-none', 'ml-linen', 'ml-ranarp'], 'ml-' + lp);
   document.getElementById('bedNote').textContent = '源氏木语实木床（北美黑胡桃木、木蜡油，低铺斜靠款 K33B10）：1.8m 款总宽 191.5、总深 214.5、床头高 92，床头板往后斜靠，四角方腿，床底离地约 12cm。比原来的模型长 15cm：床尾到墙的过道从约 61cm 变成约 45cm；电视支架跟着床居中，银翼支架的长腿伸进床底约 10cm（床底离地 12cm，不碰）。';
-  document.getElementById('mnNote').textContent = MN_NOTE[mn] + (mn !== 'acrylic' ? ' ' + MN_NOTE.items : '') + ' ' + (lp !== 'none' ? MN_NOTE[lp] + ' ' : '') + MN_NOTE.noSconce;
+  document.getElementById('mnNote').textContent = MN_NOTE.acrylic + ' ' + (lp !== 'none' ? MN_NOTE[lp] + ' ' : '') + MN_NOTE.noSconce;
 });
 const wardGrey = M('#a6a49f', { roughness: 0.5 }), wardGreyDark = M('#8d8b86', { roughness: 0.6 });
 function greyWardrobe(x1, y1, x2, y2, h, face, n) {
@@ -2632,7 +2469,7 @@ const wsDrum = drumTable(0, 0, 150); wsDrum.visible = false; scene.add(wsDrum); 
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.007, 0.007, 0.56, 10), ink); pole.position.y = 0.29; g.add(pole);
     const base = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.01, 0.18), ink); base.position.y = 0.005; base.castShadow = true; g.add(base);
     target = pt; return g; };
-  WS_STOOL.a = stoolA(); WS_STOOL.b = stoolA(0.78, 0.38);   // the 80 x 40 version (rbox adds 10 mm all round) SIDE_BLACK.sq = sideSq(); SIDE_BLACK.drum = drumTable(0, 0, 150);
+  WS_STOOL.a = stoolA(); WS_STOOL.b = stoolA(0.78, 0.38); SIDE_BLACK.sq = sideSq(); SIDE_BLACK.drum = drumTable(0, 0, 150);   // b: the 80 x 40 version (rbox adds 10 mm all round)
   [...Object.values(WS_STOOL), ...Object.values(SIDE_BLACK)].forEach(o => { o.visible = false; scene.add(o); });
 }
 const SIDE_CORNER = { KB: { v: [9540, 4817], b: [-0.554, 0.832] } };   // corner vertex + bisector (sofa end edge vs stool side)
@@ -3195,11 +3032,11 @@ hook(() => {
     cyl(5695, 3980, 42, 0.75, 0.85, mug, 24); cyl(5695, 3980, 38, 0.84, 0.842, M('#3b2416'), 24);
     const hd = new THREE.Mesh(new THREE.TorusGeometry(0.025, 0.006, 8, 16, Math.PI), mug); hd.rotation.set(0, -Math.PI / 2, -Math.PI / 2); hd.position.set(5.695, 0.8, 4.022); add(hd); }
 }
-let studyKidChair = null;
-{ const gc = gamingChair(0, 0); gc.rotation.y = Math.PI / 2; gc.position.set(6.34, 0, 3.55); studyMove.add(gc);
+let studyKidChair = null, studyGameChair = null, studySweep = null;
+{ const gc = gamingChair(0, 0); gc.rotation.y = Math.PI / 2; gc.position.set(6.34, 0, 3.55); studyMove.add(gc); studyGameChair = gc;
   const kc = kidChair(); kc.rotation.y = Math.PI / 2; kc.position.set(6.3, 0, 2.75); studyMove.add(kc); studyKidChair = kc;
   const sweep = new THREE.Mesh(new THREE.RingGeometry(0.41, 0.425, 64), new THREE.MeshBasicMaterial({ color: '#c08a4a', side: THREE.DoubleSide }));
-  sweep.rotation.x = -Math.PI / 2; sweep.position.set(6.41, 0.004, 3.55); studyMove.add(sweep); }
+  sweep.rotation.x = -Math.PI / 2; sweep.position.set(6.41, 0.004, 3.55); studyMove.add(sweep); studySweep = sweep; }
 target = scene; scene.add(study1);
 const masterMC = new THREE.Group();
 target = masterMC; massageChair(); target = scene;
@@ -3229,48 +3066,93 @@ hook(() => {
     thin: '悬浮弧形小桌：胡桃木 80 长，前沿一道小弧线（两头深 14、中间深 20），挂墙离地 75，没有桌腿，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。'
   }[ms];
 });
-// study bed for the helper, head to the window (coordinates in the studyMove frame): the low 0.9 m floor bed or a
-// 0.9 m hydraulic lift-up storage bed (can be shown lifted)
-const sbFloor = new THREE.Group(), sbLift = new THREE.Group();
-studyMove.add(sbFloor); studyMove.add(sbLift);
+// study bed for the helper, head to the window (coordinates in the studyMove frame): IKEA BRIMNES day-bed (default),
+// HEMNES day-bed, or the low 0.9 m floor bed
+const sbFloor = new THREE.Group();
+studyMove.add(sbFloor);
 target = sbFloor;
 box(6860, 2055, 7780, 3960, 0, 0.12, mat.wardrobe); box(6875, 2065, 7765, 3945, 0.12, 0.34, mat.bedding);
 box(6875, 2850, 7765, 3945, 0.34, 0.38, mat.linenBed);
 pillow(7320, 2240, 600, 300, 0.11, mat.bedding).position.y = 0.4;
-let sbLiftLid = null;
-target = sbLift;
-{ // Singapore-style hydraulic storage bed, single 90x190: upholstered base 950 x 1960 x 300; the whole platform (slats +
-  // mattress) lifts on gas struts from the foot end, hinged at the head; storage well about 230 deep underneath
-  const fab = M('#cfc6b8', { roughness: 1 }), x0 = 6830, x1 = 7780, y0 = 2055, y1 = 4015, yh = y0 + 30;
-  box(x0, y0, x1, y0 + 30, 0, 0.3, fab); box(x0, y1 - 30, x1, y1, 0, 0.3, fab);
-  box(x0, y0 + 30, x0 + 30, y1 - 30, 0, 0.3, fab); box(x1 - 30, y0 + 30, x1, y1 - 30, 0, 0.3, fab);
-  box(x0 + 30, y0 + 30, x1 - 30, y1 - 30, 0, 0.07, M('#e9e5de', { roughness: 0.9 }));
-  [[x0 + 80, y0 + 150, x0 + 470, y0 + 800, '#b9c3c9'], [x0 + 510, y0 + 150, x1 - 80, y0 + 700, '#d8c9a8'],
-   [x0 + 80, y0 + 900, x1 - 80, y0 + 1500, '#c7b9a6'], [x0 + 80, y0 + 1560, x0 + 560, y1 - 120, '#9fb0a2']].forEach(([a, b, c, d, col]) => box(a, b, c, d, 0.07, 0.25, M(col, { roughness: 1 })));
-  const lid = new THREE.Group(); lid.position.set(0, 0.3, yh * MM); sbLift.add(lid); sbLiftLid = lid;
-  target = lid;
-  const L = y1 - 30 - yh;
-  box(x0 + 30, 0, x1 - 30, L, 0, 0.02, M('#d8c9a8', { roughness: 0.8 }));
-  box(x0 + 40, 10, x1 - 40, L - 10, 0.02, 0.22, mattressMat);
-  box(x0 + 35, 800, x1 - 35, L - 5, 0.22, 0.25, mat.linenBed);
-  pillow((x0 + x1) / 2, 200, 600, 300, 0.11, mat.bedding).position.y = 0.27;
+// IKEA HEMNES day-bed, white: 209 long x 89 wide x 83 high with a slatted back and slatted ends, one 80x200 mattress on
+// top; the pull-out base underneath (the three drawers on its front, the second mattress on it) comes out 800 and rises
+// level to make a 160 x 200 double, about 169 wide overall. Against the right wall, one end at the window.
+const sbHem = new THREE.Group(), sbHemPull = new THREE.Group(), sbHemUp = new THREE.Group();
+studyMove.add(sbHem); sbHem.add(sbHemPull); sbHemPull.add(sbHemUp);
+{
+  target = sbHem;
+  const wh = M('#f1efea', { roughness: 0.6 }), x0 = 6890, x1 = 7780, y0 = 2055, y1 = 4145, Hp = 0.83;
+  [[x0, y0], [x1 - 60, y0], [x0, y1 - 60], [x1 - 60, y1 - 60]].forEach(([x, y]) => { box(x, y, x + 60, y + 60, 0, Hp, wh); box(x - 4, y - 4, x + 64, y + 64, Hp, Hp + 0.015, wh); });
+  [[y0 + 10, y0 + 50], [y1 - 50, y1 - 10]].forEach(([a, b]) => {                 // slatted ends
+    box(x0 + 60, a, x1 - 60, b, 0.74, 0.8, wh); box(x0 + 60, a, x1 - 60, b, 0.36, 0.42, wh);
+    for (let x = x0 + 95; x < x1 - 80; x += 95) box(x, a + 10, x + 28, b - 10, 0.42, 0.74, wh);
+  });
+  box(x1 - 50, y0 + 60, x1 - 10, y1 - 60, 0.74, 0.8, wh); box(x1 - 50, y0 + 60, x1 - 10, y1 - 60, 0.36, 0.42, wh);   // slatted back
+  for (let y = y0 + 110; y < y1 - 90; y += 105) box(x1 - 40, y, x1 - 20, y + 28, 0.42, 0.74, wh);
+  box(x0, y0 + 60, x0 + 25, y1 - 60, 0.3, 0.4, wh); box(x0 + 25, y0 + 60, x1 - 50, y1 - 60, 0.36, 0.4, wh);
+  box(x0 + 30, y0 + 65, x1 - 55, y1 - 65, 0.4, 0.52, mat.bedding);
+  box(x0 + 30, 3300, x1 - 55, y1 - 65, 0.52, 0.55, mat.linenBed);
+  pillow((x0 + x1 - 25) / 2, y0 + 280, 600, 380, 0.11, mat.bedding).position.y = 0.575;
+  target = sbHemPull;                                                              // pull-out base with the drawers
+  box(x0 + 20, y0 + 70, x0 + 810, y1 - 70, 0.04, 0.28, wh);
+  const dw = (y1 - y0 - 140) / 3;
+  for (let k = 0; k < 3; k++) { const a = y0 + 70 + k * dw + 4, b = a + dw - 8;
+    box(x0, a, x0 + 20, b, 0.05, 0.28, wh); cyl(x0 - 12, (a + b) / 2, 14, 0.15, 0.19, M('#cfcac0', { roughness: 0.5 }), 16); }
+  target = sbHemUp;                                                                // shown when pulled out: slats + mattress
+  box(x0 + 20, y0 + 70, x0 + 810, y1 - 70, 0.28, 0.4, wh);
+  box(x0 + 30, y0 + 75, x0 + 805, y1 - 75, 0.4, 0.52, mat.bedding);
+  target = scene;
 }
+sbHem.visible = false;
+// IKEA BRIMNES day-bed, white: 205 long x 87 wide x 58 high, low end panels and no back, two big drawers in front;
+// both mattresses stacked as a single, or the bed base pulled out (168 wide overall) in front of the drawers
+const sbBrim = new THREE.Group(), sbBrimC = new THREE.Group(), sbBrimO = new THREE.Group();
+studyMove.add(sbBrim); sbBrim.add(sbBrimC); sbBrim.add(sbBrimO);
+{
+  target = sbBrim;
+  const wh = M('#f3f1ec', { roughness: 0.55 }), knob = M('#cfcac0', { roughness: 0.5 }), x0 = 6910, x1 = 7780, y0 = 2055, y1 = 4105;
+  [[y0, y0 + 25], [y1 - 25, y1]].forEach(([a, b]) => { const p = rbox((x1 - x0) * MM - 0.02, 0.56, (b - a) * MM - 0.02, 0.025, wh); p.position.set((x0 + x1) / 2 * MM, 0, (a + b) / 2 * MM); add(p); });
+  box(x0, y0 + 25, x1, y1 - 25, 0.06, 0.36, wh);
+  const dw = (y1 - y0 - 90) / 2;
+  for (let k = 0; k < 2; k++) { const a = y0 + 40 + k * (dw + 10), b = a + dw;
+    box(x0 - 18, a, x0, b, 0.08, 0.3, wh); box(x0 - 30, (a + b) / 2 - 60, x0 - 18, (a + b) / 2 + 60, 0.2, 0.22, knob); }
+  target = sbBrimC;
+  box(x0 + 20, y0 + 30, x1 - 20, y1 - 30, 0.36, 0.46, mat.bedding); box(x0 + 20, y0 + 30, x1 - 20, y1 - 30, 0.46, 0.56, mat.bedding);
+  box(x0 + 20, 3300, x1 - 20, y1 - 30, 0.56, 0.59, mat.linenBed);
+  pillow((x0 + x1) / 2, y0 + 250, 600, 380, 0.11, mat.bedding).position.y = 0.615;
+  target = sbBrimO;
+  const xo = x1 - 1680;
+  box(x0 + 20, y0 + 30, x1 - 20, y1 - 30, 0.36, 0.46, mat.bedding);
+  box(xo, y0 + 40, x0 - 30, y1 - 40, 0.3, 0.36, wh);
+  [y0 + 90, (y0 + y1) / 2, y1 - 90].forEach(y => box(xo + 15, y - 20, xo + 55, y + 20, 0, 0.3, wh));
+  box(xo + 10, y0 + 45, x0 - 35, y1 - 45, 0.36, 0.46, mat.bedding);
+  pillow((x0 + x1) / 2, y0 + 250, 600, 380, 0.11, mat.bedding).position.y = 0.515;
+  pillow((xo + x0) / 2, y0 + 250, 600, 380, 0.11, mat.bedding).position.y = 0.515;
+  target = scene;
+}
+sbBrim.visible = false;
 // people: mum at the trading end on the gaming chair, the 9-year-old at the window end
 const pplStudy = new THREE.Group(); studyMove.add(pplStudy);
 { const m1 = person(FAM.mum[0], 0.48, FAM.mum[1]); m1.position.set(6.39, 0, 3.55); m1.rotation.y = -Math.PI / 2; pplStudy.add(m1);
   const k1 = person(FAM.kid[0], 0.45, FAM.kid[1]); k1.position.set(6.34, 0, 2.75); k1.rotation.y = -Math.PI / 2; pplStudy.add(k1); }
 const SBD_NOTE = {
-  lift: '0.9m 液压储物床（新加坡常见的气压掀床，单人 90×190，外框约 95×196）：整块床板连床垫从床尾往上掀，整个床底都是储物（模型按约 23cm 深），从床尾、床边都能拿，不用挪椅子，也不用留拉抽屉的位置。书桌到床边约 84cm。缺点：每次拿东西要掀床，床上的东西先挪开。',
   floor: '原来的 0.9m 地台床：床架 92×191，床垫约 90×190，没有床头板。书桌到床边约 87cm，床底不能放东西。',
-  liftOpen: '现在显示：床板掀起来的样子。' };
+  hemnes: '宜家 HEMNES 坐卧两用床（白色，长 209、宽 89、高 83；两张 80×200 床垫；底下 3 个大抽屉，里面 55×70×20）：靠右墙放、一头贴窗。平时就是一张单人床，另一张床垫收在下面的拉出床架上，不用拉开就能直接午睡，也能当沙发坐；床边到书桌约 90cm，椅子照常用。床垫 80 宽，比地台床窄 10cm，阿姨平时睡也够。抽屉朝书桌那边拉，拉满要约 70cm：两把椅子正好挡在三个抽屉前面，电竞椅前面那两个只能拉开约 18cm，靠窗那个约 35cm；要拉满得先把椅子推到床尾那块空地。',
+  hemOpen: '现在显示：拉开成双人（床面 160×200，拉开后总宽约 169）。床边离书桌只剩约 10cm，碰不到书桌，但两把椅子得先搬走（客厅或衣柜前那块空地）；从床尾上下床，床尾到衣柜还有约 85cm。拉开的时候抽屉打不开，要拿东西得先把床推回去。',
+  brim: '宜家 BRIMNES 坐卧两用床（白色，长 205、宽 87、高 58，两头是矮挡板、没有靠背；两张 80×200 床垫，平时叠在一起当单人床，拉开后并排，床面宽 168；2 个大抽屉，里面 85×54×16）：靠右墙放、一头贴窗，58 高的挡板不太挡窗。不拉开就能直接午睡；床边到书桌约 90cm，椅子照常用。抽屉拉满只要约 54cm：椅子在原位时只能拉开约 18–35cm，把椅子推到床尾就能拉满。',
+  brimOpen: '现在显示：拉开成双人（床面宽 168）。床边离书桌约 11cm，两把椅子得先搬走；从床尾上下床，床尾到衣柜约 89cm。拉开时床架挡在抽屉前面，抽屉打不开。' };
 hook(() => {
-  const sb = state.sbed === 'lift' ? 'lift' : 'floor', open = state.sbopen === 'open' && sb === 'lift';
-  sbFloor.visible = sb === 'floor'; sbLift.visible = sb === 'lift';
-  sbLiftLid.rotation.x = open ? -0.72 : 0;
-  pplStudy.visible = state.ppl === 'all';
-  press(['sbd-floor', 'sbd-lift'], 'sbd-' + sb); press(['sbo-closed', 'sbo-open'], open ? 'sbo-open' : 'sbo-closed');
-  document.getElementById('sboRow').style.display = sb === 'lift' ? '' : 'none';
-  document.getElementById('sbdNote').textContent = SBD_NOTE[sb] + (open ? ' ' + SBD_NOTE.liftOpen : '');
+  const sb = ['hemnes', 'floor'].includes(state.sbed) ? state.sbed : 'brim';
+  const day = sb !== 'floor', hopen = state.sdopen === 'open' && day;               // a day-bed pulled out: the chairs go
+  sbFloor.visible = sb === 'floor'; sbHem.visible = sb === 'hemnes'; sbBrim.visible = sb === 'brim';
+  sbHemPull.position.x = hopen && sb === 'hemnes' ? -0.8 : 0; sbHemUp.visible = hopen && sb === 'hemnes';
+  sbBrimC.visible = !hopen; sbBrimO.visible = hopen;
+  [studyGameChair, studyKidChair, studySweep].forEach(o => { if (o) o.visible = !hopen; });
+  pplStudy.visible = state.ppl === 'all' && !hopen;
+  press(['sbd-brim', 'sbd-hemnes', 'sbd-floor'], 'sbd-' + sb);
+  press(['sdo-closed', 'sdo-open'], hopen ? 'sdo-open' : 'sdo-closed');
+  document.getElementById('sdoRow').style.display = day ? '' : 'none';
+  document.getElementById('sbdNote').textContent = SBD_NOTE[sb] + (hopen ? ' ' + SBD_NOTE[{ hemnes: 'hemOpen', brim: 'brimOpen' }[sb]] : '');
 });
 const STUDY_SHELF_M = M('#f2efe9', { roughness: 0.5 });
 target = studyMove;   // the three study wall shelves belong to the study (they were landing in the lift-bed lid group)
@@ -3433,8 +3315,9 @@ const roomLights = [[9.0, 2.6, 4.5], [1.3, 2.6, 3.5], [4.0, 2.6, 3.2], [6.6, 2.6
 });
 const bedLamp = new THREE.PointLight('#ffcf94', 0, 3, 2); bedLamp.position.set(0.2, 0.9, 2.02); scene.add(bedLamp); bedLamp.visible = false;
 
-// ---------- lighting plan (same numbers as the lighting DXF): surface track, linear lights, strips, sconces
-const LIGHTS = [{"k":"magtrack","p":[[9695,2150],[9695,5150]],"h":2.8,"mood":0,"d":6.5,"mods":["S","L","L","S"],"iS":1.5,"iL":1.3,"angL":0.62},{"k":"linear","p":[[10545,1950],[10545,5050]],"h":2.8,"mood":1,"i":0.07,"d":4.0,"n":4,"wall":10700,"wash":0.5},{"k":"pendant","p":[[7640,6950],[7660,6950]],"h":1.485,"mood":0.7,"i":0.8,"d":2.8},{"k":"linear","p":[[9700,6350],[9700,8950]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[10330,6250],[10330,9050]],"h":1.5,"mood":1,"i":0.45,"d":1.8,"n":2},{"k":"linear","p":[[6700,8450],[6700,11350]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"linear","p":[[2900,5600],[5300,5600]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[3000,6170],[5300,6170]],"h":0.1,"mood":1,"i":0.45,"d":1.5,"n":1},{"k":"linear","p":[[2450,1950],[2450,4350]],"h":2.8,"mood":0.6,"i":0.06,"d":3.5,"wall":2600,"n":3,"wash":0.42},{"k":"linear","p":[[850,4500],[850,6150]],"h":2.8,"mood":0,"i":0.5,"d":3.5},{"k":"sconce","p":[[70,2120]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"sconce","p":[[70,4160]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"linear","p":[[4020,1900],[4020,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"linear","p":[[5450,2900],[6750,2900]],"h":2.8,"mood":0,"i":0.6,"d":3.5,"grp":"study"}];
+// ---------- lighting plan (same numbers as the lighting DXF): surface track, linear lights, strips, sconces; the two
+// balcony linear lights (outdoor IP65, 13 living / 14 master) as on the lighting page
+const LIGHTS = [{"k":"magtrack","p":[[9695,2150],[9695,5150]],"h":2.8,"mood":0,"d":6.5,"mods":["S","L","L","S"],"iS":1.5,"iL":1.3,"angL":0.62},{"k":"linear","p":[[10545,1950],[10545,5050]],"h":2.8,"mood":1,"i":0.07,"d":4.0,"n":4,"wall":10700,"wash":0.5},{"k":"pendant","p":[[7640,6950],[7660,6950]],"h":1.485,"mood":0.7,"i":0.8,"d":2.8},{"k":"linear","p":[[9700,6350],[9700,8950]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[10330,6250],[10330,9050]],"h":1.5,"mood":1,"i":0.45,"d":1.8,"n":2},{"k":"linear","p":[[6700,8450],[6700,11350]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"linear","p":[[2900,5600],[5300,5600]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[3000,6170],[5300,6170]],"h":0.1,"mood":1,"i":0.45,"d":1.5,"n":1},{"k":"linear","p":[[2450,1950],[2450,4350]],"h":2.8,"mood":0.6,"i":0.06,"d":3.5,"wall":2600,"n":3,"wash":0.42},{"k":"linear","p":[[850,4500],[850,6150]],"h":2.8,"mood":0,"i":0.5,"d":3.5},{"k":"sconce","p":[[70,2120]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"sconce","p":[[70,4160]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"linear","p":[[4020,1900],[4020,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"linear","p":[[5450,2900],[6750,2900]],"h":2.8,"mood":0,"i":0.6,"d":3.5,"grp":"study"},{"k":"linear","p":[[8300,1550],[10400,1550]],"h":2.6,"mood":0.5,"i":0.5,"d":3.0},{"k":"linear","p":[[300,1550],[2300,1550]],"h":2.6,"mood":0.5,"i":0.5,"d":3.0}];
 const fixtures = [], housing = M('#1d1b19', { roughness: 0.6 }), trackSpots = [];
 // wall-wash falloff: brightest just under the ceiling slot, easing to ~30% at the floor, soft at both ends
 const washTex = (() => {
@@ -3539,10 +3422,15 @@ LIGHTS.forEach(Lt => {
 
 // master reading sconces: not wanted, the bedside lamp does the reading light
 hook(() => { sconces.filter(s => s.x < 200).forEach(s => { s.g.visible = false; }); });
-// the two spot modules: window end -> orchid on the glass side table, chair end -> swivel chair (per layout)
+// the two spot modules: window end -> orchid on the glass side table, chair end -> the swivel chair wherever it stands
+// (by the window when it swaps with the stool), same as the lighting page
+function chairAim(Lo) {
+  const g = livings[state.model + state.dir], c = g && g.userData.one && g.userData.one.children[0];
+  return c ? [c.position.x / MM, c.position.z / MM, 0.45] : [Lo.swivel[0], Lo.swivel[1], 0.45];
+}
 function aimTrack() {
   const Lo = S.layouts[state.model + state.dir]; if (!Lo || trackSpots.length < 2) return;
-  [[Lo.glass_small[0] + glassShift, Lo.glass_small[1], 0.62], [Lo.swivel[0], Lo.swivel[1], 0.45]].forEach((a, i) => {
+  [[Lo.glass_small[0] + glassShift, Lo.glass_small[1], 0.62], chairAim(Lo)].forEach((a, i) => {
     const s = trackSpots[i], p = new THREE.Vector3(s.x * MM, s.hy, s.y * MM);
     const dir = new THREE.Vector3(a[0] * MM, a[2], a[1] * MM).sub(p).normalize();
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
@@ -3650,7 +3538,10 @@ function setTime(night) {
 function setLightMode(m) { LS.mode = m; applyLights(); }
 document.getElementById('t-day').addEventListener('click', () => setTime(false));
 document.getElementById('t-night').addEventListener('click', () => setTime(true));
-function setZip() {}
+const ZIP_NOTE = '主卧阳台和客厅阳台外沿各装一道 Zipblind（全遮光款，没有半遮光的），顶上是收卷盒。放下以后阳台封起来，挡雨、挡晒，阳台能当半个房间用：客厅阳台喝茶看书，主卧阳台放按摩椅或者运动，像多了两个小房间。', ZIP_DOWN = '现在显示：放下。全遮光，放下后外面的树就看不到了，白天阳台里也会比较暗。';
+function setZip(down) { setLiving({ zip: !!down }); }
+hook(() => { const dn = state.zip === true; zips.forEach(z => { z.visible = dn; }); press(['z-up', 'z-down'], dn ? 'z-down' : 'z-up');
+  document.getElementById('zNote').textContent = ZIP_NOTE + (dn ? ' ' + ZIP_DOWN : ''); });
 
 // ---------- views
 const VIEWS = {
@@ -3661,7 +3552,6 @@ const VIEWS = {
   qsb:     { pos: [7.55, 1.6, 7.25], target: [5.55, 1.25, 7.16], fov: 66 },
   qshelf:  { pos: [6.9, 1.7, 3.15], target: [5.45, 1.6, 2.5], fov: 70 },
   qkids:   { pos: [4.02, 1.6, 4.3], target: [4.02, 0.12, 2.3], fov: 72 },
-  qstudy:  { pos: [7.3, 1.6, 4.05], target: [7.2, 0.15, 2.1], fov: 70 },
   qhome:   { pos: [5.4, 17, 7.6], target: [5.4, 0, 5.4], fov: 48 },
   dining:  { pos: [9.35, 1.55, 7.75], target: [9.1, 1.0, 2.4], fov: 60 },
   balcony: { pos: [8.25, 1.5, 2.15], target: [8.9, 0.85, 7.0], fov: 62 },
@@ -3756,15 +3646,15 @@ scene.add(rechargeLamp(2830, 1950, 1)); scene.add(rechargeLamp(5210, 1950, -1));
 
 // ---------- carpenter quote: the pieces to be made, marked purple in the carpenter view. The entrance cabinet in two
 // shapes the factory can make: three flat doors folded like a bay ('facet'), or a rectangle with the two front corners
-// rounded by the factory's arc pieces, R150 or R100 ('corner'; side doors wrap the corners); standard / deep
+// rounded by the factory's arc pieces, R150 or R100 ('corner'; side doors wrap the corners); standard depth only
 const PURPLE = '#cdb8ea', quoteCab = new THREE.Group(), qDoors = [], qShelvesAll = [], qOnShelvesAll = [], qFin = { smooth: [], fluted: [] }, qCabs = {}, qMarked = [];
 const mark = (m, real) => { qMarked.push([m, real]); return m; };
-const Q_TOTAL = { std: 750, deep: 980 }, Q_FACET = { std: 300, deep: 650 }, Q_BU = 437;
-function buildCab(shape, dk, RC) {
+const Q_TOTAL = 750, Q_FACET = 300, Q_BU = 437;   // corner: 750 deep; bay: 300 at the ends + 437
+function buildCab(shape, RC) {
   const cab = new THREE.Group(), qShelves = new THREE.Group(), qOnShelves = new THREE.Group();
   qShelvesAll.push(qShelves); qOnShelvesAll.push(qOnShelves); quoteCab.add(cab);
   const prev = target; target = cab;
-  const facet = shape === 'facet', D = facet ? Q_FACET[dk] : Q_TOTAL[dk], X0 = 5850 + D;
+  const facet = shape === 'facet', D = facet ? Q_FACET : Q_TOTAL, X0 = 5850 + D;
   const T = 18, h0 = 0.15, h1 = H - 0.02, hs = 2.0, WALL = '#e6e2db', ya = facet ? 8715 : 8750, yb = facet ? 9285 : 9250;
   const body = mark(M('#efe9df', { roughness: 0.7 }), '#efe9df'), edgeM = mark(M('#d9d1c4', { roughness: 0.7, side: THREE.DoubleSide }), '#d9d1c4'), dark = M('#cfc9bf', { roughness: 0.8 });
   // front face (outside of the doors) as x at a given y along the wall; 'corner': flat at X0, quarter circles RC at the ends
@@ -3829,16 +3719,16 @@ function buildCab(shape, dk, RC) {
     box(5900, a + 70, 6140, a + 190, 1.798, 1.92, M('#e3e6ea', { roughness: 0.4 })); box(5900, a + 70, 6140, a + 190, 1.798, 1.815, M('#9aa3a8', { metalness: 0.5, roughness: 0.3 }));
     [0, 1, 2].forEach(i => box(5900, b - 120, 6100, b - 20, 1.798 + i * 0.03, 1.825 + i * 0.03, M(['#f0c8a0', '#a8d0e6', '#f3e38a'][i], { roughness: 1 })));
   });
-  // middle: two golf bags staggered (three in the deep version), a bin of refill packs
-  golfBag(6020, 8900, '#1f1f1f'); golfBag(6330, 9100, '#20385e'); if (dk === 'deep') golfBag(6640, 8900, '#7a2a2a');
+  // middle: two golf bags staggered, a bin of refill packs
+  golfBag(6020, 8900, '#1f1f1f'); golfBag(6330, 9100, '#20385e');
   box(5880, 9060, 6150, 9230, fl, fl + 0.34, M('#d9dde2', { roughness: 0.7 }));
   [[5930, 9110], [6010, 9110], [6090, 9110], [5930, 9200], [6010, 9200], [6090, 9200]].forEach(([x, y], k) => cyl(x, y, 32, fl + 0.34, fl + 0.4, detCols[k % 6], 10));
   // a 28-inch suitcase standing on its side: 520 deep x 310 wide x 760 high with the wheels
   const suitcase = (y1, z0, col) => { box(5875, y1, 6395, y1 + 310, z0 + 0.04, z0 + 0.735, M(col, { roughness: 0.5 }));
     [5915, 6355].forEach(x => cyl(x, y1 + 155, 20, z0, z0 + 0.04, M('#1b1b1b'), 12)); box(6100, y1 + 120, 6170, y1 + 190, z0 + 0.735, z0 + 0.76, M('#1b1b1b')); };
-  // door end: rounded-corner cabinet = two suitcases one above the other (loose shelf at 950); bay = one bag (deep: a suitcase)
+  // door end: rounded-corner cabinet = two suitcases one above the other (loose shelf at 950); bay = one golf bag
   if (!facet) { suitcase(9295, fl, '#2f4a6b'); onShelf(() => suitcase(9295, 0.968, '#8a4b3a')); }
-  else if (dk === 'deep') suitcase(9310, fl, '#2f4a6b'); else golfBag(6040, 9450, '#7a2a2a');
+  else golfBag(6040, 9450, '#7a2a2a');
   onShelf(() => { const [a, b] = bays[1], [c, d] = bays[2]; bottles(a, b, 1.468, 0.215); bottles(a, b, 1.738, 0.215);
     if (facet) { bottles(c, d, 1.468, 0.215); bottles(c, d, 1.738, 0.215); } else bottles(c, d, 1.768, 0.18); });
   cab.add(qOnShelves);
@@ -3886,12 +3776,11 @@ function buildCab(shape, dk, RC) {
   cab.userData.front = facet ? X0 + Q_BU : X0;
   target = prev; return cab;
 }
-['std', 'deep'].forEach(dk => { qCabs['facet-' + dk] = buildCab('facet', dk); [150, 100].forEach(r => { qCabs['corner-' + dk + '-' + r] = buildCab('corner', dk, r); }); });
+qCabs.facet = buildCab('facet'); [150, 100].forEach(r => { qCabs['corner-' + r] = buildCab('corner', r); });
 scene.add(quoteCab);
-// the three platform beds: their frames become marked pieces too
-{ const kidsFrame = mark(M('#c9a273', { roughness: 0.7 }), '#c9a273'), studyFrame = mark(M('#d9d2c6', { roughness: 0.7 }), '#d9d2c6');
-  kids10.traverse(o => { if (o.isMesh && o.material === oak) o.material = kidsFrame; });
-  sbFloor.traverse(o => { if (o.isMesh && o.material === mat.wardrobe) o.material = studyFrame; }); }
+// the kids' two platform beds: their frames become marked pieces too
+{ const kidsFrame = mark(M('#c9a273', { roughness: 0.7 }), '#c9a273');
+  kids10.traverse(o => { if (o.isMesh && o.material === oak) o.material = kidsFrame; }); }
 // sideboard ledges and the study's wall shelves are made by the carpenter too
 mark(SB_LEDGE_M, '#f1eee8'); mark(STUDY_SHELF_M, '#f2efe9');
 // the dining sideboard: its shared materials follow the colour choice, so purple is painted over it after every refresh
@@ -3912,18 +3801,18 @@ function tag(text, x, y, h, parent) {
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tx, transparent: true }));
   sp.scale.set(0.72, 0.18, 1); sp.position.set(x * MM, h, y * MM); (parent || scene).add(sp); return sp;
 }
-const qTags = [tag('② 1020 × 1950', 3310, 2500, 0.62), tag('② 1020 × 1950', 4730, 2500, 0.62), tag('③ 920 × 1905', 7320, 3010, 0.7, sbFloor),
-  tag('④ 1870 × 450', 5800, 7160, 1.2), tag('⑤ 1870 × 150 ×3', 5700, 7160, 2.42), tag('⑥ 2050 × 245 ×3', 5700, 3075, 2.45, studyMove)];
+const qTags = [tag('② 1020 × 1950', 3310, 2500, 0.62), tag('② 1020 × 1950', 4730, 2500, 0.62),
+  tag('③ 1870 × 450', 5800, 7160, 1.2), tag('④ 1870 × 150 ×3', 5700, 7160, 2.42), tag('⑤ 2050 × 245 ×3', 5700, 3075, 2.45, studyMove)];
 hook(() => { entryTall.visible = false; entryLow.visible = false; });   // the detailed cabinet replaces the plain one
-let qShape = 'corner', qDep = 'std', qBu = 150, qLang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
+let qShape = 'facet', qBu = 150, qLang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
 function showCab() {
-  const key = qShape === 'corner' ? 'corner-' + qDep + '-' + qBu : 'facet-' + qDep;
+  const key = qShape === 'corner' ? 'corner-' + qBu : 'facet';
   Object.keys(qCabs).forEach(k => { qCabs[k].visible = k === key; });
   const f = qCabs[key].userData.front * MM;
   VIEWS.qinside.pos = [f + 0.6, 1.25, 9.25]; VIEWS.qinside.target = [f - 0.5, 1.1, 8.95];
   document.querySelectorAll('#qsheet [data-sh]').forEach(el => { el.style.display = el.dataset.sh === qShape && (!el.dataset.bu || +el.dataset.bu === qBu) ? '' : 'none'; });
   document.getElementById('qbRow').style.display = qShape === 'corner' ? '' : 'none';
-  press(['qh-facet', 'qh-corner'], 'qh-' + qShape); press(['qe-std', 'qe-deep'], 'qe-' + qDep); press(['qb-150', 'qb-100'], 'qb-' + qBu);
+  press(['qh-facet', 'qh-corner'], 'qh-' + qShape); press(['qb-150', 'qb-100'], 'qb-' + qBu);
 }
 function setDoors(m) {
   qDoors.forEach(d => { d.piv.visible = m !== 'off'; d.piv.rotation.y = m === 'open' ? d.sign * 1.7 : 0; });
@@ -3947,7 +3836,6 @@ function setQLang(l) { qLang = l; document.body.classList.toggle('q-en', l === '
 [['qd-closed', () => setDoors('closed')], ['qd-open', () => setDoors('open')], ['qd-off', () => setDoors('off')],
  ['qc-purple', () => setMark(true)], ['qc-real', () => setMark(false)], ['qs-on', () => setShelves(true)], ['qs-off', () => setShelves(false)],
  ['qh-facet', () => { qShape = 'facet'; showCab(); }], ['qh-corner', () => { qShape = 'corner'; showCab(); }],
- ['qe-std', () => { qDep = 'std'; showCab(); }], ['qe-deep', () => { qDep = 'deep'; showCab(); }],
  ['qb-150', () => { qBu = 150; showCab(); }], ['qb-100', () => { qBu = 100; showCab(); }],
  ['qf-smooth', () => setFinish('smooth')], ['qf-fluted', () => setFinish('fluted')], ['qlang', () => setQLang(qLang === 'en' ? 'zh' : 'en')]]
   .forEach(([id, f]) => document.getElementById(id).addEventListener('click', f));
@@ -3958,7 +3846,7 @@ setDoors('closed'); setMark(true); setShelves(true); showCab(); setFinish('smoot
   qs.classList.add('min'); setQLang(qLang); }
 
 // ---------- language: English by default, 中文 on the switch (remembered per device; ?lang=zh / ?lang=en in the link)
-const EN = {"全屋三维模型，可拖动旋转": "3D model of the whole flat — drag to rotate", "视角": "View", "餐厅看客厅": "Dining → living", "阳台看回来": "From the balcony", "坐在沙发上": "On the sofa", "转椅角落": "Swivel-chair corner", "茶几": "Coffee table", "从转椅看沙发": "Chair → sofa", "主卧": "Master bedroom", "躺床看电视": "TV from the bed", "孩子房": "Kids' room", "书房": "Study", "书桌": "Desk", "餐厅": "Dining", "玄关": "Entrance", "俯视全屋": "Top-down", "沙发款式": "Sofa", "牧森 2.4m": "Musen 2.4 m", "组合2 弧形 3.2m": "Combo 2 curved 3.2 m", "不放": "None", "放主卧床尾": "Foot of the master bed", "藤编扶手椅": "Rattan armchair", "竹节椅（马黑）": "Bamboo-style chair (black)", "时间": "Time", "白天": "Day", "晚上": "Night", "客厅磁吸轨道在茶几中线正上方：中间两段 60cm 线条泛光模块照茶几一带（柔、不刺眼），两头各一个射灯，窗边那个照兰花、里面那个照转椅；洗墙灯把整面右墙均匀洗亮，上亮下渐暗，不出光斑。": "The living-room magnetic track runs right above the coffee table's centre line: two 60 cm linear flood modules in the middle light the coffee-table area (soft, no glare), with a spotlight at each end — the window one on the orchid, the inner one on the swivel chair. The wall washer lights the whole right wall evenly, brighter at the top and fading downward, with no hot spots.", "木百叶 50mm（书房 / 孩子房 / 主卧）": "50 mm wooden blinds (study / kids' room / master)", "拉起": "Raised", "叶片放平": "Slats open", "拉起 70% · 叶片平": "70% raised · slats open", "胡桃木色 50mm 木百叶。": "Walnut-colour 50 mm wooden blinds.", "卡萨驰转椅 Φ77": "Casa swivel chair Φ77", "白色": "White", "黑色": "Black", "A 中古拱腿 1000×500×400": "A Vintage arched legs 1000×500×400", "地毯": "Rug", "不铺": "None", "小地毯 160×230": "Small rug 160×230", "窗角落地灯": "Window-corner floor lamps", "两盏（两个窗角对称）": "Two (both corners, mirrored)", "不做": "None", "按摩椅": "Massage chair", "悬浮弧形小桌": "Floating curved wall table", "体块示意，不是照片级效果图：家具尺寸和位置跟图纸一致，材质和颜色是示意。地板按浅橡木假设。拖动旋转，双指或滚轮缩放。": "Block model, not a photo-real render: furniture sizes and positions follow the plans; materials and colours are indicative. Floor assumed light oak. Drag to rotate, pinch or scroll to zoom.", "收起面板": "Hide panel", "展开面板": "Show panel", "65 寸最满，但在主卧有点压迫。": "65\" fills the view but feels heavy in the bedroom. ", "55 寸这个距离刚好。": "55\" is just right at this distance. ", "50 寸也够看，最轻巧。": "50\" is still fine and the lightest. ", "会挡住去主卧阳台的路，晾衣服时推开（有轮子）。": "It blocks the way to the master balcony — roll it aside when hanging laundry (it has wheels).", "网篮支架放客厅右墙，正对沙发：底座深 42cm，到茶几只剩约": "Mesh stand on the living-room right wall, facing the sofa: base 42 cm deep, the gap to the coffee table is only about", "cm，右边去阳台的过道会变窄。": " cm; the way to the balcony on the right gets narrower.", "转椅在靠厨房那一侧，靠右墙、贴近茶几尾端，面向沙发；去阳台的路从转椅和贵妃位之间过，最窄处约": "The swivel chair is on the kitchen side, against the right wall near the end of the coffee table, facing the sofa; the way to the balcony passes between the chair and the chaise, narrowest about", "注意：这个组合下找不到留出 70cm 去阳台的位置，": "Note: with this combination there is no spot that leaves 70 cm to the balcony; ", "EMMI 椅（90×85）": "the EMMI chair (90×85)", "转椅": "the swivel chair", "放在这里会挡路。": " placed here blocks the way. ", "弧形沙发 3.2m 太长，客厅只剩够走路的宽度，建议不放单椅。": "The 3.2 m curved sofa is long — only walking width is left, so better without the armchair.", "建议用转椅，或选牧森 A。": "Use the swivel chair, or choose Musen A.", "EMMI 艾米单椅 90×85 座高42（奶油白羊羔绒 + 黑色蜡木架，¥603）：比转椅宽 13cm，": "EMMI armchair 90×85, seat 42 (cream lamb-wool + black ash frame, ¥603): 13 cm wider than the swivel chair; ", "放在餐厅那头，旁边过道约": "placed at the dining end, aisle beside it about", "cm。": " cm.", "不能转，朝向是按放得下的角度摆的。": " It can't swivel; it is angled the way it fits.", "桌子在椅子后面": "table behind the chair", "。右边去阳台的路留 70cm。": ". 70 cm left on the right to the balcony.", "转椅正后方": "right behind the swivel chair", "窗边左角": "left window corner", "把一把餐椅（跟着上面选的餐椅款式）搬到窗边另一个角，朝着房间，和转椅并排在窗前：多一个座位，藤编通透不挡光，也和餐厅呼应。餐厅剩 5 把，来客人时搬回去就行。": "Move one dining chair (the style chosen above) to the other window corner, facing the room, beside the swivel chair: one more seat, see-through so it doesn't block light, and it echoes the dining room. 5 stay at the table; move it back when guests come.", "这个方向窗边被沙发头占了，放一把餐椅会把去阳台的路挤到 70cm 以下，放不下。": "In this direction the sofa end takes the window side; a dining chair there would squeeze the way to the balcony below 70 cm — it doesn't fit.", "按摩椅 75×148 放在床尾对面、面朝床，长边和进门方向平行；躺平要 174cm 长。": "Massage chair 75×148 below the bed, facing the bed, long side parallel to the way in; it needs 174 cm when reclined.", "悬浮弧形小桌：胡桃木 80 长，前沿一道小弧线（两头深 14、中间深 20），挂墙离地 75，没有桌腿，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。": "Floating curved wall table: walnut, 80 long, a gentle curve on the front (14 deep at the ends, 20 in the middle), wall-mounted 75 off the floor with no legs, on the right wall below the bed end — for clothes, phone and jewellery before a shower. No massage chair, so a big dressing area opens up in front of the wardrobe.", "米白": "Off-white", "不显示": "Hide", "1m 双层床": "1 m bunk bed", "1m 双层床：床架约 106×196、高 162，靠右墙放，离窗 65cm（上铺不贴窗）；床尾停在房门开到墙边之前，梯子在靠床尾的侧面。上铺床垫面离天花约 1.5m，坐起来不碰头。左半边空出来，放书桌或玩都行。窗户一定要装限位器或隐形防护网。": "1 m bunk bed: frame about 106×196, 162 high, against the right wall, 65 cm from the window (the top bunk isn't next to the glass); it ends before the spot where the open door rests against the wall, with the ladder on the side near the foot. The top mattress is about 1.5 m below the ceiling — room to sit up. The left half of the room is free for a desk or play. Fit window restrictors or invisible grilles.", "电视（移动落地支架，不挂墙）": "TV (rolling floor stand, not wall-mounted)", "网篮支架 124 宽": "Mesh stand 124 wide", "银翼 V 脚支架": "Silver Wing V-leg stand", "按平面图 v65 + 灯光图建模 · 单位 mm · 层高按 2800 假设": "Built from floor plan v65 + lighting plan · units mm · ceiling height assumed 2800", "放客厅": "In the living room", "55 寸电视（移动落地支架，不挂墙）": "55\" TV (rolling floor stand, not wall-mounted)", "运动（Ring Fit）": "Workout (Ring Fit)", "平时": "Normal", "运动模式": "Workout mode", "餐椅": "Dining chairs", "6 把": "6 chairs", "6 把椅子：两边各 2 把，两头各 1 把。": "6 chairs: 2 on each side and 1 at each end.", "宜家 SLÄKT / NATTAPA 带储物床 ×2：每张 96×206，床头板高 89、床尾板高 71，床垫 90×200；床底抽屉（内部 72×57×14cm，每个限重 15kg）开在两床中间那一侧。两张床各靠一面墙，中间只剩约 52cm，抽屉能拉开大半（约 48cm），一次开一边。床头柜不放。小的那张装 NATTAPA 护栏（18 个月以上可用）。床尾到衣柜约 88cm。床的总高度官网没写，模型按床垫面约 43cm 估。": "Two IKEA SLÄKT / NATTAPA beds with storage: each 96×206, headboard 89 high, footboard 71, mattress 90×200; the under-bed drawers (inside 72×57×14 cm, max 15 kg each) open on the side facing the middle. With one bed against each wall only about 52 cm is left between them, so a drawer opens most of the way (about 48 cm), one side at a time. No bedside cabinet. The little one's bed gets the NATTAPA guard rail (from 18 months). About 88 cm from the bed ends to the wardrobe. IKEA doesn't list the overall bed height; the model assumes the mattress top at about 43 cm.", "5 把 + Stokke 宝宝椅": "5 + Stokke high chair", "5 把椅子 + 一张黑色 Stokke Tripp Trapp（宽 46、深 49、高 79），Stokke 放在靠厨房那头，方便大人照顾、上菜；2 岁加 Baby Set 前护栏。": "5 chairs + a black Stokke Tripp Trapp (W 46, D 49, H 79); the Stokke sits at the kitchen-side end, easy for serving and looking after the little one; add the Baby Set front bar for a 2-year-old.", "衣柜前（按摩椅挪走）": "In front of the wardrobe (massage chair out)", "站阳台（按摩椅留着）": "On the balcony (massage chair stays)", "木百叶": "Wooden blinds", "0.9m 床：两张床架各 95，两床之间约 54cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "0.9 m beds: two 95 frames, about 54 cm between them, no bedside cabinet. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "1m 床：两张床架各 102，两床之间约 40cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "1 m beds: two 102 frames, about 40 cm between them, no bedside cabinet. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "放": "Yes", "加上": "With", "不加": "Without", "不加：进门右手边是一面白墙，鞋全放弧形柜。": "Without: a plain white wall on the right as you come in; all shoes go in the curved cabinet.", "2m 双人桌靠左墙：孩子靠窗（24 寸屏 + 打印机）；大人在里面坐电竞椅看盘：两块 24 寸屏 V 字摆 + 桌尾一台笔记本。大人这半边只有约 1.1m，两块 27 寸并排要 1.25m 放不下。两边中间一盏长条台灯；白色悬浮书架 2.05m，和桌子一样长。": "2 m shared desk on the left wall: the child by the window (24\" screen + printer); the adult further in on the gaming chair for trading — two 24\" screens in a V + a laptop at the desk end. The adult half is only about 1.1 m; two 27\" side by side need 1.25 m and don't fit. One LED bar lamp between the two halves; the white floating shelves run 2.05 m, the same length as the desk.", "孩子房：两张 1m 地台床": "Kids' room: two 1 m floor beds", "书房床（阿姨睡）": "Study bed (the helper's)", "0.9m 地台床": "0.9 m floor bed", "收起": "Put away", "打开储物": "Storage open", "原来的 0.9m 地台床：床架 92×191，床垫约 90×190，没有床头板。书桌到床边约 87cm，床底不能放东西。": "The original 0.9 m floor bed: frame 92×191, mattress about 90×190, no headboard. About 87 cm from the desk to the bed; no storage underneath.", "现在显示：床板掀起来的样子。": "Shown now: the platform lifted.", "餐边柜": "Sideboard", "圆角原木柜（佳美）": "Rounded oak (Jiamei)", "放餐厅墙": "On the dining wall", "放原弧形柜那面墙": "On the former curved-cabinet wall", "放原弧形柜那面墙（进门左手边、靠餐厅那头）：长 140、深 45，前面走道约 1.86m；餐厅墙空着。这面墙要加插座。": "On the former curved-cabinet wall (left of the entrance, at the dining end): 140 long, 45 deep, about 1.86 m of passage in front; the dining wall stays bare. This wall needs sockets.", "圆角原木柜（参考淘宝「佳美」美式实木餐边柜，¥3580 起，可定制）：基本是一个长方体，前面两个角是 8cm 的小圆角，四扇平门、无把手，底下内缩踢脚；高 80。是成品不用请木工；两款里贵很多。": "Rounded-corner oak sideboard (after the Taobao \"Jiamei\" American solid-wood sideboard, from ¥3580, made to order): basically a box with small 8 cm rounded front corners, four flat handleless doors and a recessed plinth; 80 high. Off the shelf, no carpenter needed; much the dearer of the two.", "奶白": "Warm white", "哑光黑": "Matte black", "原木": "Natural wood", "奶白色（哑光，跟墙差不多的暖白）：柜子融进墙里，餐厅最清爽，让黑色餐椅和藤编当主角；叫卖家用哑光、耐擦的漆，孩子的手印好擦。": "Warm white (matte, close to the wall colour): the cabinet melts into the wall and the dining area stays calm, leaving the black chairs and the cane as the focus; ask the seller for a matte, wipeable paint so little handprints come off.", "哑光黑：和黑色餐椅框、黑色桌脚、黑色茶几是一套，最有型；但一整块黑色在小餐厅里显得重，灰尘和手印也明显。": "Matte black: goes with the black chair frames, table base and coffee table — the most striking; but a whole block of black feels heavy in a small dining area, and dust and handprints show.", "原木色：卖家原来的颜色；家里没有别的原木，会有点跳。": "Natural wood: the seller's original colour; with no other natural wood in the flat it would stand out a little.", "床尾对面、衣柜前面那块放什么：": "What goes opposite the bed foot, in front of the wardrobe:", "藤编床头柜": "Rattan bedside cabinet", "亚克力透明边几": "Clear acrylic side table", "门后圆墩（进门右手边，坐着换鞋）": "Round stool behind the door (right of the entrance, to sit and put shoes on)", "门后圆墩：极简纯白圆墩 Φ40、高 45，靠墙放，坐着换鞋，不占地方；进门走道还剩约 1.6m，大门开到底也碰不到。鞋都放进门左边的柜子。": "Stool behind the door: a plain white round stool, Φ40, 45 high, against the wall — sit down to put shoes on, takes almost no room; the entrance passage keeps about 1.6 m and the fully open front door clears it. Shoes go in the cabinet on the left as you come in.", "放在窗边，右边去阳台留 70cm。": "placed by the window; 70 cm left on the right to the balcony.", "这个方向转椅在餐厅那头（后面就是进客厅的路，不能放东西）。": "In this direction the swivel chair is at the dining end (the way into the living room is right behind it).", "窗边只放转椅。": "Only the swivel chair by the window.", "银翼 V 脚支架放在客厅靠窗的右边墙角，斜 45° 对着沙发中间，屏幕离沙发约 2.2m。右边窗角那盏落地灯原地不动，正好在电视后面，晚上当电视背光。阳台门在左边，电视不挡门；要挪电视时推开就行（带轮子）。": "Silver Wing stand in the living room's right window corner, angled 45° toward the middle of the sofa, about 2.2 m from the sofa. The floor lamp in that corner stays put — it ends up behind the TV and works as a backlight at night. The balcony door is on the left, so the TV doesn't block it; roll it aside if needed (it has wheels).", "做": "Yes", "原弧形柜那面墙现在做了弧形柜，餐边柜先放餐厅墙。": "That wall now has the curved cabinet, so the sideboard goes on the dining wall for now.", "C2 - 家具": "C2 - Furniture", "内部结构、开门的样子和尺寸，看单独的「Carpentry」页面。": "Inside layout, open doors and dimensions: see the separate \"Carpentry\" page.", "门面平滑墙色": "Smooth, wall colour", "竖条纹": "Fluted", "门面平滑、跟墙同色，门缝是几条细线。": "Smooth doors in the wall colour; the door gaps show as a few hairlines.", "孩子房玩具（小车车道、磁力片停车楼、毛绒）": "Kids' toys (car lanes, magnetic-tile garage, plush)", "照孩子现在自己摆的样子，直接摆在地板上（不铺垫子）：床尾和衣柜之间那块空地的左半边，靠左墙停一排小汽车，旁边用深绿和白色的积木条围一条车道；中间一座三层的磁力片停车楼；右边用原木长条积木围成两条弯道，绕一个大 U 形掉头，车道里排着小汽车、一辆双层巴士和一列小火车；墙角堆着备用的磁力片。右半边从门口到床的路还是约 1.05m（右墙布盒子那段约 70cm）。他的 4 个毛绒放在左边床的床头：黄色小鸡（红鸡冠）、卡皮巴拉、Roblox 公仔、绿色毛毛头小鸟；右边床还是恐龙。两个带盖的布盒子：一个在两张床头中间当床头柜，一个靠右墙收玩具。": "Set up the way he builds it himself, straight on the floor (no mat): on the left half of the free floor between the bed ends and the wardrobe, a row of toy cars parked along the left wall beside a lane edged with dark-green and white blocks; a three-storey magnetic-tile garage in the middle; on the right, two curving lanes edged with plain wooden planks that turn round in a big U, with cars, a double-decker bus and a little train lined up in them; spare magnetic tiles stacked in the corner. On the right, the way in from the door to the beds stays about 1.05 m (about 70 cm past the fabric box by the right wall). His four plush toys sit at the head of the left bed: the yellow chicken (red comb), the capybara, the Roblox plush and the green bird with fuzzy hair; the dinosaur stays on the right bed. Two fabric boxes with lids: one between the bed heads as a bedside table, one against the right-hand wall for toys.", "意式茶凳（圈绒 + 靠枕）": "Italian boucle stool (with bolster)", "电视放在客厅窗角时，这块地方被电视占了，凳子先不显示。": "With the TV in the living-room window corner this spot is taken by the TV, so the stool is hidden for now.", "cm（稍挤）。黑色小边几一个，在转椅内侧（靠窗、靠墙那边）放杯子。": " cm (a bit tight). The small black side table on the chair's inner side (toward the window and the wall) for a cup.", "转椅在窗边，面向沙发；黑色小边几在旁边（伸手能放杯子），就是参考图": "The swivel chair is by the window facing the sofa; the small black side table beside it (within reach for a cup); the reference photo's ", "转椅 + 黑色小边几，灯放在边几后面。": "Swivel chair + the small black side table, lamp behind the side table.", "现在爸爸（180）坐在凳子上，妈妈和大孩子坐沙发；座高 45 和沙发差不多，脚不碰茶几。": "Dad (180) is on the stool now, mum and the older child on the sofa; the 45 cm seat is about sofa height and his feet stay clear of the coffee table.", "爸爸躺沙发": "Dad lying on the sofa", "牧森 2.4m：1.8m 的爸爸躺直，头和脚两头各只剩十几厘米，刚好躺得下，不算宽裕；想把腿完全伸直放松的话还是 3.2m 的舒服。": "Musen 2.4 m: with dad (1.8 m) lying flat only a dozen or so centimetres are left at each end — he just fits, but it isn't roomy; to stretch the legs out fully the 3.2 m is the comfortable one.", "人物（一家四口：爸爸、妈妈、9 岁孩子、2 岁宝宝）": "People (family of four: dad, mum, the 9-year-old, the 2-year-old)", "全家在各房间": "Whole family, every room", "显示人物时宝宝要坐 Stokke，所以先换成 5 把 + Stokke；人物选「不显示」就是 6 把。": "With people shown the little one sits in the Stokke, so it's 5 chairs + Stokke for now; set people to \"None\" for 6 chairs.", "单椅旁的黑色小边几：方底细杆 ¥25（圆面 18、高 58）": "Small black side table by the chair: thin pole, square base, ¥25 (round top 18, 58 high)", "这个沙发靠窗那头离玻璃很近，凳子和圆几只能放在沙发头和右边落地灯之间（约 1.1m）：圆几离沙发头约 25cm，凳子和圆几隔开约 10cm。": "This sofa's window end comes close to the glass, so the stool and drum have to sit between the sofa end and the right-hand floor lamp (about 1.1 m): the drum about 25 cm from the sofa end, about 10 cm between drum and stool.", "0.9m 液压储物床": "0.9 m hydraulic storage bed", "0.9m 液压储物床（新加坡常见的气压掀床，单人 90×190，外框约 95×196）：整块床板连床垫从床尾往上掀，整个床底都是储物（模型按约 23cm 深），从床尾、床边都能拿，不用挪椅子，也不用留拉抽屉的位置。书桌到床边约 84cm。缺点：每次拿东西要掀床，床上的东西先挪开。": "0.9 m hydraulic storage bed — a hydraulic lift-up storage bed (single 90×190, outside about 95×196): the whole platform with the mattress lifts from the foot end, and the entire space under the bed is storage (about 23 cm deep in the model), reachable from the foot and the side — no chairs to move, no room needed for pulling drawers. About 84 cm from the desk to the bed. Downside: you lift the bed each time, so things on it have to come off first.", "组合2 弧形沙发 3.2m：1.8m 的爸爸躺直，头那头离扶手还有约 40cm，脚边还空出将近 1m，腿完全伸在贵妃位上，很宽裕。": "Combo 2 curved sofa 3.2 m: with dad (1.8 m) lying flat there's still about 40 cm to the arm at his head and nearly 1 m free past his feet; his legs stretch right out on the chaise — plenty of room.", "牧森 2.4m 短很多，沙发头离窗还有约 1m，所以凳子和圆几往里挪到窗户中间一带：凳子大致对着茶几，圆几在左边、隔开约 20cm，右边落地灯旁边空出来。": "The Musen 2.4 m is much shorter — its end stops about 1 m short of the window — so the stool and drum move in toward the middle of the window: the stool roughly facing the coffee table, the drum on its left about 20 cm away, and the space beside the right-hand lamp left open.", "晚上的灯：全开（轨道、线灯、吊灯、洗墙、落地灯、灯带）": "Lights at night: all on (track, linear lights, pendant, wall wash, floor lamps, strips)", "不做餐边柜：这面墙空着，就是一面白墙；端头椅子后面最宽敞，手冲咖啡壶、水壶、杯子这些要另找地方放（比如厨房台面）。": "No sideboard: this wall stays empty, just a white wall; the most room behind the end chair, but the pour-over set, water jug and cups need a home elsewhere (e.g. the kitchen counter).", "身高按爸爸 180、妈妈 162、大孩子 135（9 岁）、宝宝 88（2 岁）。「全家在各房间」是每个房间同时放一组人，一眼看到各房间的样子：客厅爸爸坐窗边小凳子、妈妈和大孩子坐沙发、宝宝扶着茶几站；餐厅爸爸、妈妈、大孩子吃饭，宝宝坐 Stokke；书房妈妈坐电竞椅看盘、大孩子在窗边写作业；孩子房宝宝动了大孩子的小车（站在墙边那排车旁边，手里举着一辆红车），大孩子坐在床角哭（揉眼睛、张着嘴、掉眼泪）；主卧阳台上妈妈在玩 Ring Fit。「爸爸躺沙发」只显示 180 的爸爸平躺在沙发上，头在没有贵妃位的那头。": "Heights: dad 180, mum 162, the older child 135 (9), the little one 88 (2). \"Whole family, every room\" puts a group in each room at once, so you see every room in one go: living room — dad on the window stool, mum and the older child on the sofa, the little one standing at the coffee table; dining — dad, mum and the older child eating, the little one in the Stokke; study — mum trading on the gaming chair, the older child doing homework by the window; kids' room — the little one has taken one of the big boy's cars (standing by the row of cars at the wall, holding a red one up), and the big boy sits on the corner of his bed crying (rubbing an eye, mouth open, tears); and mum is doing Ring Fit on the master balcony. \"Dad lying on the sofa\" shows only dad (180) flat on his back on the sofa, head at the end without the chaise.", "台面放手冲咖啡的玻璃滤杯和分享壶、香蕉挂架、水果、水壶和杯子；墙上三条白色搁板（深 15，离地 1.40 / 1.75 / 2.10m，和柜子一样长）：最上面放红酒杯，中间放玻璃杯和醒酒器，下面放茶壶和茶杯。淘宝这几家都写了「SG 家具送货上门、付费上门安装」，集运海运大约 10–12 个工作日。": "On top: the glass pour-over dripper and server, a banana hanger, fruit, a water jug and cups; three white ledges on the wall (15 deep, 1.40 / 1.75 / 2.10 m up, as long as the cabinet): wine glasses on the top one, tumblers and a decanter in the middle, a teapot and tea cups on the lowest. These Taobao shops all list \"SG home delivery, paid installation\"; sea freight takes about 10–12 working days.", "放餐厅墙：墙到墙做满，长 187、深 45，两头贴墙不留缝；端头椅子背到柜子约 41cm，椅子推进去时柜门（约 40 宽）刚好能开。": "On the dining wall, wall to wall: 187 long, 45 deep, both ends tight to the walls; about 41 cm from the end chair's back to the cabinet — with the chair pushed in, the doors (about 40 wide) just open.", "人物选「全家在各房间」时，妈妈在主卧阳台玩 Ring Fit。": "With \"Whole family, every room\" shown, mum is doing Ring Fit on the master balcony.", "金色平衡臂球灯": "Gold balance-arm globe lamp", "黑色平衡臂环形灯": "Black balance-arm ring lamp", "一盏（左边窗角）": "One (left window corner)", "一盏（右边窗角）": "One (right window corner)", "金色平衡臂球灯（白色大理石圆底座 Φ25，金色灯杆到 140cm 有一个转节，横臂长 64cm、斜着往上翘约 28°，短的一头是配重，长的一头挂一个白色玻璃球 Φ20，总高约 160）：球朝窗户中间探出去约 40cm，光是柔的暖白，晚上像一个小月亮。": "Gold balance-arm globe lamp (white marble round base Φ25, a brass rod with a knuckle at 140 cm, a 64 cm arm tilted up about 28°, counterweight on the short end and a white glass globe Φ20 on the long end, about 160 high): the globe reaches about 40 cm toward the middle of the window; soft warm-white light, like a small moon at night.", "黑色平衡臂环形灯（黑色水磨石圆柱底座 Φ14、高 26，黑色细杆，横臂斜着往上翘，一头配重；灯头是一圈黑色细环，里面半个小碗，外黑内铜色，光往下往前打；卖家标 D140×H170、LED 7W，¥368）：灯头朝窗户中间探出去约 65cm，比金色那款更细、更黑白。": "Black balance-arm ring lamp (black terrazzo column base Φ14 × 26 high, slim black rod, the arm tilted up with a counterweight at one end; the head is a thin black ring with a small half-dish inside, black outside and copper inside, lighting down and forward; listed D140 × H170, LED 7 W, ¥368): the head reaches about 65 cm toward the middle of the window — slimmer and more black-and-white than the gold one.", "现在是两盏，对称放在两个窗角，灯头都朝窗户中间探出去；两个窗角都要留插座。": "Two lamps now, one in each window corner, both heads reaching toward the middle of the window; both corners need a socket.", "现在是一盏，放在左边窗角（沙发靠窗那头），灯头朝中间探到沙发那头上方，坐沙发看书正好。": "One lamp now, in the left window corner (the sofa's window end), the head reaching over the end of the sofa — right for reading on the sofa.", "现在是一盏，放在右边窗角，灯头朝中间探到窗边凳子上方；左边沙发那头的窗角空着。": "One lamp now, in the right window corner, the head reaching over the window stool; the left corner by the sofa stays empty.", "床头柜": "Bedside", "亚克力透明边几（只放窗边）": "Clear acrylic table (window side only)", "Elijah 圆柜（只放窗边）": "Elijah round (window side only)", "胡桃木岩板柜（只放窗边）": "Walnut + stone cabinet (window side only)", "宜家白方座亚麻灯罩": "IKEA white block base, linen shade", "宜家 RANARP 摇臂灯": "IKEA RANARP work lamp", "客厅小方凳 + 白色圆几": "Living-room stool + white drum", "放茶几对面（面向沙发）": "Across the coffee table (facing the sofa)", "放窗边": "By the window", "亚克力透明边几（宽 40）：两边空位各只有约 35cm，只能放窗边一个；床往衣柜那边挪约 8cm，衣柜那边留约 27cm，放不下柜子。": "Clear acrylic table (40 wide): each side has only about 35 cm, so just one, by the window; the bed moves about 8 cm toward the wardrobe, leaving about 27 cm on that side — no cabinet fits there.", "Comfy「Elijah」圆形床头柜（Φ45、高 43，胡桃木皮 + 白色岩板台面，两个弧形抽屉、黑色细竖把手，S$359）：只放得下窗边一个，床往衣柜那边挪约 13cm，衣柜那边只剩约 22cm；台面比床垫低约 9cm。": "Comfy \"Elijah\" round bedside table (Φ45 × 43 high, walnut veneer with a white sintered-stone top, two curved drawers with slim black upright pulls, S$359): only one fits, by the window; the bed moves about 13 cm toward the wardrobe, leaving only about 22 cm there; the top is about 9 cm below the mattress.", "胡桃木 + 岩板台面方柜（淘宝 ¥598 起；四角圆的方形，两个抽屉中间一道凹槽当拉手；尺寸先按宽 45、深 40、高 48 估，买前问卖家）：同样只放窗边一个，床挪约 13cm。": "Walnut cabinet with a sintered-stone top (Taobao, from ¥598; rounded-square, two drawers with a recessed groove between them as the pull; size assumed 45 wide, 40 deep, 48 high — check with the seller): also only one, by the window; the bed moves about 13 cm.", "台面上放了两本书、一杯水和一个小陶瓶。": "On top: two books, a glass of water and a small stoneware bottle.", "台灯：宜家白色方柱底座台灯（亮面白方柱 + 小铜旋钮，米色亚麻方锥灯罩，总高约 45），晚上暖光。": "Lamp: IKEA table lamp with a glossy white square column, a small brass knob and a beige linen square shade (about 45 high); warm light at night.", "台灯：宜家 RANARP 工作台灯（米白色、铜色转节，S$49.90），灯臂朝床那边伸，灯罩照到枕头；要配 E27 磨砂球泡。": "Lamp: IKEA RANARP work lamp (off-white with brass joints, S$49.90), the arm reaching over the bed so the shade lights the pillow; takes an E27 opal globe bulb.", "意式茶凳（米白圈绒，焦糖色圆靠枕，宽 47、深 37、高 45，底下 8cm 内缩底座）+ 白色圆几（Φ30、高 50）。": "Italian stool (off-white boucle, caramel round bolster, 47 wide, 37 deep, 45 high, on an 8 cm recessed plinth) + the white drum table (Φ30, 50 high).", "凳子在窗边，背靠窗、面朝茶几，圆几在左边。": "The stool is by the window, back to the glass, facing the coffee table, with the drum on its left.", "电视放在客厅右墙时，茶几对面被电视占了，凳子先放回窗边。": "With the TV on the living-room right wall the spot across the coffee table is taken, so the stool goes back by the window.", "现在爸爸坐在凳子上，隔着茶几对着沙发上的妈妈和大孩子。": "Dad is on the stool now, across the coffee table from mum and the older child on the sofa.", "网篮支架 124×42：放正、背贴床尾那面墙，对着床中间；床尾到墙约 45cm，支架前沿离床尾只剩约 2.5cm，屏幕中心离枕头约 2.1m，": "Mesh stand 124 × 42: square to the foot wall with its back on it, facing the middle of the bed; the foot aisle is about 45 cm, so the stand's front is only about 2.5 cm from the bed; screen centre about 2.1 m from the pillows, ", "银翼 V 脚支架：立柱贴着床尾那面墙，对着床中间；两条腿（785 和 555，夹角 100°）往前伸约 50cm，床尾到墙只有约 45cm，长的那条腿会伸进床底约 10cm——床底离地约 12cm、腿只有 3.5cm 高，不会碰；屏幕正对枕头，离枕头约 2.1m。看电视时过道占住，要过人就推开（带轮子）。适配 40–70 寸，承重 30kg。": "Silver V-leg stand: the pole against the foot wall, facing the middle of the bed; the two legs (785 and 555, 100° apart) reach about 50 cm forward but the foot aisle is only about 45 cm, so the long leg slides about 10 cm under the bed — the bed stands about 12 cm off the floor and the legs are only 3.5 cm high, so nothing touches; the screen faces the pillows about 2.1 m away. While watching, the aisle is taken; push it aside to get past (it's on castors). Fits 40–70\", carries 30 kg.", "源氏木语实木床（北美黑胡桃木、木蜡油，低铺斜靠款 K33B10）：1.8m 款总宽 191.5、总深 214.5、床头高 92，床头板往后斜靠，四角方腿，床底离地约 12cm。比原来的模型长 15cm：床尾到墙的过道从约 61cm 变成约 45cm；电视支架跟着床居中，银翼支架的长腿伸进床底约 10cm（床底离地 12cm，不碰）。": "Yuanshi solid-wood bed (North American black walnut, wax oil, low bed with leaning headboard K33B10): the 1.8 m size is 191.5 wide, 214.5 deep, headboard 92 high leaning back, square corner legs, about 12 cm clear underneath. It is 15 cm longer than the old model: the aisle at the foot shrinks from about 61 cm to about 45 cm; the TV stand stays centred on the bed and the V-stand's long leg slides about 10 cm under it (12 cm clearance, no contact).", "凳子挪到黑色茶几对面，背靠右墙（离墙约 1cm），面朝沙发，焦糖色靠枕在后面当靠背；和沙发、转椅围成一圈，聊天都面对面。凳子放在茶几靠窗那头的外侧，坐下伸腿正好在茶几头外面（离茶几约 3cm），不会顶到茶几；这一侧就不走人了，去窗边从沙发和茶几中间过。白色圆几和玻璃小花瓶留在窗边。": "The stool moves across the black coffee table, back to the right wall (about 1 cm off), facing the sofa, the caramel bolster behind as a backrest; with the sofa and the swivel chair it closes the circle, everyone face to face. The stool sits just past the window end of the coffee table, so legs stretched out from it land beyond the end of the table (about 3 cm clear) instead of hitting it; nobody walks along this side any more — to reach the window, go between the sofa and the coffee table. The white drum and the glass bud vase stay by the window.", "和转椅对调（转椅去窗边）": "Swap with the swivel chair (chair to the window end)", "现在爸爸坐在茶几尾端的小方凳上，面朝窗户；转椅空着，谁想看风景就坐过去。": "Dad is on the stool at the end of the coffee table now, facing the window; the swivel chair is free for whoever wants the view.", "¥25 圆盘小边几": "¥25 round-top table", "白色圆柱 Φ30": "White drum Φ30", "转椅和小方凳对调：卡萨驰转椅挪到茶几靠窗那头的右边（离右墙约 2.5cm、离茶几头约 3cm），默认斜对着沙发和窗户，一转就能看窗外。意式小方凳去转椅原来的位置（茶几靠餐厅那头），面朝茶几和窗户，比转椅窄 30cm，那头宽松了。白色圆几和玻璃小花瓶还在窗边，边几挪到餐厅那头，窗边不挤了。": "Swivel chair and stool swapped: the Casa swivel chair moves to the window end of the coffee table by the right wall (about 2.5 cm off the wall, about 3 cm past the table end), turned toward the sofa and the window so it can swing round to the view. The Italian stool takes the chair's old spot at the dining end of the coffee table, facing the table and the window; it's 30 cm narrower than the chair, so that end feels roomier. The white drum and the glass bud vase stay by the window; the side table moves to the dining end, so the window end isn't crowded.", "卡萨驰转椅 Φ77 现在在窗边这头：背靠右墙、斜对沙发和窗户，坐下转个身就是窗外的树；窗边只留转椅、白色圆几和落地灯，边几挪去餐厅那头了。": "The Casa swivel chair Φ77 is at the window end now: back to the right wall, turned toward the sofa and the window — sit down and swing round to the trees outside; only the chair, the white drum and the floor lamp stay by the window, the side table has moved to the dining end.", "藤编床头柜（只放窗边）": "Rattan cabinet (window side only)", "¥25 圆盘小边几（台面 Φ18、高 58、方底座 18×18）放在沙发尾和小方凳之间的夹角：占地最小、看着轻，爸爸坐凳子左手边就能放杯子，沙发尾那个座位也够得着；台面小、只有一根细杆，杯子别放太满。": "The ¥25 round-top table (top Φ18, H58, square base 18×18) sits in the corner between the sofa end and the stool: the smallest footprint and light to look at; dad on the stool has it at his left hand and the end seat of the sofa can reach it too; the top is small on one thin pole, so don't fill the cup to the brim.", "白色圆柱 Φ30（和窗边同款，高 50）放进夹角：实心最稳，碰不倒；Φ30 放进这个夹角刚好贴着沙发尾和凳子侧边，放得下、不算太宽，只是看起来比圆盘小边几实、占的地方多一点。": "The white drum Φ30 (same as by the window, H50) in the corner: solid, the steadiest, won't tip; at Φ30 it just touches the sofa end and the stool's side — it fits and isn't too wide, it just looks more solid than the round-top table and takes a bit more room.", "主卧床": "Master bed", "站阳台：按摩椅留着。假设主卧阳台最右边那扇推拉门打开（推到中间那扇后面），这扇的百叶拉起来。电视支架推到床尾靠阳台那个角，斜对着阳台，屏幕一端悬在床上方，两条腿都在地上、不碰床和床头柜。人站在阳台中间的瑜伽垫上，隔着开着的门看电视。阳台装 Zipblind 挡雨。": "On the balcony: the massage chair stays. Assume the right-most master balcony door is open (slid behind the middle one) with its blind up. The TV stand goes to the bed-foot corner on the balcony side, turned toward the balcony, one end of the screen over the bed, both legs on the floor clear of the bed and the bedside piece. Standing on a yoga mat mid-balcony, you watch through the open door. Zipblind on the balcony against rain.", "运动模式：按摩椅挪走（比如放主卧阳台，装 Zipblind 挡雨），衣柜前空出约 2m × 2m；电视支架从床尾推到床角，斜对着这块空地，屏幕一端悬在床上方，两条腿都在地上；人站在瑜伽垫上看屏幕。不用开阳台门。": "Workout mode: the massage chair goes (e.g. onto the master balcony with a Zipblind against rain), clearing about 2 m × 2 m in front of the wardrobe; the TV stand rolls from the bed foot to the bed corner, turned toward that space, one end of the screen over the bed, both legs on the floor; you stand on a yoga mat facing it. No need to open the balcony door.", "主卧床：源氏木语黑胡桃木低铺斜靠床 1.8m": "Master bed: Yuanshi black-walnut low bed with a leaning headboard, 1.8 m", "床头灯": "Bedside light", "主卧墙上不装阅读壁灯。": "No wall reading sconces in the master.", "藤编床头柜（淘宝「复古藤编柜子」¥525.8：宽 40、深 37、高 60）：顶板和两侧是一整块圆角的瀑布造型，外面包细藤编，前沿三道圆藤条收边；上面一个藤编抽屉配半月形拉手，中间一个 30cm 高的开放格（里面宽 32），底层藤编搁板离地 8cm。宽 40，只放得下窗边一个，床往衣柜那边挪约 8cm，衣柜那边留约 27cm；柜面比床垫面高约 6cm。": "Rattan bedside cabinet (Taobao “vintage rattan cabinet”, ¥525.8: 40 wide, 37 deep, 60 high): the top and both sides are one waterfall piece with rounded corners, wrapped in fine woven rattan and edged at the front with three round reeds; a woven drawer with a half-moon pull on top, an open bay 30 cm high (32 inside) in the middle, a woven bottom shelf 8 cm off the floor. At 40 wide only one fits, by the window; the bed moves about 8 cm toward the wardrobe, leaving about 27 cm on that side; the top is about 6 cm above the mattress.", "自家的全光谱落地灯：黑色细杆、圆底座（按 Φ25 估），杆子能弯。放在床左侧（从床尾看是衣柜那边）床和衣柜之间的空当里：竖杆到约 1.15m 弯过来，灯臂约 1.5m、带一点往上凸的弧度，斜着伸过枕头上方，灯头在床中间稍过一点、约 2.2m 高，灯带在灯臂下面往下照。弯头在床外面，靠床头坐起来不碰头。床头柜上不放台灯。": "Our own full-spectrum floor lamp: a slim black rod on a round base (taken as Φ25); the rod bends. It stands left of the bed (the wardrobe side, seen from the foot) in the gap between the bed and the wardrobe: the rod rises to about 1.15 m and bends over, then a 1.5 m arm with a slight upward curve reaches across above the pillows, its end a little past the middle of the bed at about 2.2 m; the LED strip under the arm shines down. The bend is outside the bed, so sitting up against the headboard you won't hit it. No table lamp on the bedside cabinet.", "自家全光谱落地灯（床左侧）": "Our full-spectrum floor lamp (left of the bed)", "玄关储物柜：定制顶天柜（厂家能做的柜型，做到天花，无把手）": "Entrance storage: custom floor-to-ceiling cabinet (shapes the factory can make, no handles)", "圆角柜（厂家圆弧件）": "Rounded corners (factory arc pieces)", "三面平门（折线）": "Three flat doors (folded)", "圆角 R150": "Corners R150", "R100": "R100", "标准深度": "Standard depth", "加深": "Deep", "圆角柜（厂家能做的柜型）：长方形 130 × 深 75，靠走道的两个前角用厂家的圆弧件，两边的门带圆弧边包住柜角；竖向分 40 + 50 + 40 三格，上下两节（门在 2m 高处分开），一共 6 扇门。柜门正面到对面墙约 1.57m；75 深已经能上下放两个 28 寸行李箱。": "Rounded-corner cabinet (a shape the factory can make): a 130 × 75 deep rectangle whose two front corners on the corridor side are the factory's arc pieces, the side doors wrapping the corners; split 40 + 50 + 40 across and in two tiers (doors split at 2 m), six doors in all. About 1.57 m from the door fronts to the opposite wall; 75 deep already takes two 28\" suitcases one above the other.", "圆角柜（厂家能做的柜型）：长方形 130 × 深 98（厂家最大深度），靠走道的两个前角用厂家的圆弧件，两边的门带圆弧边包住柜角；竖向分 40 + 50 + 40 三格，上下两节（门在 2m 高处分开），一共 6 扇门。柜门正面到对面墙约 1.34m，能装得最多，走道窄一些。": "Rounded-corner cabinet (a shape the factory can make): a 130 × 98 deep rectangle (the factory's maximum) whose two front corners on the corridor side are the factory's arc pieces, the side doors wrapping the corners; split 40 + 50 + 40 across and in two tiers (doors split at 2 m), six doors in all. About 1.34 m from the door fronts to the opposite wall: holds the most, the corridor is narrower.", "三面平门（折线）：靠墙一个长方形，深 30，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.58m。": "Three flat doors (folded): a 30 deep rectangle against the wall, a middle flat door (57 wide) standing 44 further out, and slanted doors running back to the wall ends; two tiers, six doors in all. About 1.58 m from the furthest point to the opposite wall.", "三面平门（折线）：靠墙一个长方形，加深到 65，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.23m，偏窄。": "Three flat doors (folded): a rectangle against the wall made 65 deep, a middle flat door (57 wide) standing 44 further out, and slanted doors running back to the wall ends; two tiers, six doors in all. About 1.23 m from the furthest point to the opposite wall — on the narrow side.", "圆角用 R150，转角柔和一些。": "Corners in R150: a softer turn.", "圆角用 R100，转角利落一些，柜里多一点地方。": "Corners in R100: a crisper turn and a little more room inside.", "门面竖条纹（奶白色），门缝藏在条纹凹槽里，看不出来。": "Vertically fluted doors (off-white); the door joints hide in the grooves.", "80 长款（白色，¥295）": "80 cm long version (white, ¥295)", "意式茶凳 80 长款（白色圈绒、焦糖色长靠枕，长 80、高 45，深度图上没写、按 40 估，淘宝 ¥295）+ 白色圆几（Φ30、高 50）。": "Italian boucle stool, 80 cm long version (white boucle, long caramel bolster, 80 long, 45 high, depth not given — taken as 40, Taobao ¥295) + white drum (Φ30, H50).", "转椅和凳子对调：卡萨驰转椅挪到茶几靠窗那头的右边（离右墙约 2.5cm、离茶几头约 3cm），默认斜对着沙发和窗户，一转就能看窗外。80 长凳放在茶几靠餐厅那头、对着茶几中间，比茶几宽 27cm，两头各伸出十几厘米，能坐两个人；右边到墙的过道从约 68cm 变成约 60cm，夹角里的边几离长凳只剩几厘米。白色圆几和玻璃小花瓶还在窗边。": "Swivel chair and stool swapped: the Casa swivel chair moves to the window end of the coffee table by the right wall (about 2.5 cm off the wall, about 3 cm past the table end), turned toward the sofa and the window so it can swing round to the view. The 80 bench sits at the dining end of the coffee table, centred on it — 27 cm wider than the table, a dozen centimetres past each side, seats two; the aisle to the right wall goes from about 68 cm to about 60 cm, and the side table in the corner is only a few centimetres from the bench. The white drum and the glass bud vase stay by the window.", "80 长款竖着靠右墙放（离墙约 1.5cm），比小方凳往窗边挪了约 24cm，整条都在茶几靠窗那头外面，坐下伸腿不碰茶几。": "The 80 bench stands lengthwise against the right wall (about 1.5 cm off it), about 24 cm nearer the window than the stool, wholly past the window end of the table, so legs stretched out from it clear the table.", "80 长款在窗边要往右挪 9cm，和圆几只隔约 2cm；右边窗角要是也放落地灯就放不下了。": "By the window the 80 bench has to move 9 cm right, leaving only about 2 cm to the drum; with a floor lamp in the right-hand window corner as well it won't fit."};
+const EN = {"全屋三维模型，可拖动旋转": "3D model of the whole flat — drag to rotate", "视角": "View", "餐厅看客厅": "Dining → living", "阳台看回来": "From the balcony", "坐在沙发上": "On the sofa", "转椅角落": "Swivel-chair corner", "茶几": "Coffee table", "从转椅看沙发": "Chair → sofa", "主卧": "Master bedroom", "躺床看电视": "TV from the bed", "孩子房": "Kids' room", "书房": "Study", "书桌": "Desk", "餐厅": "Dining", "玄关": "Entrance", "俯视全屋": "Top-down", "沙发款式": "Sofa", "牧森 2.4m": "Musen 2.4 m", "组合2 弧形 3.2m": "Combo 2 curved 3.2 m", "不放": "None", "放主卧床尾": "Foot of the master bed", "藤编扶手椅": "Rattan armchair", "竹节椅（马黑）": "Bamboo-style chair (black)", "时间": "Time", "白天": "Day", "晚上": "Night", "客厅磁吸轨道在茶几中线正上方：中间两段 60cm 线条泛光模块照茶几一带（柔、不刺眼），两头各一个射灯，窗边那个照兰花、里面那个照转椅；洗墙灯把整面右墙均匀洗亮，上亮下渐暗，不出光斑。": "The living-room magnetic track runs right above the coffee table's centre line: two 60 cm linear flood modules in the middle light the coffee-table area (soft, no glare), with a spotlight at each end — the window one on the orchid, the inner one on the swivel chair. The wall washer lights the whole right wall evenly, brighter at the top and fading downward, with no hot spots.", "木百叶 50mm（书房 / 孩子房 / 主卧）": "50 mm wooden blinds (study / kids' room / master)", "拉起": "Raised", "叶片放平": "Slats open", "拉起 70% · 叶片平": "70% raised · slats open", "胡桃木色 50mm 木百叶。": "Walnut-colour 50 mm wooden blinds.", "卡萨驰转椅 Φ77": "Casa swivel chair Φ77", "白色": "White", "黑色": "Black", "A 中古拱腿 1000×500×400": "A Vintage arched legs 1000×500×400", "地毯": "Rug", "不铺": "None", "小地毯 160×230": "Small rug 160×230", "窗角落地灯": "Window-corner floor lamps", "不做": "None", "按摩椅": "Massage chair", "悬浮弧形小桌": "Floating curved wall table", "体块示意，不是照片级效果图：家具尺寸和位置跟图纸一致，材质和颜色是示意。地板按浅橡木假设。拖动旋转，双指或滚轮缩放。": "Block model, not a photo-real render: furniture sizes and positions follow the plans; materials and colours are indicative. Floor assumed light oak. Drag to rotate, pinch or scroll to zoom.", "收起面板": "Hide panel", "展开面板": "Show panel", "65 寸最满，但在主卧有点压迫。": "65\" fills the view but feels heavy in the bedroom. ", "55 寸这个距离刚好。": "55\" is just right at this distance. ", "50 寸也够看，最轻巧。": "50\" is still fine and the lightest. ", "会挡住去主卧阳台的路，晾衣服时推开（有轮子）。": "It blocks the way to the master balcony — roll it aside when hanging laundry (it has wheels).", "网篮支架放客厅右墙，正对沙发：底座深 42cm，到茶几只剩约": "Mesh stand on the living-room right wall, facing the sofa: base 42 cm deep, the gap to the coffee table is only about", "cm，右边去阳台的过道会变窄。": " cm; the way to the balcony on the right gets narrower.", "转椅在靠厨房那一侧，靠右墙、贴近茶几尾端，面向沙发；去阳台的路从转椅和贵妃位之间过，最窄处约": "The swivel chair is on the kitchen side, against the right wall near the end of the coffee table, facing the sofa; the way to the balcony passes between the chair and the chaise, narrowest about", "注意：这个组合下找不到留出 70cm 去阳台的位置，": "Note: with this combination there is no spot that leaves 70 cm to the balcony; ", "EMMI 椅（90×85）": "the EMMI chair (90×85)", "转椅": "the swivel chair", "放在这里会挡路。": " placed here blocks the way. ", "弧形沙发 3.2m 太长，客厅只剩够走路的宽度，建议不放单椅。": "The 3.2 m curved sofa is long — only walking width is left, so better without the armchair.", "建议用转椅，或选牧森 A。": "Use the swivel chair, or choose Musen A.", "EMMI 艾米单椅 90×85 座高42（奶油白羊羔绒 + 黑色蜡木架，¥603）：比转椅宽 13cm，": "EMMI armchair 90×85, seat 42 (cream lamb-wool + black ash frame, ¥603): 13 cm wider than the swivel chair; ", "放在餐厅那头，旁边过道约": "placed at the dining end, aisle beside it about", "cm。": " cm.", "不能转，朝向是按放得下的角度摆的。": " It can't swivel; it is angled the way it fits.", "桌子在椅子后面": "table behind the chair", "。右边去阳台的路留 70cm。": ". 70 cm left on the right to the balcony.", "转椅正后方": "right behind the swivel chair", "窗边左角": "left window corner", "把一把餐椅（跟着上面选的餐椅款式）搬到窗边另一个角，朝着房间，和转椅并排在窗前：多一个座位，藤编通透不挡光，也和餐厅呼应。餐厅剩 5 把，来客人时搬回去就行。": "Move one dining chair (the style chosen above) to the other window corner, facing the room, beside the swivel chair: one more seat, see-through so it doesn't block light, and it echoes the dining room. 5 stay at the table; move it back when guests come.", "这个方向窗边被沙发头占了，放一把餐椅会把去阳台的路挤到 70cm 以下，放不下。": "In this direction the sofa end takes the window side; a dining chair there would squeeze the way to the balcony below 70 cm — it doesn't fit.", "按摩椅 75×148 放在床尾对面、面朝床，长边和进门方向平行；躺平要 174cm 长。": "Massage chair 75×148 below the bed, facing the bed, long side parallel to the way in; it needs 174 cm when reclined.", "悬浮弧形小桌：胡桃木 80 长，前沿一道小弧线（两头深 14、中间深 20），挂墙离地 75，没有桌腿，靠右墙、在床尾往下那段墙上：洗澡前放衣服、手机、首饰。按摩椅不放了，衣柜前空出一大块更衣的地方。": "Floating curved wall table: walnut, 80 long, a gentle curve on the front (14 deep at the ends, 20 in the middle), wall-mounted 75 off the floor with no legs, on the right wall below the bed end — for clothes, phone and jewellery before a shower. No massage chair, so a big dressing area opens up in front of the wardrobe.", "米白": "Off-white", "不显示": "Hide", "1m 双层床": "1 m bunk bed", "1m 双层床：床架约 106×196、高 162，靠右墙放，离窗 65cm（上铺不贴窗）；床尾停在房门开到墙边之前，梯子在靠床尾的侧面。上铺床垫面离天花约 1.5m，坐起来不碰头。左半边空出来，放书桌或玩都行。窗户一定要装限位器或隐形防护网。": "1 m bunk bed: frame about 106×196, 162 high, against the right wall, 65 cm from the window (the top bunk isn't next to the glass); it ends before the spot where the open door rests against the wall, with the ladder on the side near the foot. The top mattress is about 1.5 m below the ceiling — room to sit up. The left half of the room is free for a desk or play. Fit window restrictors or invisible grilles.", "电视（移动落地支架，不挂墙）": "TV (rolling floor stand, not wall-mounted)", "网篮支架 124 宽": "Mesh stand 124 wide", "银翼 V 脚支架": "Silver Wing V-leg stand", "按平面图 v65 + 灯光图建模 · 单位 mm · 层高按 2800 假设": "Built from floor plan v65 + lighting plan · units mm · ceiling height assumed 2800", "放客厅": "In the living room", "55 寸电视（移动落地支架，不挂墙）": "55\" TV (rolling floor stand, not wall-mounted)", "运动（Ring Fit）": "Workout (Ring Fit)", "平时": "Normal", "运动模式": "Workout mode", "餐椅": "Dining chairs", "6 把": "6 chairs", "6 把椅子：两边各 2 把，两头各 1 把。": "6 chairs: 2 on each side and 1 at each end.", "宜家 SLÄKT / NATTAPA 带储物床 ×2：每张 96×206，床头板高 89、床尾板高 71，床垫 90×200；床底抽屉（内部 72×57×14cm，每个限重 15kg）开在两床中间那一侧。两张床各靠一面墙，中间只剩约 52cm，抽屉能拉开大半（约 48cm），一次开一边。床头柜不放。小的那张装 NATTAPA 护栏（18 个月以上可用）。床尾到衣柜约 88cm。床的总高度官网没写，模型按床垫面约 43cm 估。": "Two IKEA SLÄKT / NATTAPA beds with storage: each 96×206, headboard 89 high, footboard 71, mattress 90×200; the under-bed drawers (inside 72×57×14 cm, max 15 kg each) open on the side facing the middle. With one bed against each wall only about 52 cm is left between them, so a drawer opens most of the way (about 48 cm), one side at a time. No bedside cabinet. The little one's bed gets the NATTAPA guard rail (from 18 months). About 88 cm from the bed ends to the wardrobe. IKEA doesn't list the overall bed height; the model assumes the mattress top at about 43 cm.", "5 把 + Stokke 宝宝椅": "5 + Stokke high chair", "5 把椅子 + 一张黑色 Stokke Tripp Trapp（宽 46、深 49、高 79），Stokke 放在靠厨房那头，方便大人照顾、上菜；2 岁加 Baby Set 前护栏。": "5 chairs + a black Stokke Tripp Trapp (W 46, D 49, H 79); the Stokke sits at the kitchen-side end, easy for serving and looking after the little one; add the Baby Set front bar for a 2-year-old.", "衣柜前（按摩椅挪走）": "In front of the wardrobe (massage chair out)", "站阳台（按摩椅留着）": "On the balcony (massage chair stays)", "木百叶": "Wooden blinds", "0.9m 床：两张床架各 95，两床之间约 54cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "0.9 m beds: two 95 frames, about 54 cm between them, no bedside cabinet. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "1m 床：两张床架各 102，两床之间约 40cm，不放床头柜；地台床只有 22cm 高，孩子从床尾、床边上下都方便。": "1 m beds: two 102 frames, about 40 cm between them, no bedside cabinet. The platform beds are only 22 cm high — easy for the kids to get on from the end or the side.", "放": "Yes", "加上": "With", "不加": "Without", "不加：进门右手边是一面白墙，鞋全放弧形柜。": "Without: a plain white wall on the right as you come in; all shoes go in the curved cabinet.", "2m 双人桌靠左墙：孩子靠窗（24 寸屏 + 打印机）；大人在里面坐电竞椅看盘：两块 24 寸屏 V 字摆 + 桌尾一台笔记本。大人这半边只有约 1.1m，两块 27 寸并排要 1.25m 放不下。两边中间一盏长条台灯；白色悬浮书架 2.05m，和桌子一样长。": "2 m shared desk on the left wall: the child by the window (24\" screen + printer); the adult further in on the gaming chair for trading — two 24\" screens in a V + a laptop at the desk end. The adult half is only about 1.1 m; two 27\" side by side need 1.25 m and don't fit. One LED bar lamp between the two halves; the white floating shelves run 2.05 m, the same length as the desk.", "孩子房：两张 1m 地台床": "Kids' room: two 1 m floor beds", "书房床（阿姨睡）": "Study bed (the helper's)", "0.9m 地台床": "0.9 m floor bed", "收起": "Rolled up", "原来的 0.9m 地台床：床架 92×191，床垫约 90×190，没有床头板。书桌到床边约 87cm，床底不能放东西。": "The original 0.9 m floor bed: frame 92×191, mattress about 90×190, no headboard. About 87 cm from the desk to the bed; no storage underneath.", "餐边柜": "Sideboard", "圆角原木柜（佳美）": "Rounded oak (Jiamei)", "放餐厅墙": "On the dining wall", "放原弧形柜那面墙": "On the former curved-cabinet wall", "放原弧形柜那面墙（进门左手边、靠餐厅那头）：长 140、深 45，前面走道约 1.86m；餐厅墙空着。这面墙要加插座。": "On the former curved-cabinet wall (left of the entrance, at the dining end): 140 long, 45 deep, about 1.86 m of passage in front; the dining wall stays bare. This wall needs sockets.", "圆角原木柜（参考淘宝「佳美」美式实木餐边柜，¥3580 起，可定制）：基本是一个长方体，前面两个角是 8cm 的小圆角，四扇平门、无把手，底下内缩踢脚；高 80。是成品不用请木工；两款里贵很多。": "Rounded-corner oak sideboard (after the Taobao \"Jiamei\" American solid-wood sideboard, from ¥3580, made to order): basically a box with small 8 cm rounded front corners, four flat handleless doors and a recessed plinth; 80 high. Off the shelf, no carpenter needed; much the dearer of the two.", "奶白": "Warm white", "哑光黑": "Matte black", "原木": "Natural wood", "奶白色（哑光，跟墙差不多的暖白）：柜子融进墙里，餐厅最清爽，让黑色餐椅和藤编当主角；叫卖家用哑光、耐擦的漆，孩子的手印好擦。": "Warm white (matte, close to the wall colour): the cabinet melts into the wall and the dining area stays calm, leaving the black chairs and the cane as the focus; ask the seller for a matte, wipeable paint so little handprints come off.", "哑光黑：和黑色餐椅框、黑色桌脚、黑色茶几是一套，最有型；但一整块黑色在小餐厅里显得重，灰尘和手印也明显。": "Matte black: goes with the black chair frames, table base and coffee table — the most striking; but a whole block of black feels heavy in a small dining area, and dust and handprints show.", "原木色：卖家原来的颜色；家里没有别的原木，会有点跳。": "Natural wood: the seller's original colour; with no other natural wood in the flat it would stand out a little.", "床尾对面、衣柜前面那块放什么：": "What goes opposite the bed foot, in front of the wardrobe:", "亚克力透明边几": "Clear acrylic side table", "门后圆墩（进门右手边，坐着换鞋）": "Round stool behind the door (right of the entrance, to sit and put shoes on)", "门后圆墩：极简纯白圆墩 Φ40、高 45，靠墙放，坐着换鞋，不占地方；进门走道还剩约 1.6m，大门开到底也碰不到。鞋都放进门左边的柜子。": "Stool behind the door: a plain white round stool, Φ40, 45 high, against the wall — sit down to put shoes on, takes almost no room; the entrance passage keeps about 1.6 m and the fully open front door clears it. Shoes go in the cabinet on the left as you come in.", "放在窗边，右边去阳台留 70cm。": "placed by the window; 70 cm left on the right to the balcony.", "这个方向转椅在餐厅那头（后面就是进客厅的路，不能放东西）。": "In this direction the swivel chair is at the dining end (the way into the living room is right behind it).", "窗边只放转椅。": "Only the swivel chair by the window.", "银翼 V 脚支架放在客厅靠窗的右边墙角，斜 45° 对着沙发中间，屏幕离沙发约 2.2m。右边窗角那盏落地灯原地不动，正好在电视后面，晚上当电视背光。阳台门在左边，电视不挡门；要挪电视时推开就行（带轮子）。": "Silver Wing stand in the living room's right window corner, angled 45° toward the middle of the sofa, about 2.2 m from the sofa. The floor lamp in that corner stays put — it ends up behind the TV and works as a backlight at night. The balcony door is on the left, so the TV doesn't block it; roll it aside if needed (it has wheels).", "做": "Yes", "原弧形柜那面墙现在做了弧形柜，餐边柜先放餐厅墙。": "That wall now has the curved cabinet, so the sideboard goes on the dining wall for now.", "C2 - 家具": "C2 - Furniture", "内部结构、开门的样子和尺寸，看单独的「Carpentry」页面。": "Inside layout, open doors and dimensions: see the separate \"Carpentry\" page.", "门面平滑墙色": "Smooth, wall colour", "竖条纹": "Fluted", "门面平滑、跟墙同色，门缝是几条细线。": "Smooth doors in the wall colour; the door gaps show as a few hairlines.", "孩子房玩具（小车车道、磁力片停车楼、毛绒）": "Kids' toys (car lanes, magnetic-tile garage, plush)", "照孩子现在自己摆的样子，直接摆在地板上（不铺垫子）：床尾和衣柜之间那块空地的左半边，靠左墙停一排小汽车，旁边用深绿和白色的积木条围一条车道；中间一座三层的磁力片停车楼；右边用原木长条积木围成两条弯道，绕一个大 U 形掉头，车道里排着小汽车、一辆双层巴士和一列小火车；墙角堆着备用的磁力片。右半边从门口到床的路还是约 1.05m（右墙布盒子那段约 70cm）。他的 4 个毛绒放在左边床的床头：黄色小鸡（红鸡冠）、卡皮巴拉、Roblox 公仔、绿色毛毛头小鸟；右边床还是恐龙。两个带盖的布盒子：一个在两张床头中间当床头柜，一个靠右墙收玩具。": "Set up the way he builds it himself, straight on the floor (no mat): on the left half of the free floor between the bed ends and the wardrobe, a row of toy cars parked along the left wall beside a lane edged with dark-green and white blocks; a three-storey magnetic-tile garage in the middle; on the right, two curving lanes edged with plain wooden planks that turn round in a big U, with cars, a double-decker bus and a little train lined up in them; spare magnetic tiles stacked in the corner. On the right, the way in from the door to the beds stays about 1.05 m (about 70 cm past the fabric box by the right wall). His four plush toys sit at the head of the left bed: the yellow chicken (red comb), the capybara, the Roblox plush and the green bird with fuzzy hair; the dinosaur stays on the right bed. Two fabric boxes with lids: one between the bed heads as a bedside table, one against the right-hand wall for toys.", "意式茶凳（圈绒 + 靠枕）": "Italian boucle stool (with bolster)", "电视放在客厅窗角时，这块地方被电视占了，凳子先不显示。": "With the TV in the living-room window corner this spot is taken by the TV, so the stool is hidden for now.", "cm（稍挤）。黑色小边几一个，在转椅内侧（靠窗、靠墙那边）放杯子。": " cm (a bit tight). The small black side table on the chair's inner side (toward the window and the wall) for a cup.", "转椅在窗边，面向沙发；黑色小边几在旁边（伸手能放杯子），就是参考图": "The swivel chair is by the window facing the sofa; the small black side table beside it (within reach for a cup); the reference photo's ", "转椅 + 黑色小边几，灯放在边几后面。": "Swivel chair + the small black side table, lamp behind the side table.", "现在爸爸（180）坐在凳子上，妈妈和大孩子坐沙发；座高 45 和沙发差不多，脚不碰茶几。": "Dad (180) is on the stool now, mum and the older child on the sofa; the 45 cm seat is about sofa height and his feet stay clear of the coffee table.", "爸爸躺沙发": "Dad lying on the sofa", "牧森 2.4m：1.8m 的爸爸躺直，头和脚两头各只剩十几厘米，刚好躺得下，不算宽裕；想把腿完全伸直放松的话还是 3.2m 的舒服。": "Musen 2.4 m: with dad (1.8 m) lying flat only a dozen or so centimetres are left at each end — he just fits, but it isn't roomy; to stretch the legs out fully the 3.2 m is the comfortable one.", "人物（一家四口：爸爸、妈妈、9 岁孩子、2 岁宝宝）": "People (family of four: dad, mum, the 9-year-old, the 2-year-old)", "全家在各房间": "Whole family, every room", "显示人物时宝宝要坐 Stokke，所以先换成 5 把 + Stokke；人物选「不显示」就是 6 把。": "With people shown the little one sits in the Stokke, so it's 5 chairs + Stokke for now; set people to \"None\" for 6 chairs.", "单椅旁的黑色小边几：方底细杆 ¥25（圆面 18、高 58）": "Small black side table by the chair: thin pole, square base, ¥25 (round top 18, 58 high)", "这个沙发靠窗那头离玻璃很近，凳子和圆几只能放在沙发头和右边落地灯之间（约 1.1m）：圆几离沙发头约 25cm，凳子和圆几隔开约 10cm。": "This sofa's window end comes close to the glass, so the stool and drum have to sit between the sofa end and the right-hand floor lamp (about 1.1 m): the drum about 25 cm from the sofa end, about 10 cm between drum and stool.", "组合2 弧形沙发 3.2m：1.8m 的爸爸躺直，头那头离扶手还有约 40cm，脚边还空出将近 1m，腿完全伸在贵妃位上，很宽裕。": "Combo 2 curved sofa 3.2 m: with dad (1.8 m) lying flat there's still about 40 cm to the arm at his head and nearly 1 m free past his feet; his legs stretch right out on the chaise — plenty of room.", "牧森 2.4m 短很多，沙发头离窗还有约 1m，所以凳子和圆几往里挪到窗户中间一带：凳子大致对着茶几，圆几在左边、隔开约 20cm，右边落地灯旁边空出来。": "The Musen 2.4 m is much shorter — its end stops about 1 m short of the window — so the stool and drum move in toward the middle of the window: the stool roughly facing the coffee table, the drum on its left about 20 cm away, and the space beside the right-hand lamp left open.", "晚上的灯：全开（轨道、线灯、吊灯、洗墙、落地灯、灯带）": "Lights at night: all on (track, linear lights, pendant, wall wash, floor lamps, strips)", "不做餐边柜：这面墙空着，就是一面白墙；端头椅子后面最宽敞，手冲咖啡壶、水壶、杯子这些要另找地方放（比如厨房台面）。": "No sideboard: this wall stays empty, just a white wall; the most room behind the end chair, but the pour-over set, water jug and cups need a home elsewhere (e.g. the kitchen counter).", "身高按爸爸 180、妈妈 162、大孩子 135（9 岁）、宝宝 88（2 岁）。「全家在各房间」是每个房间同时放一组人，一眼看到各房间的样子：客厅爸爸坐窗边小凳子、妈妈和大孩子坐沙发、宝宝扶着茶几站；餐厅爸爸、妈妈、大孩子吃饭，宝宝坐 Stokke；书房妈妈坐电竞椅看盘、大孩子在窗边写作业；孩子房宝宝动了大孩子的小车（站在墙边那排车旁边，手里举着一辆红车），大孩子坐在床角哭（揉眼睛、张着嘴、掉眼泪）；主卧阳台上妈妈在玩 Ring Fit。「爸爸躺沙发」只显示 180 的爸爸平躺在沙发上，头在没有贵妃位的那头。": "Heights: dad 180, mum 162, the older child 135 (9), the little one 88 (2). \"Whole family, every room\" puts a group in each room at once, so you see every room in one go: living room — dad on the window stool, mum and the older child on the sofa, the little one standing at the coffee table; dining — dad, mum and the older child eating, the little one in the Stokke; study — mum trading on the gaming chair, the older child doing homework by the window; kids' room — the little one has taken one of the big boy's cars (standing by the row of cars at the wall, holding a red one up), and the big boy sits on the corner of his bed crying (rubbing an eye, mouth open, tears); and mum is doing Ring Fit on the master balcony. \"Dad lying on the sofa\" shows only dad (180) flat on his back on the sofa, head at the end without the chaise.", "台面放手冲咖啡的玻璃滤杯和分享壶、香蕉挂架、水果、水壶和杯子；墙上三条白色搁板（深 15，离地 1.40 / 1.75 / 2.10m，和柜子一样长）：最上面放红酒杯，中间放玻璃杯和醒酒器，下面放茶壶和茶杯。淘宝这几家都写了「SG 家具送货上门、付费上门安装」，集运海运大约 10–12 个工作日。": "On top: the glass pour-over dripper and server, a banana hanger, fruit, a water jug and cups; three white ledges on the wall (15 deep, 1.40 / 1.75 / 2.10 m up, as long as the cabinet): wine glasses on the top one, tumblers and a decanter in the middle, a teapot and tea cups on the lowest. These Taobao shops all list \"SG home delivery, paid installation\"; sea freight takes about 10–12 working days.", "放餐厅墙：墙到墙做满，长 187、深 45，两头贴墙不留缝；端头椅子背到柜子约 41cm，椅子推进去时柜门（约 40 宽）刚好能开。": "On the dining wall, wall to wall: 187 long, 45 deep, both ends tight to the walls; about 41 cm from the end chair's back to the cabinet — with the chair pushed in, the doors (about 40 wide) just open.", "人物选「全家在各房间」时，妈妈在主卧阳台玩 Ring Fit。": "With \"Whole family, every room\" shown, mum is doing Ring Fit on the master balcony.", "黑色平衡臂环形灯": "Black balance-arm ring lamp", "一盏（左边窗角）": "One (left window corner)", "一盏（右边窗角）": "One (right window corner)", "黑色平衡臂环形灯（黑色水磨石圆柱底座 Φ14、高 26，黑色细杆，横臂斜着往上翘，一头配重；灯头是一圈黑色细环，里面半个小碗，外黑内铜色，光往下往前打；卖家标 D140×H170、LED 7W，¥368）：灯头朝窗户中间探出去约 65cm，比金色那款更细、更黑白。": "Black balance-arm ring lamp (black terrazzo column base Φ14 × 26 high, slim black rod, the arm tilted up with a counterweight at one end; the head is a thin black ring with a small half-dish inside, black outside and copper inside, lighting down and forward; listed D140 × H170, LED 7 W, ¥368): the head reaches about 65 cm toward the middle of the window — slimmer and more black-and-white than the gold one.", "现在是一盏，放在左边窗角（沙发靠窗那头），灯头朝中间探到沙发那头上方，坐沙发看书正好。": "One lamp now, in the left window corner (the sofa's window end), the head reaching over the end of the sofa — right for reading on the sofa.", "现在是一盏，放在右边窗角，灯头朝中间探到窗边凳子上方；左边沙发那头的窗角空着。": "One lamp now, in the right window corner, the head reaching over the window stool; the left corner by the sofa stays empty.", "床头柜": "Bedside", "亚克力透明边几（只放窗边）": "Clear acrylic table (window side only)", "宜家白方座亚麻灯罩": "IKEA white block base, linen shade", "宜家 RANARP 摇臂灯": "IKEA RANARP work lamp", "客厅小方凳 + 白色圆几": "Living-room stool + white drum", "放茶几对面（面向沙发）": "Across the coffee table (facing the sofa)", "放窗边": "By the window", "台灯：宜家白色方柱底座台灯（亮面白方柱 + 小铜旋钮，米色亚麻方锥灯罩，总高约 45），晚上暖光。": "Lamp: IKEA table lamp with a glossy white square column, a small brass knob and a beige linen square shade (about 45 high); warm light at night.", "台灯：宜家 RANARP 工作台灯（米白色、铜色转节，S$49.90），灯臂朝床那边伸，灯罩照到枕头；要配 E27 磨砂球泡。": "Lamp: IKEA RANARP work lamp (off-white with brass joints, S$49.90), the arm reaching over the bed so the shade lights the pillow; takes an E27 opal globe bulb.", "意式茶凳（米白圈绒，焦糖色圆靠枕，宽 47、深 37、高 45，底下 8cm 内缩底座）+ 白色圆几（Φ30、高 50）。": "Italian stool (off-white boucle, caramel round bolster, 47 wide, 37 deep, 45 high, on an 8 cm recessed plinth) + the white drum table (Φ30, 50 high).", "凳子在窗边，背靠窗、面朝茶几，圆几在左边。": "The stool is by the window, back to the glass, facing the coffee table, with the drum on its left.", "电视放在客厅右墙时，茶几对面被电视占了，凳子先放回窗边。": "With the TV on the living-room right wall the spot across the coffee table is taken, so the stool goes back by the window.", "现在爸爸坐在凳子上，隔着茶几对着沙发上的妈妈和大孩子。": "Dad is on the stool now, across the coffee table from mum and the older child on the sofa.", "网篮支架 124×42：放正、背贴床尾那面墙，对着床中间；床尾到墙约 45cm，支架前沿离床尾只剩约 2.5cm，屏幕中心离枕头约 2.1m，": "Mesh stand 124 × 42: square to the foot wall with its back on it, facing the middle of the bed; the foot aisle is about 45 cm, so the stand's front is only about 2.5 cm from the bed; screen centre about 2.1 m from the pillows, ", "银翼 V 脚支架：立柱贴着床尾那面墙，对着床中间；两条腿（785 和 555，夹角 100°）往前伸约 50cm，床尾到墙只有约 45cm，长的那条腿会伸进床底约 10cm——床底离地约 12cm、腿只有 3.5cm 高，不会碰；屏幕正对枕头，离枕头约 2.1m。看电视时过道占住，要过人就推开（带轮子）。适配 40–70 寸，承重 30kg。": "Silver V-leg stand: the pole against the foot wall, facing the middle of the bed; the two legs (785 and 555, 100° apart) reach about 50 cm forward but the foot aisle is only about 45 cm, so the long leg slides about 10 cm under the bed — the bed stands about 12 cm off the floor and the legs are only 3.5 cm high, so nothing touches; the screen faces the pillows about 2.1 m away. While watching, the aisle is taken; push it aside to get past (it's on castors). Fits 40–70\", carries 30 kg.", "源氏木语实木床（北美黑胡桃木、木蜡油，低铺斜靠款 K33B10）：1.8m 款总宽 191.5、总深 214.5、床头高 92，床头板往后斜靠，四角方腿，床底离地约 12cm。比原来的模型长 15cm：床尾到墙的过道从约 61cm 变成约 45cm；电视支架跟着床居中，银翼支架的长腿伸进床底约 10cm（床底离地 12cm，不碰）。": "Yuanshi solid-wood bed (North American black walnut, wax oil, low bed with leaning headboard K33B10): the 1.8 m size is 191.5 wide, 214.5 deep, headboard 92 high leaning back, square corner legs, about 12 cm clear underneath. It is 15 cm longer than the old model: the aisle at the foot shrinks from about 61 cm to about 45 cm; the TV stand stays centred on the bed and the V-stand's long leg slides about 10 cm under it (12 cm clearance, no contact).", "凳子挪到黑色茶几对面，背靠右墙（离墙约 1cm），面朝沙发，焦糖色靠枕在后面当靠背；和沙发、转椅围成一圈，聊天都面对面。凳子放在茶几靠窗那头的外侧，坐下伸腿正好在茶几头外面（离茶几约 3cm），不会顶到茶几；这一侧就不走人了，去窗边从沙发和茶几中间过。白色圆几和玻璃小花瓶留在窗边。": "The stool moves across the black coffee table, back to the right wall (about 1 cm off), facing the sofa, the caramel bolster behind as a backrest; with the sofa and the swivel chair it closes the circle, everyone face to face. The stool sits just past the window end of the coffee table, so legs stretched out from it land beyond the end of the table (about 3 cm clear) instead of hitting it; nobody walks along this side any more — to reach the window, go between the sofa and the coffee table. The white drum and the glass bud vase stay by the window.", "和转椅对调（转椅去窗边）": "Swap with the swivel chair (chair to the window end)", "现在爸爸坐在茶几尾端的小方凳上，面朝窗户；转椅空着，谁想看风景就坐过去。": "Dad is on the stool at the end of the coffee table now, facing the window; the swivel chair is free for whoever wants the view.", "¥25 圆盘小边几": "¥25 round-top table", "白色圆柱 Φ30": "White drum Φ30", "转椅和小方凳对调：卡萨驰转椅挪到茶几靠窗那头的右边（离右墙约 2.5cm、离茶几头约 3cm），默认斜对着沙发和窗户，一转就能看窗外。意式小方凳去转椅原来的位置（茶几靠餐厅那头），面朝茶几和窗户，比转椅窄 30cm，那头宽松了。白色圆几和玻璃小花瓶还在窗边，边几挪到餐厅那头，窗边不挤了。": "Swivel chair and stool swapped: the Casa swivel chair moves to the window end of the coffee table by the right wall (about 2.5 cm off the wall, about 3 cm past the table end), turned toward the sofa and the window so it can swing round to the view. The Italian stool takes the chair's old spot at the dining end of the coffee table, facing the table and the window; it's 30 cm narrower than the chair, so that end feels roomier. The white drum and the glass bud vase stay by the window; the side table moves to the dining end, so the window end isn't crowded.", "卡萨驰转椅 Φ77 现在在窗边这头：背靠右墙、斜对沙发和窗户，坐下转个身就是窗外的树；窗边只留转椅、白色圆几和落地灯，边几挪去餐厅那头了。": "The Casa swivel chair Φ77 is at the window end now: back to the right wall, turned toward the sofa and the window — sit down and swing round to the trees outside; only the chair, the white drum and the floor lamp stay by the window, the side table has moved to the dining end.", "¥25 圆盘小边几（台面 Φ18、高 58、方底座 18×18）放在沙发尾和小方凳之间的夹角：占地最小、看着轻，爸爸坐凳子左手边就能放杯子，沙发尾那个座位也够得着；台面小、只有一根细杆，杯子别放太满。": "The ¥25 round-top table (top Φ18, H58, square base 18×18) sits in the corner between the sofa end and the stool: the smallest footprint and light to look at; dad on the stool has it at his left hand and the end seat of the sofa can reach it too; the top is small on one thin pole, so don't fill the cup to the brim.", "白色圆柱 Φ30（和窗边同款，高 50）放进夹角：实心最稳，碰不倒；Φ30 放进这个夹角刚好贴着沙发尾和凳子侧边，放得下、不算太宽，只是看起来比圆盘小边几实、占的地方多一点。": "The white drum Φ30 (same as by the window, H50) in the corner: solid, the steadiest, won't tip; at Φ30 it just touches the sofa end and the stool's side — it fits and isn't too wide, it just looks more solid than the round-top table and takes a bit more room.", "主卧床": "Master bed", "站阳台：按摩椅留着。假设主卧阳台最右边那扇推拉门打开（推到中间那扇后面），这扇的百叶拉起来。电视支架推到床尾靠阳台那个角，斜对着阳台，屏幕一端悬在床上方，两条腿都在地上、不碰床和床头柜。人站在阳台中间的瑜伽垫上，隔着开着的门看电视。阳台装 Zipblind 挡雨。": "On the balcony: the massage chair stays. Assume the right-most master balcony door is open (slid behind the middle one) with its blind up. The TV stand goes to the bed-foot corner on the balcony side, turned toward the balcony, one end of the screen over the bed, both legs on the floor clear of the bed and the bedside piece. Standing on a yoga mat mid-balcony, you watch through the open door. Zipblind on the balcony against rain.", "运动模式：按摩椅挪走（比如放主卧阳台，装 Zipblind 挡雨），衣柜前空出约 2m × 2m；电视支架从床尾推到床角，斜对着这块空地，屏幕一端悬在床上方，两条腿都在地上；人站在瑜伽垫上看屏幕。不用开阳台门。": "Workout mode: the massage chair goes (e.g. onto the master balcony with a Zipblind against rain), clearing about 2 m × 2 m in front of the wardrobe; the TV stand rolls from the bed foot to the bed corner, turned toward that space, one end of the screen over the bed, both legs on the floor; you stand on a yoga mat facing it. No need to open the balcony door.", "主卧床：源氏木语黑胡桃木低铺斜靠床 1.8m": "Master bed: Yuanshi black-walnut low bed with a leaning headboard, 1.8 m", "床头灯": "Bedside light", "主卧墙上不装阅读壁灯。": "No wall reading sconces in the master.", "玄关储物柜：定制顶天柜（厂家能做的柜型，做到天花，无把手）": "Entrance storage: custom floor-to-ceiling cabinet (shapes the factory can make, no handles)", "圆角柜（厂家圆弧件）": "Rounded corners (factory arc pieces)", "三面平门（折线）": "Three flat doors (folded)", "圆角 R150": "Corners R150", "R100": "R100", "标准深度": "Standard depth", "加深": "Deep", "圆角柜（厂家能做的柜型）：长方形 130 × 深 75，靠走道的两个前角用厂家的圆弧件，两边的门带圆弧边包住柜角；竖向分 40 + 50 + 40 三格，上下两节（门在 2m 高处分开），一共 6 扇门。柜门正面到对面墙约 1.57m；75 深已经能上下放两个 28 寸行李箱。": "Rounded-corner cabinet (a shape the factory can make): a 130 × 75 deep rectangle whose two front corners on the corridor side are the factory's arc pieces, the side doors wrapping the corners; split 40 + 50 + 40 across and in two tiers (doors split at 2 m), six doors in all. About 1.57 m from the door fronts to the opposite wall; 75 deep already takes two 28\" suitcases one above the other.", "圆角用 R150，转角柔和一些。": "Corners in R150: a softer turn.", "圆角用 R100，转角利落一些，柜里多一点地方。": "Corners in R100: a crisper turn and a little more room inside.", "门面竖条纹（奶白色），门缝藏在条纹凹槽里，看不出来。": "Vertically fluted doors (off-white); the door joints hide in the grooves.", "80 长款（白色，¥295）": "80 cm long version (white, ¥295)", "意式茶凳 80 长款（白色圈绒、焦糖色长靠枕，长 80、高 45，深度图上没写、按 40 估，淘宝 ¥295）+ 白色圆几（Φ30、高 50）。": "Italian boucle stool, 80 cm long version (white boucle, long caramel bolster, 80 long, 45 high, depth not given — taken as 40, Taobao ¥295) + white drum (Φ30, H50).", "转椅和凳子对调：卡萨驰转椅挪到茶几靠窗那头的右边（离右墙约 2.5cm、离茶几头约 3cm），默认斜对着沙发和窗户，一转就能看窗外。80 长凳放在茶几靠餐厅那头、对着茶几中间，比茶几宽 27cm，两头各伸出十几厘米，能坐两个人；右边到墙的过道从约 68cm 变成约 60cm，夹角里的边几离长凳只剩几厘米。白色圆几和玻璃小花瓶还在窗边。": "Swivel chair and stool swapped: the Casa swivel chair moves to the window end of the coffee table by the right wall (about 2.5 cm off the wall, about 3 cm past the table end), turned toward the sofa and the window so it can swing round to the view. The 80 bench sits at the dining end of the coffee table, centred on it — 27 cm wider than the table, a dozen centimetres past each side, seats two; the aisle to the right wall goes from about 68 cm to about 60 cm, and the side table in the corner is only a few centimetres from the bench. The white drum and the glass bud vase stay by the window.", "80 长款竖着靠右墙放（离墙约 1.5cm），比小方凳往窗边挪了约 24cm，整条都在茶几靠窗那头外面，坐下伸腿不碰茶几。": "The 80 bench stands lengthwise against the right wall (about 1.5 cm off it), about 24 cm nearer the window than the stool, wholly past the window end of the table, so legs stretched out from it clear the table.", "80 长款在窗边要往右挪 9cm，和圆几只隔约 2cm；右边窗角要是也放落地灯就放不下了。": "By the window the 80 bench has to move 9 cm right, leaving only about 2 cm to the drum; with a floor lamp in the right-hand window corner as well it won't fit.", "宜家 HEMNES 坐卧两用床": "IKEA HEMNES day-bed", "平时（单人）": "Everyday (single)", "拉开成双人（椅子搬走）": "Pulled out to a double (chairs moved away)", "现在显示：拉开成双人（床面 160×200，拉开后总宽约 169）。床边离书桌只剩约 10cm，碰不到书桌，但两把椅子得先搬走（客厅或衣柜前那块空地）；从床尾上下床，床尾到衣柜还有约 85cm。拉开的时候抽屉打不开，要拿东西得先把床推回去。": "Shown now: pulled out to a double (sleeping area 160×200, about 169 wide overall). The bed edge comes to about 10 cm from the desk — clear of it, but both chairs have to go first (to the living room or the space in front of the wardrobe); get in and out at the foot, which still has about 85 cm to the wardrobe. While it's pulled out the drawers can't be opened — push the bed back first.", "阳台 Zipblind（全遮光）": "Balcony Zipblinds (full blackout)", "放下": "Down", "主卧阳台和客厅阳台外沿各装一道 Zipblind（全遮光款，没有半遮光的），顶上是收卷盒。放下以后阳台封起来，挡雨、挡晒，阳台能当半个房间用：客厅阳台喝茶看书，主卧阳台放按摩椅或者运动，像多了两个小房间。": "A Zipblind on the outer edge of both the master and the living balcony (full blackout — there's no semi-blackout version), with the roller cassette at the top. Let down, the balconies close up against rain and sun and work like half a room each: tea and reading on the living balcony, the massage chair or exercise on the master balcony — like two more small rooms.", "现在显示：放下。全遮光，放下后外面的树就看不到了，白天阳台里也会比较暗。": "Shown now: down. Full blackout, so the trees outside disappear and the balconies are fairly dark even by day.", "宜家 HEMNES（白色，3 抽屉）": "IKEA HEMNES (white, 3 drawers)", "宜家 BRIMNES（白色，2 抽屉）": "IKEA BRIMNES (white, 2 drawers)", "宜家 BRIMNES 坐卧两用床（白色，长 205、宽 87、高 58，两头是矮挡板、没有靠背；两张 80×200 床垫，平时叠在一起当单人床，拉开后并排，床面宽 168；2 个大抽屉，里面 85×54×16）：靠右墙放、一头贴窗，58 高的挡板不太挡窗。不拉开就能直接午睡；床边到书桌约 90cm，椅子照常用。抽屉拉满只要约 54cm：椅子在原位时只能拉开约 18–35cm，把椅子推到床尾就能拉满。": "IKEA BRIMNES day-bed (white, 205 long, 87 wide, 58 high, low end panels and no back; two 80×200 mattresses, stacked as a single day to day and side by side when pulled out, 168 wide; two big drawers, 85×54×16 inside): against the right wall, one end at the window — the 58 cm end panel hardly blocks the window. Nap on it straight away without pulling anything out; about 90 cm from the bed edge to the desk, so the chairs work as usual. The drawers need only about 54 cm to open fully: with the chairs where they are they open about 18–35 cm; roll the chairs to the foot of the bed and they open all the way.", "现在显示：拉开成双人（床面宽 168）。床边离书桌约 11cm，两把椅子得先搬走；从床尾上下床，床尾到衣柜约 89cm。拉开时床架挡在抽屉前面，抽屉打不开。": "Shown now: pulled out to a double (168 wide). The bed edge comes to about 11 cm from the desk, so both chairs have to go first; get in and out at the foot, about 89 cm from the wardrobe. Pulled out, the base stands in front of the drawers, so they can't be opened.", "亚克力透明边几（宽 40）：两边空位各只有约 35cm，只能放窗边一个；床往衣柜那边挪约 8cm，衣柜那边留约 27cm，放不下柜子。中间一层放一个带盖的小藤编收纳盒（约 20×18×11），充电线、耳机、护手霜这些小东西收进去，看着不乱；台灯线和充电线用白色或透明的，插线板放在柜子后面地上。手机放在台面靠床那边充电，线从后面垂下去。台面高 50，比床垫面只低几厘米，晚上摸手机顺手。": "Clear acrylic table (40 wide): each side has only about 35 cm, so just one, by the window; the bed moves about 8 cm toward the wardrobe, leaving about 27 cm on that side — no cabinet fits there. A small lidded woven-rattan box (about 20×18×11) sits on the middle shelf for the chargers, earphones, hand cream and such, so it doesn't look messy; use white or clear cables for the lamp and the charger, with the power strip on the floor behind the table. The phone charges on the bed side of the top, its cable dropping down the back. The top is 50 high, only a few centimetres below the mattress — easy to reach the phone at night.", "三面平门（折线）：靠墙一个长方形，深 30，中间一扇平门（宽 57）再往外凸 44，两边斜门从墙端斜接过去；上下两节，一共 6 扇门。最凸的地方到对面墙约 1.58m；标准深度就能放 3 个高尔夫球包，不用加深。": "Three flat doors (folded): a 30 deep rectangle against the wall, a middle flat door (57 wide) standing 44 further out, and slanted doors running back to the wall ends; two tiers, six doors in all. About 1.58 m from the furthest point to the opposite wall. Standard depth already takes three golf bags, so no need for the deep version.", "宜家 HEMNES 坐卧两用床（白色，长 209、宽 89、高 83；两张 80×200 床垫；底下 3 个大抽屉，里面 55×70×20）：靠右墙放、一头贴窗。平时就是一张单人床，另一张床垫收在下面的拉出床架上，不用拉开就能直接午睡，也能当沙发坐；床边到书桌约 90cm，椅子照常用。床垫 80 宽，比地台床窄 10cm，阿姨平时睡也够。抽屉朝书桌那边拉，拉满要约 70cm：两把椅子正好挡在三个抽屉前面，电竞椅前面那两个只能拉开约 18cm，靠窗那个约 35cm；要拉满得先把椅子推到床尾那块空地。": "IKEA HEMNES day-bed (white, 209 long, 89 wide, 83 high; two 80×200 mattresses; three big drawers underneath, 55×70×20 inside): against the right wall, one end at the window. Day to day it's a single bed with the second mattress stored on the pull-out base below — nap on it straight away without pulling anything out, or sit on it like a sofa; about 90 cm from the bed edge to the desk, so the chairs work as usual. The mattress is 80 wide, 10 cm narrower than the platform bed — still fine for the helper every night. The drawers pull out toward the desk and need about 70 cm to open fully: the two chairs stand right in front of the three drawers — the two in front of the gaming chair open only about 18 cm, the one by the window about 35 cm; to open them fully, roll the chairs to the free space at the foot of the bed first.", "床头柜：亚克力透明边几（只放窗边）": "Bedside: clear acrylic side table (window side only)"};
 const ENK = Object.keys(EN).sort((a, b) => b.length - a.length), HAS_ZH = /[　-〿一-鿿＀-￯]/;
 const TITLE_ZH = document.title, VIEW_ZH = document.getElementById('view').getAttribute('aria-label');
 let LANG = 'zh';
