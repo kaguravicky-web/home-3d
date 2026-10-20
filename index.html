@@ -5147,8 +5147,8 @@ const bedLamp = new THREE.PointLight('#ffcf94', 0, 3, 2); bedLamp.position.set(0
 
 // ---------- lighting plan (same numbers as the lighting DXF): surface track, linear lights, strips, sconces; the two
 // balcony linear lights (outdoor IP65, 13 living / 14 master) as on the lighting page
-const LIGHTS = [{"k":"magtrack","p":[[9695,2150],[9695,5150]],"h":2.8,"mood":0,"d":6.5,"mods":["S","L","L","S"],"iS":1.5,"iL":1.3,"angL":0.62},{"k":"linear","p":[[10545,1950],[10545,5050]],"h":2.8,"mood":1,"i":0.07,"d":4.0,"n":4,"wall":10700,"wash":0.5},{"k":"pendant","p":[[7640,6950],[7660,6950]],"h":1.485,"mood":0.7,"i":0.8,"d":2.8},{"k":"linear","p":[[9700,6350],[9700,8950]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[10330,6250],[10330,9050]],"h":1.5,"mood":1,"i":0.45,"d":1.8,"n":2},{"k":"linear","p":[[6700,8450],[6700,11350]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"down","p":[[4100,5600]],"h":2.8,"mood":0,"i":1.3,"d":4.0},{"k":"linear","p":[[2450,1950],[2450,4350]],"h":2.8,"mood":0.6,"i":0.06,"d":3.5,"wall":2600,"n":3,"wash":0.42},{"k":"linear","p":[[850,4500],[850,6150]],"h":2.8,"mood":0,"i":0.5,"d":3.5},{"k":"sconce","p":[[70,2120]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"sconce","p":[[70,4160]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"linear","p":[[4020,1900],[4020,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"linear","p":[[6560,1900],[6560,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"ceil","p":[[9350,900]],"h":2.6,"r":125,"mood":0.5,"i":0.5,"d":3.0},{"k":"ceil","p":[[1300,900]],"h":2.6,"r":125,"mood":0.5,"i":0.5,"d":3.0}];
-const fixtures = [], housing = M('#1d1b19', { roughness: 0.6 }), trackSpots = [];
+const LIGHTS = [{"k":"magtrack","p":[[9695,2150],[9695,5150]],"h":2.8,"mood":0,"d":6.5,"mods":["S","L","L","S"],"iS":1.5,"iL":1.3,"angL":0.62},{"k":"linear","p":[[10545,1950],[10545,5050]],"h":2.8,"mood":1,"i":0.07,"d":4.0,"n":4,"wall":10700,"wash":0.5},{"k":"pendant","p":[[7640,6950],[7660,6950]],"h":1.485,"mood":0.7,"i":0.8,"d":2.8},{"k":"linear","p":[[9700,6350],[9700,8950]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"strip","p":[[10330,6250],[10330,9050]],"h":1.5,"mood":1,"i":0.45,"d":1.8,"n":2},{"k":"linear","p":[[7450,8450],[7450,11350]],"h":2.8,"mood":0,"i":0.6,"d":4.5},{"k":"down","p":[[4100,5600]],"h":2.8,"mood":0,"i":1.3,"d":4.0},{"k":"linear","p":[[2450,1950],[2450,4350]],"h":2.8,"mood":0.6,"i":0.06,"d":3.5,"wall":2600,"n":3,"wash":0.42},{"k":"linear","p":[[850,4500],[850,6150]],"h":2.8,"mood":0,"i":0.5,"d":3.5},{"k":"sconce","p":[[70,2120]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"sconce","p":[[70,4160]],"h":0.85,"mood":1,"i":0.6,"d":2.2},{"k":"linear","p":[[4020,1900],[4020,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"linear","p":[[6560,1900],[6560,4100]],"h":2.8,"mood":0,"i":0.6,"d":4.0},{"k":"ceil","p":[[9350,900]],"h":2.6,"r":125,"mood":0.5,"i":0.5,"d":3.0},{"k":"ceil","p":[[1300,900]],"h":2.6,"r":125,"mood":0.5,"i":0.5,"d":3.0}];
+const fixtures = [], housing = M('#1d1b19', { roughness: 0.6 }), trackSpots = [], trackMove = new THREE.Group(); scene.add(trackMove);
 // wall-wash falloff: brightest just under the ceiling slot, easing to ~30% at the floor, soft at both ends
 const washTex = (() => {
   const c = document.createElement('canvas'); c.width = 64; c.height = 256;
@@ -5217,7 +5217,7 @@ function banxiaPendant(x, y, hb, D, em) {
 const sconces = [];
 LIGHTS.forEach(Lt => {
   const f = { mood: Lt.mood, lights: [], mats: [], wash: [] }; fixtures.push(f);
-  const T0 = target, home = Lt.grp ? studyMove : scene; target = home;
+  const T0 = target, home = Lt.grp ? studyMove : Lt.k === 'magtrack' ? trackMove : scene; target = home;
   const em = new THREE.MeshStandardMaterial({ color: '#fff4e2', emissive: '#ffcf8f', emissiveIntensity: 0.05, roughness: 0.4 }); f.mats.push(em);
   const [x1, y1] = Lt.p[0], [x2, y2] = Lt.p[Lt.p.length - 1];
   const len = Math.hypot(x2 - x1, y2 - y1), vert = Math.abs(x2 - x1) < Math.abs(y2 - y1);
@@ -5274,7 +5274,7 @@ LIGHTS.forEach(Lt => {
         [-150, 150].forEach(o => {
           const sp = new THREE.SpotLight('#ffc98a', 0, Lt.d, Lt.angL || 0.62, 1, 2);
           sp.position.set(x * MM, Lt.h - 0.09, (y + o) * MM); sp.target.position.set(x * MM, 0, (y + o) * MM);
-          sp.userData.on = Lt.iL; sp.visible = false; scene.add(sp); scene.add(sp.target); f.lights.push(sp);
+          sp.userData.on = Lt.iL; sp.visible = false; home.add(sp); home.add(sp.target); f.lights.push(sp);
         });
       } else {
         const hy = Lt.h - 0.12;
@@ -5282,7 +5282,7 @@ LIGHTS.forEach(Lt => {
         const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.004, 20), em); add(lens, false, false);
         cyl(x, y, 7, hy + 0.05, Lt.h - 0.045, housing, 8);
         const sp = new THREE.SpotLight('#ffc98a', 0, Lt.d, 0.26, 0.6, 2);
-        sp.userData.on = Lt.iS; sp.visible = false; scene.add(sp); scene.add(sp.target); f.lights.push(sp);
+        sp.userData.on = Lt.iS; sp.visible = false; home.add(sp); home.add(sp.target); f.lights.push(sp);
         trackSpots.push({ head, lens, sp, x, y, hy });
       }
     });
@@ -5317,21 +5317,24 @@ LIGHTS.forEach(Lt => {
 
 // master reading sconces: not wanted, the bedside lamp does the reading light
 hook(() => { sconces.filter(s => s.x < 200).forEach(s => { s.g.visible = false; }); });
-// the two spot modules: window end -> orchid on the glass side table, chair end -> the swivel chair wherever it stands
-// (by the window when it swaps with the stool), same as the lighting page
+// the two spot modules: window end -> the orchid on the piece behind the sofa (else the window table), chair end -> the
+// swivel chair wherever it stands, same as the lighting page; the whole track sits over the coffee table (mirrored with the
+// sofa on the right, 150 more toward the study wall with the table shift)
 function chairAim(Lo) {
   const g = livings[state.model + state.dir], c = g && g.userData.one && g.userData.one.children[0];
   return c ? [c.position.x / MM, c.position.z / MM, 0.45] : [Lo.swivel[0], Lo.swivel[1], 0.45];
 }
 function aimTrack() {
   const Lo = S.layouts[state.model + state.dir]; if (!Lo || trackSpots.length < 2) return;
-  const mx = x => state.lmir === 'R' ? 2 * LIV_XC - x : x;
-  [[Lo.glass_small[0] + glassShift, Lo.glass_small[1], 0.62], chairAim(Lo)].map(([x, y, h]) => [mx(x), y, h]).forEach((a, i) => {
-    const s = trackSpots[i], p = new THREE.Vector3(s.x * MM, s.hy, s.y * MM);
-    const dir = new THREE.Vector3(a[0] * MM, a[2], a[1] * MM).sub(p).normalize();
+  const mx = x => state.lmir === 'R' ? 2 * LIV_XC - x : x, R = state.lmir === 'R';
+  const ox = R ? (2 * LIV_XC - 9695) - 9695 - (state.tshift !== 'off' ? 150 : 0) : 0; trackMove.position.x = ox * MM;
+  const ct = CORNER_TOP[state.sback], win = ct ? [ct[0], ct[1], ct[2] + 0.1] : [Lo.glass_small[0] + glassShift, Lo.glass_small[1], 0.62];
+  [win, chairAim(Lo)].map(([x, y, h]) => [mx(x), y, h]).forEach((a, i) => {
+    const s = trackSpots[i], p = new THREE.Vector3(s.x * MM, s.hy, s.y * MM), pw = p.clone(); pw.x += ox * MM;
+    const dir = new THREE.Vector3(a[0] * MM, a[2], a[1] * MM).sub(pw).normalize();
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
     s.head.quaternion.copy(q); s.lens.quaternion.copy(q); s.lens.position.copy(p).addScaledVector(dir, 0.056);
-    s.sp.position.copy(p).addScaledVector(dir, 0.065); s.sp.target.position.set(a[0] * MM, a[2], a[1] * MM); s.sp.target.updateMatrixWorld();
+    s.sp.position.copy(p).addScaledVector(dir, 0.065); s.sp.target.position.set(a[0] * MM - ox * MM, a[2], a[1] * MM); s.sp.target.updateMatrixWorld();
   });
 }
 hook(aimTrack);
