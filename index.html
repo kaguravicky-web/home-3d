@@ -5947,10 +5947,12 @@ function chairAim(Lo) {
   const g = livings[state.model + state.dir], c = g && g.userData.one && g.userData.one.children[0];
   return c ? [c.position.x / MM, c.position.z / MM, 0.45] : [Lo.swivel[0], Lo.swivel[1], 0.45];
 }
+// set by the 组合A hook: the track over the coffee table where the user put it (mm, world)
+let TRACK_OX = null;
 function aimTrack() {
   const Lo = S.layouts[state.model + state.dir]; if (!Lo || trackSpots.length < 2) return;
   const mx = x => state.lmir === 'R' ? 2 * LIV_XC - x : x, R = state.lmir === 'R';
-  const ox = R ? (2 * LIV_XC - 9695) - 9695 - (state.tshift !== 'off' ? 150 : 0) : 0; trackMove.position.x = ox * MM;
+  const ox = TRACK_OX !== null ? TRACK_OX : R ? (2 * LIV_XC - 9695) - 9695 - (state.tshift !== 'off' ? 150 : 0) : 0; trackMove.position.x = ox * MM;
   const ct = CORNER_TOP[state.sback], win = ct ? [ct[0], ct[1], ct[2] + 0.1] : [Lo.glass_small[0] + glassShift, Lo.glass_small[1], 0.62];
   let aims = [win, chairAim(Lo)];
   // with the 乐园 sofas: the window-side spot on the lap of the chair at the coffee table's window end (else on the table),
@@ -6831,8 +6833,9 @@ const LAY_A = { le260: [8530, 3720, 0], jm: [9160, 2210, 1.0472], car: [9600, 24
 const LAY_T = ["组合A（自己在自由摆放里摆的）：2.6 沙发靠墙，骏马椅和卡门凳斜放在窗边，透明 C 形亚克力边几在椅子组合后面的窗角，树瘤茶几在沙发前，转椅在餐厅那头；不铺地毯、不放兰花柱。沙发尾", "cm，转椅背", "cm（正数是超出客厅线、负数是在线里面）。"];
 const layOn = () => state.lay === 'A' && state.sofa === 'le260' && state.bench === 'off' && state.chA === 'jmcar' && state.chB === 'casa' && state.table === 'burlwf' && cnrOn();
 hook(() => {
-  if (!layOn()) return;
-  const g = Object.values(livings).find(x => x.visible); if (!g) return;
+  TRACK_OX = null;
+  if (!layOn()) { aimTrack(); return; }
+  const g = Object.values(livings).find(x => x.visible); if (!g) { aimTrack(); return; }
   scene.updateMatrixWorld(true);
   const inv = new THREE.Matrix4().copy(livMir.matrixWorld).invert();
   // a piece baked as it stands in the copy: from its place now about its footprint centre to the user's place and turn
@@ -6844,6 +6847,7 @@ hook(() => {
   c.position.set(LAY_A.jm[0] * MM, 0, LAY_A.jm[1] * MM); c.rotation.set(0, LAY_A.jm[2], 0);
   fs.position.set(LAY_A.car[0] * MM, 0, LAY_A.car[1] * MM); fs.rotation.set(0, LAY_A.car[2], 0);
   CTAB.position.set(ct[0] * MM, 0, ct[1] * MM); CTAB.rotation.set(0, ct[2], 0); CTAB.scale.set(1, ct[3] / 550, 1);
+  g.userData.tables.burlwf.updateMatrixWorld(true); TRACK_OX = Math.round(new THREE.Box3().setFromObject(g.userData.tables.burlwf).getCenter(new THREE.Vector3()).x / MM) - 9695;   // as the lighting page
   aimTrack();
   scene.updateMatrixWorld(true);
   const yMax = o => { const b = new THREE.Box3().setFromObject(o); return livMir.worldToLocal(b.max.clone()).z / MM; };
