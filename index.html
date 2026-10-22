@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>C2 - 家具（自由摆放）</title>
+<title>C2 - 家具</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -205,7 +205,7 @@ body.walking > :not(#view):not(#walkHud) { display: none !important; }
 <section class="sheet" id="sheet">
   <div class="head">
     <div>
-      <h1>C2 - 家具（自由摆放）</h1>
+      <h1>C2 - 家具</h1>
       <p class="sub">按平面图 v65 + 灯光图建模 · 单位 mm · 层高按 2800 假设</p>
     </div>
     <div class="btns">
@@ -6885,6 +6885,7 @@ hook(() => {
   const cEnd = Math.round((Math.max(yMax(LCH.B.casa), livMir.worldToLocal(new THREE.Box3().setFromObject(LCH.B.casa).min.clone()).z / MM) - 5100) / 10);
   noteEl('oppNote').textContent = [LAY_T0[state.lay] + ' ' + sEnd + LAY_T[1] + ' ' + cEnd + LAY_T[2], LE_T, CTAB.visible ? CT_T[state.ctab] : ''].filter(Boolean).join(' · ');
 });
+setView('entry', true);
 // ==== 自由摆放 - the copy "C2 - 家具（自由摆放）" (2026-10-22): the user drags and turns the living-room pieces themselves.
 // Each piece is a clone of this page's own model (shared geometry and materials, so the sofa colours and the rug colour
 // still apply) inside a wrapper in livMir whose origin is the piece's footprint centre; while it is on, the page's own
@@ -7350,12 +7351,15 @@ const FREE = (() => {
     const SH_KEY = 'c2free.sheer', SHS = ['none', 'open', 'shut']; try { const v = localStorage.getItem(SH_KEY); if (SHS.includes(v)) state.sheer = v; } catch (e) {}
     SHS.forEach(v => $('sh-' + v).addEventListener('click', () => { state.sheer = v; try { localStorage.setItem(SH_KEY, v); } catch (e) {} if (cur && !dirty) { dirty = true; slotUI(); } applyLiving(); }));
     SLOTS.forEach(s => { $('fs-o' + s).addEventListener('click', () => openSlot(s)); $('fs-s' + s).addEventListener('click', () => saveSlot(s)); }); slotUI();
-    hook(hideOwn); setOn(true);
+    hook(hideOwn);
+    // the trade pages (carpentry, lighting) build on this page with window.FREE_HIDE = true: no panel, the page as it
+    // stands in its default layout (2026-10-23: 删除普通版，全部同步成Home-3d)
+    if (window.FREE_HIDE) { box.style.display = 'none'; const vf = document.getElementById('v-ftop'); if (vf) vf.style.display = 'none'; setOn(false); } else setOn(true);
   }
   return { init, pieces, add, load, select, setOn, openSlot, get on() { return on; } };
 })();
 FREE.init();
-setView('ftop', true);
+if (!window.FREE_HIDE) setView('ftop', true);
 const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 function frame(now) {
   if (walk) walkStep(now);
