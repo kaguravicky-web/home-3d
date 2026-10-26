@@ -260,6 +260,19 @@ const FREE = (() => {
     const rg = new THREE.ExtrudeGeometry(ring, { depth: 0.008, bevelEnabled: false, curveSegments: 12 }); rg.rotateX(-Math.PI / 2); put(new THREE.Mesh(rg, burl), H - 0.008);
     return g;
   }
+  // the two coffee tables the owner sent (2026-10-27): the LEFUR Soda in blue glass, D550 x 300, and the woven straw
+  // tatami table, which comes in 60 x 45 x 30 (small) and 80 x 50 x 35 (medium)
+  const sodaTable = () => { const g = new THREE.Group();
+    const gl = new THREE.MeshStandardMaterial({ color: '#2f7fb5', transparent: true, opacity: 0.66, roughness: 0.06, metalness: 0.05 });
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.268, 0.05, 56), gl); top.position.y = 0.275; top.castShadow = true; g.add(top);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.272, 0.016, 12, 56), gl); rim.rotation.x = Math.PI / 2; rim.position.y = 0.252; g.add(rim);
+    [[-0.08, -0.08], [0.08, -0.08], [-0.08, 0.08], [0.08, 0.08]].forEach(([x, z]) => {
+      const l = new THREE.Mesh(new THREE.CylinderGeometry(0.077, 0.077, 0.25, 28), gl); l.position.set(x, 0.125, z); l.castShadow = true; g.add(l); });
+    return g; };
+  const tatamiTable = (W, D, H) => { const g = new THREE.Group(), st = rattanMat.clone(); st.map = rattanMat.map.clone(); st.map.repeat.set(W * 7, 4); st.map.needsUpdate = true;
+    const body = rbox(W, H - 0.04, D, 0.03, st); body.position.y = (H - 0.04) / 2; body.castShadow = body.receiveShadow = true; g.add(body);
+    const top = rbox(W + 0.012, 0.04, D + 0.012, 0.022, st); top.position.y = H - 0.02; top.castShadow = true; g.add(top);
+    return g; };
   // the 筇竹 tea table 1050 x 580 x 450, black: bamboo-jointed rods round the top (crossing a little at the corners) over a
   // cane panel, a frame under them, aprons whose lower edge arches up toward the middle, legs with a knee and a kicked foot
   function bambooRimTable() {
@@ -546,6 +559,9 @@ const FREE = (() => {
     { k: 'nordic', n: '黑格栅玻璃茶几 100×50', src: () => liv().userData.tables.nordic },   // back since 2026-10-24 (the user asked for it again)
     { k: 'burlpill', n: '树瘤圆角茶几 100×70×35', src: () => burlPillTable(), frame: true, wd: true, dim: [100, 70, 35], spawn: [9570, 3740, Math.PI / 2] },
     { k: 'burlpill90', n: '树瘤圆角茶几', src: () => burlPillTable(0.9), frame: true, wd: true, dim: [90, 63, 35], spawn: [9570, 3740, Math.PI / 2] },
+    { k: 'soda', n: 'Soda 蓝色玻璃圆几', src: () => sodaTable(), frame: true, round: true, dim: [55, 55, 30], spawn: [9570, 3740, 0] },
+    { k: 'tatami60', n: '蒲草榻榻米茶几 小号', src: () => tatamiTable(0.6, 0.45, 0.30), frame: true, wd: true, dim: [60, 45, 30], dimText: '蒲草榻榻米茶几 小号 60×45×30（木框＋蒲草，手工误差约 2cm）', spawn: [9570, 3740, 0] },
+    { k: 'tatami80', n: '蒲草榻榻米茶几 中号', src: () => tatamiTable(0.8, 0.50, 0.35), frame: true, wd: true, dim: [80, 50, 35], dimText: '蒲草榻榻米茶几 中号 80×50×35（木框＋蒲草，手工误差约 2cm）', spawn: [9570, 3740, 0] },
     { k: 'burlpill80', n: '树瘤圆角茶几 80×56×35', src: () => burlPillTable(0.8), frame: true, wd: true, dim: [80, 56, 35], spawn: [9570, 3740, Math.PI / 2] },
     { k: 'bamboo', n: '筇竹青云茶几 105×58×45（黑框藤面）', src: () => bambooRimTable(), frame: true, wd: true, dim: [105, 58, 45], spawn: [9570, 3740, Math.PI / 2] },
     { k: 'hyacinth', n: '水葫芦编织茶几 100×50×38（深色）', src: () => hyacinthTable(), frame: true, wd: true, dim: [100, 50, 38], spawn: [9570, 3740, Math.PI / 2] },
@@ -1007,7 +1023,7 @@ const FREE = (() => {
     if (!window.FREE_HIDE) { try { mydef = JSON.parse(localStorage.getItem(DEF_KEY) || 'null'); } catch (e) {} if (mydef && Array.isArray(mydef.pieces) && mydef.pieces.length) def = mydef.pieces; else mydef = null; }
     let saved = null, old = false; if (!window.FREE_HIDE) try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (!Array.isArray(saved)) { saved = JSON.parse(localStorage.getItem(KEY1) || 'null'); old = true; } } catch (e) {}
     load(Array.isArray(saved) && saved.length ? (old ? migrate(saved) : saved) : def);
-    const lib = $('frLib'), LIB_G = [['沙发和椅子', ['pea252', 'casa', 'rl', 'scroll']], ['茶几', ['burlpill90', 'burl']],
+    const lib = $('frLib'), LIB_G = [['沙发和椅子', ['pea252', 'casa', 'rl', 'scroll']], ['茶几', ['burlpill90', 'soda', 'tatami60', 'tatami80', 'burl']],
       ['边几', ['pc', 'burlcol', 'ct', 'arch3']], ['装饰', ['bk', 'vs', 'branch', 'throw', 'pillows', 'fruit', 'palm', 'tvm']], ['灯具', ['tlamp', 'glamp', 'flamp']], ['地毯和画', ['srug', 'oilart']], ['其他', []]], libRows = {};
     LIB_G.forEach(([g]) => { const h = document.createElement('div'); h.className = 'frgrp'; h.textContent = g; const rw = document.createElement('div'); rw.className = 'row'; lib.appendChild(h); lib.appendChild(rw); libRows[g] = rw; });
     const libRow = k => libRows[(LIB_G.find(([, ks]) => ks.includes(k)) || ['其他'])[0]];

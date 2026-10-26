@@ -25,6 +25,11 @@ rep("  trTree(sheetEl); trTree(viewBar);\n", "  trTree(sheetEl); trTree(viewBar)
 m = re.search(r"const EN = (\{.*?\});\n", t); EN = json.loads(m.group(1)); m2 = re.search(r"const KO = (\{.*?\});\n", t); KO = json.loads(m2.group(1))
 NEW = {
     "青绿": ["Teal", "청록"],
+    "Soda 蓝色玻璃圆几": ["Soda blue glass round table", "Soda 블루 유리 원형 테이블"],
+    "蒲草榻榻米茶几 小号": ["Straw tatami table, small", "짚 다다미 테이블 소형"],
+    "蒲草榻榻米茶几 中号": ["Straw tatami table, medium", "짚 다다미 테이블 중형"],
+    "蒲草榻榻米茶几 小号 60×45×30（木框＋蒲草，手工误差约 2cm）": ["Straw tatami table, small 60×45×30 (wood frame and straw, about 2 cm measuring error)", "짚 다다미 테이블 소형 60×45×30(목재 프레임 + 짚, 수작업 오차 약 2cm)"],
+    "蒲草榻榻米茶几 中号 80×50×35（木框＋蒲草，手工误差约 2cm）": ["Straw tatami table, medium 80×50×35 (wood frame and straw, about 2 cm measuring error)", "짚 다다미 테이블 중형 80×50×35(목재 프레임 + 짚, 수작업 오차 약 2cm)"],
     TITLE: ["C2 - Furniture (free arrangement)", "C2 - 가구(자유 배치)"],
     "自由摆放": ["Free arrangement", "자유 배치"],
     "收起": ["Fold", "접기"], "展开": ["Open", "펼치기"],
