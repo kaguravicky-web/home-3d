@@ -3642,25 +3642,51 @@ const HALL_ART = {};   // one: a 30 x 40; two: two 30 x 40 stacked 70 apart; a4:
       softFill(g, w, h, 'rgba(255,252,244,0.95)', 'rgba(255,250,238,0)', cx * w, cy * h, rx * w, ry * h); });
     g.fillStyle = 'rgba(96,84,70,0.45)';
     for (let i = 0; i < 70; i++) g.fillRect(rnd(i + 3) * w, rnd(i + 71) * h, 1.7, 1.7); });
-  const lineArt = cvs2(400, 560, (g, w, h) => {
+  const lineArt = cvs2(440, 600, (g, w, h) => {
     g.fillStyle = '#f7f2e6'; g.fillRect(0, 0, w, h);
-    g.strokeStyle = '#1e4b33'; g.lineCap = 'round'; g.lineJoin = 'round';
-    const X = f => f * w, Y = f => f * h;
-    g.lineWidth = 7; g.beginPath(); g.moveTo(X(0.37), Y(0.60)); g.bezierCurveTo(X(0.31), Y(0.78), X(0.35), Y(0.88), X(0.50), Y(0.88));
-    g.bezierCurveTo(X(0.65), Y(0.88), X(0.69), Y(0.78), X(0.63), Y(0.60)); g.closePath(); g.stroke();
-    g.beginPath(); g.moveTo(X(0.35), Y(0.60)); g.lineTo(X(0.65), Y(0.60)); g.stroke();
-    for (let i = -3; i <= 3; i++) { g.lineWidth = 4; g.beginPath(); g.moveTo(X(0.5 + i * 0.026), Y(0.63));
-      g.quadraticCurveTo(X(0.5 + i * 0.045), Y(0.76), X(0.5 + i * 0.032), Y(0.85)); g.stroke(); }
-    g.lineWidth = 5;
-    [[0.5, 0.58, 0.30, -0.1], [0.41, 0.58, 0.40, 0.5], [0.59, 0.58, 0.26, -0.6]].forEach(([sx, sy, ey, bend]) => {
-      g.beginPath(); g.moveTo(X(sx), Y(sy)); g.quadraticCurveTo(X(sx + bend * 0.12), Y((sy + ey) / 2), X(sx + bend * 0.2), Y(ey)); g.stroke(); });
-    const flower = (cx, cy, r, lobes) => { g.beginPath();
-      for (let k = 0; k <= 40; k++) { const a = k / 40 * 6.283, rr = r * (0.78 + 0.34 * Math.abs(Math.sin(a * lobes / 2)));
-        const x = X(cx) + Math.cos(a) * rr, y = Y(cy) + Math.sin(a) * rr * 1.05; k ? g.lineTo(x, y) : g.moveTo(x, y); }
-      g.closePath(); g.lineWidth = 6; g.stroke(); g.fillStyle = '#fbf7ee'; g.fill(); g.stroke(); };
-    flower(0.50, 0.27, 0.105 * w, 7); flower(0.35, 0.36, 0.085 * w, 6); flower(0.66, 0.33, 0.09 * w, 6);
-    flower(0.24, 0.50, 0.07 * w, 5); flower(0.76, 0.47, 0.065 * w, 5);
-    g.fillStyle = '#1e4b33'; g.beginPath(); g.arc(X(0.50), Y(0.27), 0.022 * w, 0, 6.283); g.fill(); });
+    const G = '#1d4a32', X = f => f * w, Y = f => f * h;
+    g.strokeStyle = G; g.lineCap = 'round'; g.lineJoin = 'round';
+    // the vase: bulbous body, short neck, two loop handles, ribs down the body
+    g.lineWidth = 13;
+    g.beginPath(); g.moveTo(X(0.405), Y(0.600));
+    g.bezierCurveTo(X(0.35), Y(0.618), X(0.275), Y(0.672), X(0.275), Y(0.752));
+    g.bezierCurveTo(X(0.275), Y(0.848), X(0.345), Y(0.905), X(0.50), Y(0.905));
+    g.bezierCurveTo(X(0.655), Y(0.905), X(0.725), Y(0.848), X(0.725), Y(0.752));
+    g.bezierCurveTo(X(0.725), Y(0.672), X(0.65), Y(0.618), X(0.595), Y(0.600));
+    g.stroke();
+    g.beginPath(); g.moveTo(X(0.395), Y(0.606)); g.quadraticCurveTo(X(0.5), Y(0.582), X(0.605), Y(0.606)); g.stroke();
+    g.lineWidth = 10;
+    [-1, 1].forEach(s => { g.beginPath(); g.moveTo(X(0.5 + s * 0.098), Y(0.632));
+      g.bezierCurveTo(X(0.5 + s * 0.195), Y(0.598), X(0.5 + s * 0.205), Y(0.690), X(0.5 + s * 0.125), Y(0.706)); g.stroke(); });
+    for (let i = -3; i <= 3; i++) { g.lineWidth = 8; g.beginPath(); g.moveTo(X(0.5 + i * 0.030), Y(0.648));
+      g.quadraticCurveTo(X(0.5 + i * 0.056), Y(0.780), X(0.5 + i * 0.040), Y(0.888)); g.stroke(); }
+    // stems out of the neck, thick and loose, with a few leaves
+    g.lineWidth = 10;
+    [[0.47, 0.605, 0.30, 0.275], [0.52, 0.605, 0.585, 0.205], [0.50, 0.605, 0.755, 0.320],
+     [0.47, 0.605, 0.195, 0.445], [0.53, 0.605, 0.815, 0.440]].forEach(([x0, y0, x1, y1]) => {
+      const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+      g.beginPath(); g.moveTo(X(x0), Y(y0)); g.bezierCurveTo(X(mx - 0.05), Y(my), X(mx + 0.04), Y(my - 0.03), X(x1), Y(y1)); g.stroke(); });
+    const leaf = (cx, cy, L, W, a) => { g.lineWidth = 9; g.beginPath();
+      g.moveTo(X(cx), Y(cy)); g.quadraticCurveTo(X(cx + Math.cos(a) * W), Y(cy + Math.sin(a) * W * 2.2), X(cx + Math.cos(a) * L), Y(cy + Math.sin(a) * L * 2.2));
+      g.quadraticCurveTo(X(cx + Math.cos(a) * W * 0.2), Y(cy + Math.sin(a) * W * 0.4), X(cx), Y(cy)); g.stroke(); };
+    leaf(0.30, 0.335, 0.055, -0.055, 1.9); leaf(0.66, 0.255, 0.05, 0.05, -1.7);
+    leaf(0.20, 0.500, 0.045, -0.05, 2.1); leaf(0.79, 0.500, 0.045, 0.05, -1.2);
+    // the blooms: overlapping petal loops, drawn thick and slightly uneven, with dotted centres
+    const bloom = (cx, cy, r, n, rot) => {
+      const R = r * w;
+      for (let k = 0; k < n; k++) {
+        const a = rot + k / n * 6.283, d = R * (0.86 + 0.22 * Math.sin(k * 2.3 + cx * 17));
+        g.lineWidth = 12;
+        g.beginPath(); g.ellipse(X(cx) + Math.cos(a) * d * 0.92, Y(cy) + Math.sin(a) * d * 0.80,
+          d * 0.68, d * 0.50, a, 0, 6.283); g.stroke();
+      }
+      g.lineWidth = 9; g.beginPath(); g.arc(X(cx), Y(cy), R * 0.26, 0, 6.283); g.stroke();
+      g.fillStyle = G; g.beginPath(); g.arc(X(cx), Y(cy), R * 0.11, 0, 6.283); g.fill();
+    };
+    bloom(0.295, 0.265, 0.088, 6, 0.4); bloom(0.585, 0.190, 0.100, 7, 0.1);
+    bloom(0.760, 0.315, 0.074, 5, 0.8); bloom(0.400, 0.435, 0.068, 5, 0.3);
+    bloom(0.700, 0.470, 0.058, 5, 1.1);
+  });
   set('g1', 0.6, [frameless(0.6, 0.6, gradTeal, 0)]);
   set('g2', 0.6, [frameless(0.6, 0.6, gradCream, 0)]);
   set('g3', 0.5, [frameless(0.5, 0.7, lightStudy, 0)]);
