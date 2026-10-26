@@ -2144,38 +2144,41 @@ function diningChair(style) {
     seatPanel(2 * wx - 0.03, zf - zb + 0.01, sh, (zf + zb) / 2);
     cush(2 * wx - 0.06, zf - zb - 0.03, sh, (zf + zb) / 2);
   } else if (style === 10) {
-    // the French upholstered chair (2026-10-27): 530 x 530 x 830 - black frame, padded seat and back, arms sweeping down
-    // to the front legs
-    const sh = 0.45, H = 0.83, wx = 0.235, zf = 0.215, zb = -0.215;
+    // the 玛卡巴卡 French chair (2026-10-27): 530 x 530 x 830 - a black bent tube that runs from the front leg up into the
+    // arm, sweeps round the back as one loop, a thick round back pad and a thick seat pad, both in cream
+    const sh = 0.45, H = 0.84, wx = 0.235, zf = 0.215, zb = -0.215;
     [-1, 1].forEach(s => {
-      rod([[s * wx, 0, zf + 0.015], [s * (wx - 0.015), sh, zf], [s * (wx - 0.02), H - 0.02, zb * 0.45]], 0.016);
-      rod([[s * wx, 0, zb - 0.015], [s * (wx - 0.02), sh, zb], [s * (wx - 0.025), H, zb - 0.01]], 0.016);
-      rod([[s * (wx - 0.02), H - 0.02, zb * 0.45], [s * (wx - 0.025), H - 0.02, zb - 0.01]], 0.013);
-      rod([[s * (wx - 0.015), sh, zf], [s * (wx - 0.02), sh, zb]], 0.012);
+      rod([[s * wx, 0, zf + 0.02], [s * (wx - 0.012), sh + 0.02, zf], [s * (wx - 0.022), 0.70, 0.09],
+           [s * (wx - 0.032), H - 0.05, zb + 0.04], [s * (wx - 0.032), H, zb - 0.005]], 0.017);
+      rod([[s * wx, 0, zb - 0.02], [s * (wx - 0.012), sh, zb], [s * (wx - 0.032), H - 0.03, zb]], 0.015);
+      rod([[s * (wx - 0.012), sh, zf], [s * (wx - 0.012), sh, zb]], 0.012);
     });
-    rod([[-wx, sh, zf], [wx, sh, zf]], 0.012); rod([[-wx, sh, zb], [wx, sh, zb]], 0.012);
-    rod([[-wx + 0.02, H, zb - 0.01], [wx - 0.02, H, zb - 0.01]], 0.014);
-    seatPanel(2 * wx - 0.03, zf - zb - 0.01, sh, (zf + zb) / 2);
-    const bk = rbox(2 * (wx - 0.025), H - sh - 0.10, 0.075, 0.035, padM);
-    bk.position.set(0, (sh + 0.10 + H) / 2, zb + 0.045); bk.rotation.x = -0.06; add(bk);
-    const seat = rbox(2 * wx - 0.03, 0.07, zf - zb + 0.02, 0.04, padM);
-    seat.position.set(0, sh + 0.025, (zf + zb) / 2); seat.userData.cush = 'white'; add(seat);
+    rod([[-wx + 0.032, H, zb - 0.005], [0, H + 0.012, zb - 0.012], [wx - 0.032, H, zb - 0.005]], 0.017);
+    rod([[-wx, sh, zf], [wx, sh, zf]], 0.012);
+    const bk = new THREE.Mesh(new THREE.CylinderGeometry(0.185, 0.175, 0.075, 36), padM);
+    bk.rotation.x = Math.PI / 2 - 0.16; bk.scale.set(1, 1, 1.25); bk.position.set(0, 0.655, zb + 0.075); bk.castShadow = true; add(bk);
+    const seat = rbox(2 * wx - 0.02, 0.08, zf - zb + 0.02, 0.05, padM);
+    seat.position.set(0, sh + 0.035, (zf + zb) / 2); seat.userData.cush = 'white'; seat.castShadow = true; add(seat);
   } else if (style === 11) {
-    // the 猫耳 chair (2026-10-27): walnut, 450 x 430, seat 450, back about 800 - two uprights run past the crest as ears
-    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, H = 0.80, wx = 0.195, zf = 0.185, zb = -0.195;
+    // the 猫耳 chair (2026-10-27): walnut, 450 x 430, seat 450, about 800 - the back is one heat-bent solid panel whose
+    // top edge rises into two ears and dips between them, the rear legs running straight up into it
+    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, wx = 0.195, zf = 0.185, zb = -0.195;
     const wd = (pts, r) => tube(pts, r, wal, 12);
-    const zAt = y => zb - 0.02 * (y - sh) / (H - sh);
     [-1, 1].forEach(s => {
       wd([[s * wx, 0, zf + 0.012], [s * (wx - 0.012), sh, zf]], 0.014);
-      wd([[s * wx, 0, zb - 0.012], [s * (wx - 0.012), sh, zb], [s * (wx - 0.014), H + 0.055, zAt(H + 0.055)]], 0.014);
-      wd([[s * (wx - 0.012), sh, zf], [s * (wx - 0.012), sh, zb]], 0.01);
-      wd([[s * wx, 0.10, zf], [s * wx, 0.10, zb]], 0.008);
+      wd([[s * wx, 0, zb - 0.012], [s * (wx - 0.014), sh, zb], [s * (wx - 0.018), 0.74, zb - 0.028]], 0.016);
+      wd([[s * (wx - 0.012), sh, zf], [s * (wx - 0.012), sh, zb]], 0.011);
+      wd([[s * wx, 0.09, zf], [s * wx, 0.09, zb]], 0.008);
     });
-    wd([[-wx + 0.014, sh, zf], [wx - 0.014, sh, zf]], 0.011);
-    wd([[-wx + 0.014, sh, zb], [wx - 0.014, sh, zb]], 0.011);
-    wd([[-wx + 0.014, H, zAt(H)], [0, H - 0.028, zAt(H)], [wx - 0.014, H, zAt(H)]], 0.012);
-    wd([[-wx + 0.014, H - 0.02, zAt(H - 0.02)], [-0.06, 0.66, zAt(0.66)], [0, 0.64, zAt(0.64)],
-        [0.06, 0.66, zAt(0.66)], [wx - 0.014, H - 0.02, zAt(H - 0.02)]], 0.011);
+    wd([[-wx + 0.012, sh, zf], [wx - 0.012, sh, zf]], 0.011);
+    const W2 = 0.35, Hh = 0.36, shp = new THREE.Shape();
+    shp.moveTo(-W2 / 2, 0); shp.lineTo(W2 / 2, 0); shp.lineTo(W2 / 2, Hh - 0.06);
+    shp.quadraticCurveTo(W2 / 2 - 0.012, Hh, W2 / 2 - 0.055, Hh);                      // the right ear
+    shp.quadraticCurveTo(0, Hh - 0.085, -W2 / 2 + 0.055, Hh);                          // dipping between them
+    shp.quadraticCurveTo(-W2 / 2 + 0.012, Hh, -W2 / 2, Hh - 0.06);                     // the left ear
+    shp.closePath();
+    const bg = new THREE.ExtrudeGeometry(shp, { depth: 0.02, bevelEnabled: true, bevelThickness: 0.003, bevelSize: 0.003, bevelSegments: 2, curveSegments: 14 });
+    const bp = new THREE.Mesh(bg, wal); bp.position.set(0, sh + 0.02, zb - 0.03); bp.rotation.x = -0.09; bp.castShadow = bp.receiveShadow = true; add(bp);
     seatPanel(2 * wx - 0.02, zf - zb + 0.01, sh, (zf + zb) / 2);
     const seat = rbox(2 * wx - 0.03, 0.06, zf - zb - 0.02, 0.03, padM);
     seat.position.set(0, sh + 0.02, (zf + zb) / 2); seat.userData.cush = 'white'; add(seat);
