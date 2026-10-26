@@ -1,0 +1,12 @@
+# working scratch: the headless render rig, probes, temp builds
+_shot/
+_scratch/
+.tmp/
+pylibs/
+sdist/
+opend_probe.py
+futu_api.tar.gz
+
+# build logs and the inlined single-file build (index.html is the published copy)
+*.log
+main-design/C2*.html

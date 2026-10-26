@@ -24,6 +24,7 @@ rep("[sheetEl, viewBar].forEach(el => trObs.observe(el, { childList: true, subtr
 rep("  trTree(sheetEl); trTree(viewBar);\n", "  trTree(sheetEl); trTree(viewBar); trTree(document.getElementById('freeBox'));\n")
 m = re.search(r"const EN = (\{.*?\});\n", t); EN = json.loads(m.group(1)); m2 = re.search(r"const KO = (\{.*?\});\n", t); KO = json.loads(m2.group(1))
 NEW = {
+    "青绿": ["Teal", "청록"],
     TITLE: ["C2 - Furniture (free arrangement)", "C2 - 가구(자유 배치)"],
     "自由摆放": ["Free arrangement", "자유 배치"],
     "收起": ["Fold", "접기"], "展开": ["Open", "펼치기"],

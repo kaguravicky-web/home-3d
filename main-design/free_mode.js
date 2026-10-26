@@ -422,7 +422,7 @@ const FREE = (() => {
   // S1540 260 x 140 x 80 and the bean 豌豆沙发 QJ2316 252 x 135 x 72, built at their own size; the fabric white, a soft lemon
   // or light blue, and a blue-and-white ikat (as on the reference armchairs) on the seat or on the backs; the parts carry
   // userData.role (seat / back) and uvk (how their texture coordinates run: m metres, sph round, box per face)
-  const FAB = { white: '#eee9e0', lemon: '#f5e9a2', blue: '#bcd0e2' }, FAB_REP = { m: [6, 6], sph: [12, 6], box: [3, 3] }, PAT_REP = { m: [2, 2], sph: [5, 2], box: [1, 1] };
+  const FAB = { white: '#eee9e0', lemon: '#f5e9a2', blue: '#bcd0e2', teal: '#8fbfb2' }, FAB_REP = { m: [6, 6], sph: [12, 6], box: [3, 3] }, PAT_REP = { m: [2, 2], sph: [5, 2], box: [1, 1] };
   const fabTex = col => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); x.fillStyle = col; x.fillRect(0, 0, 64, 64);
     for (let i = 0; i < 700; i++) { x.fillStyle = rnd(i * 3 + 7) < 0.5 ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.05)'; x.fillRect(rnd(i * 5 + 1) * 64, rnd(i * 11 + 2) * 64, 1.5, 1.5); } return c; };
   const ikatCanvas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#f3f0e8'; x.fillRect(0, 0, 256, 256);
@@ -538,8 +538,7 @@ const FREE = (() => {
     { k: 'le260', n: '乐园沙发 2.6', src: () => liv().userData.sofas.le260, tub: true, dim: [260, 101, 62], dimNote: '（按 3150×1220×750 等比估算）' },
     { k: 'jm', n: '骏马扶手椅', src: () => LCH.A.jmcar.children[0], frame: true, wd: true },
     { k: 'rt', n: '藤编扶手椅', src: () => LCH.A.rtcar.children[0], frame: true, wd: true },
-    { k: 'arc260', n: '圆弧沙发 260', src: () => arcSofa(), fab: true, frame: true, wd: true, dim: [260, 140, 80], spawn: [8700, 3770, Math.PI / 2] },
-    { k: 'pea252', n: '豌豆沙发 252', src: () => peaSofa(), fab: true, frame: true, wd: true, dim: [252, 119, 72], dimText: '豌豆沙发 252×119×72（商品表 135 深含两个金属托盘，已拿掉）', spawn: [8620, 3770, Math.PI / 2] },
+    { k: 'pea252', n: '豌豆沙发 252', src: () => peaSofa(), fab: true, frame: true, wd: true, dim: [252, 119, 72], dimText: '豌豆沙发 252×119×72（商品表 135 深含两个金属托盘，已拿掉）', spawn: [8700, 3770, Math.PI / 2] },   // 2026-10-27: the only sofa in the catalogue
     { k: 'casa', n: '转椅', src: () => LCH.B.casa, round: true, dim: [77, 77] },
     { k: 'car', n: '卡门凳', src: () => LCH.A.jmcar.children[1], frame: true, wd: true },
     { k: 'rl', n: '藤编躺椅', src: () => loungers(), frm: true, frame: true, wd: true, dim: [60, 82.1, 72] },
@@ -599,7 +598,7 @@ const FREE = (() => {
   // sofa-side window corner, no rug), so it is there in any browser until the user saves over it
   const SLOT_KEY = 'c2free.slots.v1', SLOTS = ['A', 'B', 'C'];
   const BUILTIN = { A: { v: 2, sfc: 'oat', lrug: 'sage', pieces: [{ k: 'jm', x: 9160, y: 2210, a: 1.0472 }, { k: 'car', x: 9600, y: 2460, a: 1.0472 }, { k: 'casa', x: 9450, y: 4860, a: 0 },
-    { k: 'le260', x: 8530, y: 3720, a: 0 }, { k: 'burlpill90', x: 9420, y: 3680, a: 0 }, { k: 'ct', x: 8260, y: 2110, a: 10.9956, h: 450, c: 'clear' }, { k: 'bk', x: 9420, y: 3680, a: 0 }, { k: 'vs', x: 8260, y: 2110, a: 1.5708 }] },
+    { k: 'pea252', x: 8600, y: 3720, a: 0, c: 'white' }, { k: 'burlpill90', x: 9420, y: 3680, a: 0 }, { k: 'ct', x: 8260, y: 2110, a: 10.9956, h: 450, c: 'clear' }, { k: 'bk', x: 9420, y: 3680, a: 0 }, { k: 'vs', x: 8260, y: 2110, a: 1.5708 }] },
     // 组合B (2026-10-25, 好的，你做成组合b): the default A and what the living room lacked - the sisal flat-weave rug, the linen
     // curtains, the green painting opposite the sofa, the palm back by the window on the sofa side, the jar lamp on the arch
     // tables (the orchid to the coffee table), the oatmeal throw and the olive / caramel cushions on the sofa
@@ -608,7 +607,7 @@ const FREE = (() => {
         'hlamp': 'drum40', 'hmir': 'on', 'hstool': 'ysn', 'hart': 'off', 'hart2': 'off', 'hrugc': 'natural', 'endp': '75', 'ebdp': '20', 'mnc': 'cyl', 'mbp': 'white', 'tv': 'R', 'kjoin': 'off', 'sdopen': 'closed'},
       dine: {'x': -0.83, 'z': -0.02, 'r': -6.283185307179586}, dchair: 'limo', dset: 'off', dcount: '5s', dwall: 'chair', hrug: {'p': {'x': 7.05, 'z': 9.94, 'r': 0}, 'c': 'natural'}, hst: {'x': 7.91, 'z': 10.29, 'r': 1.5707963267948966},
       pieces: [
-      {'k': 'casa', 'x': 9650, 'y': 5180, 'a': 6.2832}, {'k': 'arc260', 'x': 8700, 'y': 3770, 'a': 1.5708, 'c': 'blue'}, {'k': 'arch3', 'x': 9620, 'y': 2280, 'a': 0.7854, 'c': 'black'},
+      {'k': 'casa', 'x': 9650, 'y': 5180, 'a': 6.2832}, {'k': 'pea252', 'x': 8700, 'y': 3770, 'a': 1.5708, 'c': 'blue'}, {'k': 'arch3', 'x': 9620, 'y': 2280, 'a': 0.7854, 'c': 'black'},
       {'k': 'burlpill90', 'x': 9700, 'y': 3750, 'a': 1.5708}, {'k': 'bk', 'x': 9720, 'y': 3650, 'a': 1.5708}, {'k': 'srug', 'x': 9640, 'y': 3770, 'a': 0}, {'k': 'oilart', 'x': 10700, 'y': 3770, 'a': -1.5708, 'h': 1450},
       {'k': 'rl', 'x': 10170, 'y': 2550, 'a': 4.7124, 'c': 'black'}, {'k': 'vs', 'x': 9670, 'y': 3960, 'a': 1.5708}, {'k': 'tlamp', 'x': 9620, 'y': 2280, 'a': 0.7854, 'c': 'black'},
       {'k': 'palm', 'x': 8300, 'y': 2130, 'a': 0, 'h': 1800, 'c': 'basket'}] },
@@ -622,7 +621,7 @@ const FREE = (() => {
         'hlamp': 'drum40', 'hmir': 'on', 'hstool': 'ysn', 'hart': 'off', 'hart2': 'off', 'hrugc': 'natural', 'endp': '75', 'ebdp': '20', 'mnc': 'cyl', 'mbp': 'white', 'tv': 'R', 'kjoin': 'off', 'sdopen': 'closed'},
       dine: {'x': -0.83, 'z': -0.02, 'r': -6.283185307179586}, dchair: 'limo', dset: 'off', dcount: '5s', dwall: 'chair', hrug: {'p': {'x': 7.05, 'z': 9.94, 'r': 0}, 'c': 'natural'}, hst: {'x': 7.91, 'z': 10.29, 'r': 1.5707963267948966},
       pieces: [
-      {'k': 'casa', 'x': 9650, 'y': 5180, 'a': 6.2832}, {'k': 'arc260', 'x': 8700, 'y': 3770, 'a': 1.5708, 'c': 'white'}, {'k': 'arch3', 'x': 9620, 'y': 2280, 'a': 0.7854, 'c': 'black'},
+      {'k': 'casa', 'x': 9650, 'y': 5180, 'a': 6.2832}, {'k': 'pea252', 'x': 8700, 'y': 3770, 'a': 1.5708, 'c': 'white'}, {'k': 'arch3', 'x': 9620, 'y': 2280, 'a': 0.7854, 'c': 'black'},
       {'k': 'burlpill90', 'x': 9700, 'y': 3750, 'a': 1.5708}, {'k': 'bk', 'x': 9720, 'y': 3650, 'a': 1.5708},
       {'k': 'rl', 'x': 10170, 'y': 2550, 'a': 4.7124, 'c': 'black'}, {'k': 'vs', 'x': 9600, 'y': 2350, 'a': 1.5708}] } };
   const migrate = list => list.some(p => p.k === 'bk' || p.k === 'vs') ? list : list.concat(list.filter(p => ['nordic', 'burl'].includes(p.k)).map(p => ({ k: 'bk', x: p.x, y: p.y, a: p.a || 0 })));
@@ -730,8 +729,8 @@ const FREE = (() => {
     let d = Math.round(((sel.rotation.y - (BY[k].frame ? Math.PI / 2 : 0)) * 180 / Math.PI) % 360); if (d > 180) d -= 360; if (d <= -180) d += 360;
     const hh = sel.userData.free.h; hRow(k, hh); $('frT').hidden = !BY[k].tub; $('frC').hidden = !BY[k].ctv; $('frP').hidden = !BY[k].pot; $('frF').hidden = !BY[k].frm; $('frTn').hidden = !BY[k].tone; $('frCl').hidden = !BY[k].cols && !BY[k].fab; $('frPat').hidden = !BY[k].fab; $('frD').hidden = !BY[k].dia;
     if (BY[k].pot) POTS.forEach(c => $('fp-' + c).setAttribute('aria-pressed', sel.userData.free.c === c)); if (BY[k].frm) FRMS.forEach(c => $('ff-' + c).setAttribute('aria-pressed', sel.userData.free.c === c)); if (BY[k].tone) TONES.forEach(c => $('ftn-' + c).setAttribute('aria-pressed', sel.userData.free.c === c)); if (BY[k].dia) BY[k].dia.forEach(v => $('fd-' + v).setAttribute('aria-pressed', sel.userData.free.d === v));
-    if (BY[k].ctv) CTV.forEach(c => $('fc-' + c).setAttribute('aria-pressed', sel.userData.free.c === c)); if (BY[k].cols || BY[k].fab) { const [c0, p0] = String(sel.userData.free.c || '').split('|'), CL = BY[k].fab ? ['white', 'lemon', 'blue'] : BY[k].cols;
-      ['black', 'white', 'lemon', 'blue'].forEach(c => { const b = $('fcl-' + c); b.hidden = !CL.includes(c); b.setAttribute('aria-pressed', c0 === c); }); if (BY[k].fab) ['none', 'seat', 'back'].forEach(q => $('fpt-' + q).setAttribute('aria-pressed', (p0 || 'none') === q)); }
+    if (BY[k].ctv) CTV.forEach(c => $('fc-' + c).setAttribute('aria-pressed', sel.userData.free.c === c)); if (BY[k].cols || BY[k].fab) { const [c0, p0] = String(sel.userData.free.c || '').split('|'), CL = BY[k].fab ? ['white', 'lemon', 'blue', 'teal'] : BY[k].cols;
+      ['black', 'white', 'lemon', 'blue', 'teal'].forEach(c => { const b = $('fcl-' + c); b.hidden = !CL.includes(c); b.setAttribute('aria-pressed', c0 === c); }); if (BY[k].fab) ['none', 'seat', 'back'].forEach(q => $('fpt-' + q).setAttribute('aria-pressed', (p0 || 'none') === q)); }
     if (BY[k].tub) { const td = Math.round(((sel.userData.free.t || 0) * 180 / Math.PI) % 360); $('frTv').textContent = td ? (td > 0 ? '顺时针' : '逆时针') + ' ' + Math.abs(td) + '°' : '原样'; } $('frS').hidden = !BY[k].wall || !!BY[k].tv || !!BY[k].art || !!BY[k].fl; SHAPES.forEach(s => $('fsh-' + s).setAttribute('aria-pressed', sel.userData.free.s === s));
     $('frName').textContent = BY[k].n + ' · ' + (d === 0 ? '转角 0°' : (d > 0 ? '顺时针' : '逆时针') + ' ' + Math.abs(d) + '°'); $('frDim').textContent = dimText(sel); tagText();
     const a = cm(Math.min(...xs) - W0), b = cm(W1 - Math.max(...xs)), g = cm(Math.min(...ys) - GL), over = cm(Math.max(...ys) - LINE);
@@ -766,7 +765,7 @@ const FREE = (() => {
     armed = id; b.dataset.t0 = b.textContent; b.textContent = label; armT = setTimeout(() => { armed = null; b.textContent = b.dataset.t0; }, 3000); }
   const flash = (id, txt) => { const b = $(id), t0 = b.textContent; b.textContent = txt; setTimeout(() => { b.textContent = t0; }, 1400); };
   // the room choices kept with a set, as the default and in this browser (2026-10-25: 黄色小凳子存了，也没存进去 / 餐厅画存不进默认)
-  const OPT_KEY = 'c2free.opts', OPT_KEYS = ['sfc', 'lrug', 'sheer', 'lart', 'lmir', 'dchair', 'dcush', 'dseat', 'dback', 'kchair', 'dwall', 'ctuck', 'dpend', 'dart', 'hlamp', 'hmir', 'hstool', 'hart', 'hart2', 'hrugc',
+  const OPT_KEY = 'c2free.opts', OPT_KEYS = ['sfc', 'lrug', 'sheer', 'lart', 'lmir', 'dchair', 'dtab', 'dcush', 'dseat', 'dback', 'kchair', 'dwall', 'ctuck', 'dpend', 'dart', 'hlamp', 'hmir', 'hstool', 'hart', 'hart2', 'hrugc',
     'endp', 'ebdp', 'mnc', 'mbp', 'tv', 'kjoin', 'sdopen'];
   const optsNow = () => Object.fromEntries(OPT_KEYS.map(k => [k, state[k]])), optSave = () => { try { localStorage.setItem(OPT_KEY, JSON.stringify(optsNow())); } catch (e) {} };
   const setOf = () => ({ v: 2, opts: optsNow(), pieces: snap(), sfc: state.sfc, lrug: state.lrug, sheer: state.sheer, lmir: state.lmir, dine, dchair: state.dchair, dset: state.dset, dcount: state.dcount, dwall: state.dwall,
@@ -802,7 +801,7 @@ const FREE = (() => {
     if (p.k === 'ns' || p.k === 'ns24') p = { k: 'le260', x: +p.x - 40, y: +p.y, a: (+p.a || 0) - Math.PI / 2 };
     if (CT_GONE.includes(p.k)) p = { k: 'burlpill90', x: +p.x, y: +p.y, a: +p.a || 0 };   // the coffee tables cut on 2026-10-25
     let k = ['pw', 'rw', 'rb'].includes(p.k) ? 'pc' : p.k, x = +p.x, a = +p.a || 0, c = p.c;
-    if (k === 'le260') { k = 'arc260'; c = 'white'; if (Math.abs(Math.sin(a)) < 0.1) { x += 180 * Math.cos(a); a += Math.PI / 2; } }   // the old sofa left this version (2026-10-26): the crescent in its place
+    if (k === 'le260' || k === 'arc260') { k = 'pea252'; c = c || 'white'; if (Math.abs(Math.sin(a)) < 0.1) { x += 180 * Math.cos(a); a += Math.PI / 2; } }   // 2026-10-27: the pea is the only sofa now, so older layouts come across
     if (BY[k]) add(k, x, +p.y, a, +p.h || 0, p.s, +p.t || 0, c, +p.d || 0); }); settle(); info(); ppl(); }   // pw / rw / rb: the plain columns, now paper ones
   const select = w => { sel = w; if (w) xsel = gsel = null; if (w && dsel) { dsel = false; dineUI(); } info(); };
   const turn = deg => { if (!sel) return; sel.rotation.y += deg * Math.PI / 180; info(); save(); };
@@ -879,7 +878,7 @@ const FREE = (() => {
   const DW = ['chair', 'ban120', 'ban140', 'bench120', 'bench140'];
   // the choices deleted on 2026-10-25 (按你的删): a set or this browser still holding one gets the nearest kept one
   const sane = () => { state.dset = 'off'; if (!['4', '5s', '6'].includes(state.dcount)) state.dcount = '4'; if (state.dwall === 'ban140') state.dwall = 'ban120'; if (state.dwall === 'bench140') state.dwall = 'bench120';
-    state.lrug = 'none'; state.lart = 'none'; state.dchair = 'limo'; if (!['ysy', 'ysg', 'ysn', 'boucle', 'xpine', 'cord', 'none'].includes(state.hstool)) state.hstool = 'none';
+    state.lrug = 'none'; state.lart = 'none'; state.dchair = 'limo'; if (!['ysy', 'ysg', 'ysn', 'boucle', 'boul60', 'xpine', 'cord', 'none'].includes(state.hstool)) state.hstool = 'none';
     if (state.hlamp === 'zoxy') state.hlamp = 'tier85'; if (!['silkB', 'drum40', 'tier85', 'none'].includes(state.hlamp)) state.hlamp = 'drum40'; if (!['natural', 'off'].includes(state.hrugc)) state.hrugc = 'natural';
     if (state.hmir === 'wall') state.hmir = 'arch'; if (!['tallm', 'off'].includes(state.hart)) state.hart = 'tallm'; state.hart2 = 'off'; if (state.dpend === 'palm') state.dpend = 'paper'; if (!['60', '75'].includes(state.endp)) state.endp = '75'; state.esb = 'recess'; };
   const visA = o => { for (let q = o; q; q = q.parent) if (!q.visible) return false; return true; };
@@ -963,7 +962,7 @@ const FREE = (() => {
   // the page's own living pieces hide while this is on (this hook runs after all the others)
   // the living family sits on the pieces as arranged here (2026-10-24)
   window.LIV_PEOPLE_SRC = () => { if (!on) return null; const at = k => { const w = pieces.find(o => o.userData.free.k === k && o.visible); return w ? { x: w.position.x, z: w.position.z, a: w.rotation.y, obj: w } : null; };
-    return { sofa: ['arc260', 'pea252'].map(at).find(Boolean) || null, lounger: at('rl'), chair: at('casa'), table: ['nordic', 'burl', 'burlpill', 'burlpill90', 'burlpill80', 'bamboo', 'hyacinth', 'teak'].map(at).find(Boolean) || null }; };
+    return { sofa: ['pea252'].map(at).find(Boolean) || null, lounger: at('rl'), chair: at('casa'), table: ['nordic', 'burl', 'burlpill', 'burlpill90', 'burlpill80', 'bamboo', 'hyacinth', 'teak'].map(at).find(Boolean) || null }; };
   const ppl = () => { if (typeof placeLivPeople === 'function') placeLivPeople(); };
   function hideOwn() {
     if (!on) return;
@@ -1008,7 +1007,7 @@ const FREE = (() => {
     if (!window.FREE_HIDE) { try { mydef = JSON.parse(localStorage.getItem(DEF_KEY) || 'null'); } catch (e) {} if (mydef && Array.isArray(mydef.pieces) && mydef.pieces.length) def = mydef.pieces; else mydef = null; }
     let saved = null, old = false; if (!window.FREE_HIDE) try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (!Array.isArray(saved)) { saved = JSON.parse(localStorage.getItem(KEY1) || 'null'); old = true; } } catch (e) {}
     load(Array.isArray(saved) && saved.length ? (old ? migrate(saved) : saved) : def);
-    const lib = $('frLib'), LIB_G = [['沙发和椅子', ['arc260', 'pea252', 'casa', 'rl', 'scroll']], ['茶几', ['burlpill90', 'burl']],
+    const lib = $('frLib'), LIB_G = [['沙发和椅子', ['pea252', 'casa', 'rl', 'scroll']], ['茶几', ['burlpill90', 'burl']],
       ['边几', ['pc', 'burlcol', 'ct', 'arch3']], ['装饰', ['bk', 'vs', 'branch', 'throw', 'pillows', 'fruit', 'palm', 'tvm']], ['灯具', ['tlamp', 'glamp', 'flamp']], ['地毯和画', ['srug', 'oilart']], ['其他', []]], libRows = {};
     LIB_G.forEach(([g]) => { const h = document.createElement('div'); h.className = 'frgrp'; h.textContent = g; const rw = document.createElement('div'); rw.className = 'row'; lib.appendChild(h); lib.appendChild(rw); libRows[g] = rw; });
     const libRow = k => libRows[(LIB_G.find(([, ks]) => ks.includes(k)) || ['其他'])[0]];
@@ -1035,7 +1034,7 @@ const FREE = (() => {
       box.style.top = top + 'px'; box.style.maxHeight = 'calc(100% - ' + (top + (innerWidth <= 520 ? Math.round(innerHeight * 0.46) : 130)) + 'px)'; };
     if (innerWidth <= 520) { box.classList.add('min'); $('fr-fold').textContent = '展开'; }
     window.addEventListener('resize', place); setInterval(place, 500); place();
-    POTS.forEach(c => $('fp-' + c).addEventListener('click', () => setC(c))); FRMS.forEach(c => $('ff-' + c).addEventListener('click', () => setC(c))); TONES.forEach(c => $('ftn-' + c).addEventListener('click', () => setC(c))); ['black', 'white', 'lemon', 'blue'].forEach(c => $('fcl-' + c).addEventListener('click', () => setC(c)));
+    POTS.forEach(c => $('fp-' + c).addEventListener('click', () => setC(c))); FRMS.forEach(c => $('ff-' + c).addEventListener('click', () => setC(c))); TONES.forEach(c => $('ftn-' + c).addEventListener('click', () => setC(c))); ['black', 'white', 'lemon', 'blue', 'teal'].forEach(c => $('fcl-' + c).addEventListener('click', () => setC(c)));
     ['none', 'seat', 'back'].forEach(q => $('fpt-' + q).addEventListener('click', () => { if (!sel || !BY[sel.userData.free.k].fab) return; const c0 = String(sel.userData.free.c || 'white').split('|')[0]; sheetOf(sel, c0 + (q === 'none' ? '' : '|' + q)); info(); save(); })); [25, 30, 35, 40].forEach(v => $('fd-' + v).addEventListener('click', () => setD(v)));
     // the sheer on the living glass (none / open / drawn), kept in this browser; the page's own hook marks the buttons
     // the dining set: as kept in this browser, else the 利默 four + Stokke; the chairs pulled out (not on the trade pages)
