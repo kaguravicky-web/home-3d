@@ -1,0 +1,57 @@
+<aside class="freebox" id="freeBox" aria-label="自由摆放">
+  <div class="fhead"><b>自由摆放</b><span class="fhbtn"><button class="seg frprimary" id="fr-lock" type="button">固定家具</button><button class="seg" id="fr-fold" type="button">收起</button></span></div>
+  <div class="fbody">
+    <p class="cap" id="frFreeNote">点家具选中，按住拖动；下面的按钮转角度。键盘：Q / E 转 5°，按住 Shift 转 45°，Delete 收起。地上的红虚线是客厅边界（书房墙尽头）。</p>
+    <div id="frSel" class="none">
+      <div class="frname" id="frName">还没选家具</div>
+      <div class="frdim" id="frDim"></div>
+      <div class="row">
+        <button class="seg" id="fr-l45" type="button" title="逆时针 45°">⟲ 45°</button>
+        <button class="seg" id="fr-l5" type="button" title="逆时针 5°">⟲ 5°</button>
+        <button class="seg" id="fr-r5" type="button" title="顺时针 5°">⟳ 5°</button>
+        <button class="seg" id="fr-r45" type="button" title="顺时针 45°">⟳ 45°</button>
+        <button class="seg" id="fr-del" type="button">收起这件</button>
+      </div>
+      <div class="row" id="frT" hidden><span class="rl">转椅</span><button class="seg" id="ft-0" type="button">原样</button><button class="seg" id="ft-win" type="button">朝窗</button><button class="seg" id="ft-l" type="button">⟲ 30°</button><button class="seg" id="ft-r" type="button">⟳ 30°</button><span class="cap" id="frTv"></span></div>
+      <div class="row" id="frH" hidden><span class="rl">高度</span></div>
+      <div class="row" id="frC" hidden><span class="rl">颜色</span><button class="seg" id="fc-clear" type="button">透明</button><button class="seg" id="fc-smoke" type="button">烟灰</button><button class="seg" id="fc-brown" type="button">茶色</button><button class="seg" id="fc-ripple" type="button">水波纹</button></div>
+      <div class="row" id="frP" hidden><span class="rl">花盆</span><button class="seg" id="fp-basket" type="button">编织篮</button><button class="seg" id="fp-white" type="button">白色盆</button></div>
+      <div class="row" id="frF" hidden><span class="rl">框架</span><button class="seg" id="ff-black" type="button">黑色</button><button class="seg" id="ff-oak" type="button">原木色</button></div>
+      <div class="row" id="frTn" hidden><span class="rl">颜色</span><button class="seg" id="ftn-teak" type="button">柚木色</button><button class="seg" id="ftn-black" type="button">黑色</button></div>
+      <div class="row" id="frCl" hidden><span class="rl">颜色</span><button class="seg" id="fcl-black" type="button">黑色</button><button class="seg" id="fcl-white" type="button">白色</button><button class="seg" id="fcl-lemon" type="button">柠檬黄</button><button class="seg" id="fcl-blue" type="button">浅蓝</button></div>
+      <div class="row" id="frPat" hidden><span class="rl">蓝白图案</span><button class="seg" id="fpt-none" type="button">不用</button><button class="seg" id="fpt-seat" type="button">用在坐垫</button><button class="seg" id="fpt-back" type="button">用在靠背</button></div>
+      <div class="row" id="frD" hidden><span class="rl">直径</span><button class="seg" id="fd-25" type="button">25</button><button class="seg" id="fd-30" type="button">30</button><button class="seg" id="fd-35" type="button">35</button><button class="seg" id="fd-40" type="button">40</button></div>
+      <div class="row" id="frS" hidden><span class="rl">形状</span><button class="seg" id="fsh-col" type="button">竖方</button><button class="seg" id="fsh-half" type="button">半圆</button><button class="seg" id="fsh-p45" type="button">十八纸 D45</button><button class="seg" id="fsh-p35" type="button">十八纸 D35</button></div>
+      <p class="cap" id="frInfo"></p>
+    </div>
+    <div class="label">家具库（点一下放进客厅，可以放多件）</div>
+    <div class="frlib" id="frLib"></div>
+    <div class="label">我的组合（存在这个浏览器里）</div>
+    <div class="row frslots"><span class="rl">打开</span><button class="seg" id="fs-oA" type="button">组合A</button><button class="seg" id="fs-oB" type="button">组合B</button><button class="seg" id="fs-oC" type="button">组合C</button></div>
+    <div class="row"><button class="seg frprimary" id="fr-resave" type="button" hidden>保存修改到组合</button></div>
+    <div class="row frslots"><span class="rl">存为</span><button class="seg" id="fs-sA" type="button">组合A</button><button class="seg" id="fs-sB" type="button">组合B</button><button class="seg" id="fs-sC" type="button">组合C</button></div>
+    <div class="row frtools">
+      <button class="seg" id="fr-top" type="button" hidden>俯视</button>
+      <button class="seg" id="fr-def" type="button">设为默认</button>
+      <button class="seg" id="fr-reset" type="button" hidden>恢复默认</button>
+      <button class="seg" id="fr-copy" type="button">复制布局</button>
+      <button class="seg" id="fr-paste" type="button" hidden>粘贴布局</button>
+      <button class="seg" id="fr-on" type="button" hidden>关掉自由摆放</button>
+    </div>
+    <div id="frIO" hidden>
+      <p class="cap" id="frIOcap"></p>
+      <textarea id="frText" rows="5" spellcheck="false"></textarea>
+      <div class="row"><button class="seg" id="fr-io-ok" type="button">确定</button><button class="seg" id="fr-io-x" type="button">关掉</button></div>
+    </div>
+  </div>
+</aside>
+<div id="frMove" hidden>
+  <div class="row" id="frmLmir"><span class="rl">客厅方向</span><button class="seg" id="lm-R" type="button">沙发靠右墙（现在）</button><button class="seg" id="lm-L" type="button">沙发靠光纤墙</button></div>
+  <div class="sec" id="frmWinSec">窗帘</div>
+  <div class="row" id="frSheer"><span class="rl">窗帘</span><button class="seg" id="sh-none" type="button">不要</button><button class="seg" id="sh-open" type="button">纱帘拉开</button><button class="seg" id="sh-shut" type="button">纱帘拉上</button><button class="seg" id="sh-linen" type="button">亚麻窗帘</button></div>
+  <div class="row" id="frmDine"><span class="rl">餐桌</span><button class="seg" id="dr-l" type="button">⟲ 15°</button><button class="seg" id="dr-r" type="button">⟳ 15°</button><button class="seg" id="dr-h" type="button">横放</button><button class="seg" id="dr-v" type="button">竖放</button><button class="seg" id="dr-0" type="button">放回原位</button></div>
+  <p class="cap" id="dnNote"></p>
+  <div class="row" id="frmRug"><span class="rl">玄关地毯</span><button class="seg" id="fhg-sisal" type="button" hidden>剑麻棕</button><button class="seg" id="fhg-natural" type="button">原色剑麻</button><button class="seg" id="fhg-sage" type="button" hidden>鼠尾草绿</button><button class="seg" id="fhg-ivory" type="button" hidden>象牙白</button><button class="seg" id="fhg-char" type="button" hidden>炭灰</button><button class="seg" id="fhg-off" type="button">不铺</button><span class="sep"></span><button class="seg" id="fhg-turn" type="button">转 90°</button><button class="seg" id="fhg-0" type="button" hidden>放回门口</button></div>
+  <p class="cap" id="hgNote"></p>
+  <span id="frmStool"><span class="sep"></span><button class="seg" id="fst-turn" type="button">转 90°</button><button class="seg" id="fst-0" type="button">放回画下面</button></span>
+</div>
