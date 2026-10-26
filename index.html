@@ -3271,71 +3271,83 @@ function diningChair(style) {
     for (let k = 1; k <= 9; k++) { const x = -X + 2 * X * k / 10; rod([[x, 0.5, zAt(0.5)], [x, 0.68, zAt(0.68)]], 0.005); }
     seatPanel(2 * X - 0.02, 0.38, ys, 0); cush(2 * X - 0.035, 0.36, ys, 0.005);
   } else if (style === 9) {
-    // the 月影 rattan chair the user sent (2026-10-27, TENGZAO black): 545 wide, 480 deep, 940 high, seat 455 - a black
-    // rattan frame, a wrap-round woven back whose top rail curves over, a woven seat and a box stretcher
-    const sh = 0.455, X = 0.255, Zf = 0.225, Zb = -0.215;
+    // 月影 rattan chair (TENGZAO black, 2026-10-27): 545 x 480 x 940, seat 455 - black rattan, splayed legs, a woven back
+    // between two back posts under a curved crest rail, no arms
+    const sh = 0.455, H = 0.94, wx = 0.242, zf = 0.20, zb = -0.22;
+    const zAt = y => zb - 0.035 * (y - sh) / (H - sh);
     [-1, 1].forEach(s => {
-      rod([[s * X, 0, Zf + 0.03], [s * X, sh, Zf], [s * (X - 0.012), 0.66, 0.2], [s * (X - 0.03), 0.9, 0.1], [s * (X - 0.055), 0.945, -0.02]], 0.018);
-      rod([[s * X, 0, Zb - 0.01], [s * X, sh, Zb], [s * (X - 0.02), 0.72, Zb - 0.045], [s * (X - 0.05), 0.945, Zb - 0.055]], 0.018);
-      rod([[s * X, 0.12, Zf], [s * X, 0.12, Zb]], 0.012);
-      rod([[s * X, sh, Zf], [s * X, sh, Zb]], 0.013);
-      rod([[s * X, 0.12, Zf], [s * X, sh, Zf]], 0.011);
+      rod([[s * wx, 0, zf + 0.015], [s * (wx - 0.012), sh, zf]], 0.017);
+      rod([[s * wx, 0, zb - 0.015], [s * (wx - 0.015), H, zAt(H)]], 0.017);
+      rod([[s * wx, 0.11, zf], [s * wx, 0.11, zb]], 0.011);
+      rod([[s * (wx - 0.012), sh, zf], [s * (wx - 0.015), sh, zb]], 0.013);
     });
-    rod([[-X, sh, Zf], [X, sh, Zf]], 0.013); rod([[-X, sh, Zb], [X, sh, Zb]], 0.013);
-    rod([[-X, 0.12, 0], [X, 0.12, 0]], 0.01);
-    rod([[-X + 0.055, 0.945, -0.02], [X - 0.055, 0.945, -0.02]], 0.016);
-    backPane(2 * (X - 0.05), sh + 0.02, 0.93, Zb, -0.075);
-    seatPanel(2 * X - 0.04, Zf - Zb - 0.02, sh, (Zf + Zb) / 2);
-    cush(2 * X - 0.07, Zf - Zb - 0.05, sh, (Zf + Zb) / 2);
+    rod([[-wx, sh, zf], [wx, sh, zf]], 0.013); rod([[-wx, sh, zb], [wx, sh, zb]], 0.013);
+    rod([[-wx, 0.11, 0], [wx, 0.11, 0]], 0.01);
+    rod([[-wx + 0.015, H, zAt(H)], [0, H + 0.018, zAt(H)], [wx - 0.015, H, zAt(H)]], 0.015);
+    rod([[-wx + 0.015, sh + 0.02, zAt(sh + 0.02)], [wx - 0.015, sh + 0.02, zAt(sh + 0.02)]], 0.011);
+    backPane(2 * (wx - 0.02), sh + 0.03, H - 0.01, zAt(sh + 0.03), zAt(H - 0.01));
+    seatPanel(2 * wx - 0.03, zf - zb + 0.01, sh, (zf + zb) / 2);
+    cush(2 * wx - 0.06, zf - zb - 0.03, sh, (zf + zb) / 2);
   } else if (style === 10) {
-    // the French chair the user sent (2026-10-27): 530 x 530 x 830 - a black bentwood frame with a padded back and seat,
-    // arms that sweep down to the front legs, and a shaped crest rail
-    const sh = 0.45, X = 0.225, Zf = 0.235, Zb = -0.225;
+    // the French upholstered chair (2026-10-27): 530 x 530 x 830 - black frame, padded seat and back, arms sweeping down
+    // to the front legs
+    const sh = 0.45, H = 0.83, wx = 0.235, zf = 0.215, zb = -0.215;
     [-1, 1].forEach(s => {
-      rod([[s * X, 0, Zf + 0.02], [s * X, sh - 0.02, Zf], [s * (X - 0.012), 0.6, 0.13], [s * (X - 0.022), 0.83, -0.03]], 0.017);
-      rod([[s * X, 0, Zb - 0.02], [s * X, sh, Zb], [s * (X - 0.018), 0.83, Zb - 0.008]], 0.017);
-      rod([[s * (X - 0.022), 0.83, -0.03], [s * (X - 0.018), 0.83, Zb - 0.008]], 0.014);
+      rod([[s * wx, 0, zf + 0.015], [s * (wx - 0.015), sh, zf], [s * (wx - 0.02), H - 0.02, zb * 0.45]], 0.016);
+      rod([[s * wx, 0, zb - 0.015], [s * (wx - 0.02), sh, zb], [s * (wx - 0.025), H, zb - 0.01]], 0.016);
+      rod([[s * (wx - 0.02), H - 0.02, zb * 0.45], [s * (wx - 0.025), H - 0.02, zb - 0.01]], 0.013);
+      rod([[s * (wx - 0.015), sh, zf], [s * (wx - 0.02), sh, zb]], 0.012);
     });
-    const bk = rbox(0.46, 0.42, 0.06, 0.03, padM); bk.position.set(0, 0.6, -0.22); bk.rotation.x = -0.08; add(bk);
-    rod([[-X + 0.018, 0.85, -0.03], [X - 0.018, 0.85, -0.03]], 0.015);
-    rod([[-X, sh, Zf], [X, sh, Zf]], 0.013); rod([[-X, sh, Zb], [X, sh, Zb]], 0.013);
-    const seat = rbox(0.49, 0.07, 0.47, 0.045, padM); seat.position.set(0, sh + 0.02, 0); seat.userData.cush = 'white'; add(seat);
+    rod([[-wx, sh, zf], [wx, sh, zf]], 0.012); rod([[-wx, sh, zb], [wx, sh, zb]], 0.012);
+    rod([[-wx + 0.02, H, zb - 0.01], [wx - 0.02, H, zb - 0.01]], 0.014);
+    seatPanel(2 * wx - 0.03, zf - zb - 0.01, sh, (zf + zb) / 2);
+    const bk = rbox(2 * (wx - 0.025), H - sh - 0.10, 0.075, 0.035, padM);
+    bk.position.set(0, (sh + 0.10 + H) / 2, zb + 0.045); bk.rotation.x = -0.06; add(bk);
+    const seat = rbox(2 * wx - 0.03, 0.07, zf - zb + 0.02, 0.04, padM);
+    seat.position.set(0, sh + 0.025, (zf + zb) / 2); seat.userData.cush = 'white'; add(seat);
   } else if (style === 11) {
-    // the 猫耳 chair the user sent (2026-10-27): walnut, 450 x 430, seat 450, about 800 high - two uprights run past the
-    // crest as ears, a curved splat between them, a solid seat pad
-    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, X = 0.215, Zf = 0.205, Zb = -0.195;
+    // the 猫耳 chair (2026-10-27): walnut, 450 x 430, seat 450, back about 800 - two uprights run past the crest as ears
+    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, H = 0.80, wx = 0.195, zf = 0.185, zb = -0.195;
     const wd = (pts, r) => tube(pts, r, wal, 12);
+    const zAt = y => zb - 0.02 * (y - sh) / (H - sh);
     [-1, 1].forEach(s => {
-      wd([[s * X, 0, Zf + 0.02], [s * X, sh, Zf], [s * (X - 0.01), 0.66, 0.09], [s * (X - 0.018), 0.8, -0.02], [s * (X - 0.02), 0.88, -0.05]], 0.016);
-      wd([[s * X, 0, Zb - 0.01], [s * X, sh, Zb], [s * (X - 0.02), 0.88, Zb - 0.02]], 0.016);
-      wd([[s * X, 0.14, Zf], [s * X, 0.14, Zb]], 0.009);
-      wd([[s * X, sh, Zf], [s * X, sh, Zb]], 0.011);
+      wd([[s * wx, 0, zf + 0.012], [s * (wx - 0.012), sh, zf]], 0.014);
+      wd([[s * wx, 0, zb - 0.012], [s * (wx - 0.012), sh, zb], [s * (wx - 0.014), H + 0.055, zAt(H + 0.055)]], 0.014);
+      wd([[s * (wx - 0.012), sh, zf], [s * (wx - 0.012), sh, zb]], 0.01);
+      wd([[s * wx, 0.10, zf], [s * wx, 0.10, zb]], 0.008);
     });
-    wd([[-X, 0.8, -0.03], [X, 0.8, -0.03]], 0.014);
-    wd([[-X + 0.012, 0.8, -0.03], [-0.07, 0.72, -0.11], [0, 0.7, -0.12], [0.07, 0.72, -0.11], [X - 0.012, 0.8, -0.03]], 0.013);
-    wd([[-X, 0.14, Zf], [X, 0.14, Zf]], 0.009); wd([[-X, 0.14, Zb], [X, 0.14, Zb]], 0.009);
-    const seat = rbox(0.43, 0.065, 0.41, 0.03, padM); seat.position.set(0, sh + 0.015, 0); seat.userData.cush = 'white'; add(seat);
+    wd([[-wx + 0.014, sh, zf], [wx - 0.014, sh, zf]], 0.011);
+    wd([[-wx + 0.014, sh, zb], [wx - 0.014, sh, zb]], 0.011);
+    wd([[-wx + 0.014, H, zAt(H)], [0, H - 0.028, zAt(H)], [wx - 0.014, H, zAt(H)]], 0.012);
+    wd([[-wx + 0.014, H - 0.02, zAt(H - 0.02)], [-0.06, 0.66, zAt(0.66)], [0, 0.64, zAt(0.64)],
+        [0.06, 0.66, zAt(0.66)], [wx - 0.014, H - 0.02, zAt(H - 0.02)]], 0.011);
+    seatPanel(2 * wx - 0.02, zf - zb + 0.01, sh, (zf + zb) / 2);
+    const seat = rbox(2 * wx - 0.03, 0.06, zf - zb - 0.02, 0.03, padM);
+    seat.position.set(0, sh + 0.02, (zf + zb) / 2); seat.userData.cush = 'white'; add(seat);
   } else if (style === 12) {
-    // the F.Vint 玛丽 chair the user sent (2026-10-27): 470 wide, 510 deep, 970 high - a black frame with a lattice cane
-    // back behind crossed bars, a woven seat, the crest shaped
-    const sh = 0.46, X = 0.225, Zf = 0.245, Zb = -0.235, H = 0.97, zAt = y => Zb + 0.03 * (y - sh) / (H - sh);
+    // the F.Vint 玛丽 chair (2026-10-27): 470 x 510 x 970 - black, a tall lattice-cane back, a woven seat
+    const sh = 0.46, H = 0.97, wx = 0.20, zf = 0.225, zb = -0.235;
+    const zAt = y => zb - 0.025 * (y - sh) / (H - sh);
     [-1, 1].forEach(s => {
-      rod([[s * X, 0, Zf + 0.02], [s * X, sh, Zf], [s * (X - 0.008), sh + 0.03, Zf - 0.02]], 0.015);
-      rod([[s * X, 0, Zb - 0.02], [s * X, 0.22, Zb - 0.005], [s * X, H, zAt(H)]], 0.015);
-      rod([[s * X, 0.13, Zf], [s * X, 0.13, Zb]], 0.01);
-      rod([[s * X, sh, Zf], [s * X, sh, Zb]], 0.012);
+      rod([[s * wx, 0, zf + 0.015], [s * (wx - 0.01), sh, zf]], 0.014);
+      rod([[s * wx, 0, zb - 0.015], [s * (wx - 0.012), H, zAt(H)]], 0.014);
+      rod([[s * (wx - 0.01), sh, zf], [s * (wx - 0.012), sh, zb]], 0.011);
+      rod([[s * wx, 0.12, zf], [s * wx, 0.12, zb]], 0.009);
     });
-    rod([[-X, sh, Zf], [X, sh, Zf]], 0.012); rod([[-X, sh, Zb], [X, sh, Zb]], 0.012);
-    rod([[-X, 0.13, 0], [X, 0.13, 0]], 0.009);
-    rod([[-X, H - 0.012, zAt(H - 0.012)], [-X * 0.45, H - 0.002, zAt(H)], [0, H - 0.02, zAt(H)], [X * 0.45, H - 0.002, zAt(H)], [X, H - 0.012, zAt(H - 0.012)]], 0.014);
-    backPane(2 * X - 0.02, sh + 0.02, H - 0.03, Zb + 0.005, zAt(H - 0.03));
-    for (let k = -2; k <= 2; k++) {   // the crossed lattice
-      rod([[k * 0.075, sh + 0.02, Zb + 0.01], [k * 0.075 - 0.16, H - 0.04, zAt(H - 0.04)]], 0.006);
-      rod([[k * 0.075, sh + 0.02, Zb + 0.01], [k * 0.075 + 0.16, H - 0.04, zAt(H - 0.04)]], 0.006);
+    rod([[-wx, sh, zf], [wx, sh, zf]], 0.011); rod([[-wx, sh, zb], [wx, sh, zb]], 0.011);
+    rod([[-wx, 0.12, 0], [wx, 0.12, 0]], 0.008);
+    rod([[-wx + 0.012, H, zAt(H)], [0, H - 0.022, zAt(H)], [wx - 0.012, H, zAt(H)]], 0.012);
+    rod([[-wx + 0.012, sh + 0.03, zAt(sh + 0.03)], [wx - 0.012, sh + 0.03, zAt(sh + 0.03)]], 0.01);
+    backPane(2 * (wx - 0.015), sh + 0.04, H - 0.02, zAt(sh + 0.04), zAt(H - 0.02));
+    for (let k = -2; k <= 2; k++) {
+      const x0 = k * 0.055;
+      rod([[x0, sh + 0.04, zAt(sh + 0.04) + 0.007], [x0 * 0.5 - 0.055, H - 0.03, zAt(H - 0.03) + 0.007]], 0.005);
+      rod([[x0, sh + 0.04, zAt(sh + 0.04) + 0.007], [x0 * 0.5 + 0.055, H - 0.03, zAt(H - 0.03) + 0.007]], 0.005);
     }
-    seatPanel(2 * X - 0.02, 0.44, sh, 0.005);
-    cush(2 * X - 0.035, 0.42, sh, 0.005);
+    seatPanel(2 * wx - 0.02, zf - zb + 0.01, sh, (zf + zb) / 2);
+    cush(2 * wx - 0.04, zf - zb - 0.03, sh, (zf + zb) / 2);
   }
+
   target = prev; return g;
 }
 // each chair square to the oval table: the long-side places face straight across, the ends face along it
