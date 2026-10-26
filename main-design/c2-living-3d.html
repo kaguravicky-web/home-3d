@@ -2160,28 +2160,30 @@ function diningChair(style) {
     const seat = rbox(2 * wx - 0.02, 0.08, zf - zb + 0.02, 0.05, padM);
     seat.position.set(0, sh + 0.035, (zf + zb) / 2); seat.userData.cush = 'white'; seat.castShadow = true; add(seat);
   } else if (style === 11) {
-    // the 猫耳 chair (2026-10-27): walnut, 450 x 430, seat 450, about 800 - the back is one heat-bent solid panel whose
-    // top edge rises into two ears and dips between them, the rear legs running straight up into it
-    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, wx = 0.195, zf = 0.185, zb = -0.195;
-    const wd = (pts, r) => tube(pts, r, wal, 12);
+    // the 猫耳 chair, reworked from the product photo (2026-10-27): walnut, seat 450 wide x 430 deep at 450, back about 800.
+    // One heat-bent solid panel whose top rises into two rounded ears with a shallow dip between them; the rear legs run
+    // straight up into its side edges, and a big arc rail sweeps from under the seat front down to the rear leg.
+    const wal = M('#5b3d2a', { roughness: 0.55 }), sh = 0.45, H = 0.80, wx = 0.205, zf = 0.205, zb = -0.205;
+    const wd = (pts, r) => tube(pts, r, wal, 14);
     [-1, 1].forEach(s => {
-      wd([[s * wx, 0, zf + 0.012], [s * (wx - 0.012), sh, zf]], 0.014);
-      wd([[s * wx, 0, zb - 0.012], [s * (wx - 0.014), sh, zb], [s * (wx - 0.018), 0.74, zb - 0.028]], 0.016);
-      wd([[s * (wx - 0.012), sh, zf], [s * (wx - 0.012), sh, zb]], 0.011);
-      wd([[s * wx, 0.09, zf], [s * wx, 0.09, zb]], 0.008);
+      wd([[s * wx, 0, zf + 0.015], [s * (wx - 0.012), sh, zf - 0.01]], 0.016);
+      wd([[s * wx, 0, zb - 0.03], [s * (wx - 0.01), sh, zb - 0.005], [s * (wx - 0.055), H - 0.02, zb - 0.055]], 0.017);
+      wd([[s * (wx - 0.012), sh - 0.02, zf - 0.01], [s * (wx + 0.004), 0.26, 0.0], [s * (wx - 0.012), 0.13, zb + 0.02]], 0.014);
+      wd([[s * (wx - 0.012), sh, zf - 0.01], [s * (wx - 0.012), sh, zb]], 0.012);
     });
-    wd([[-wx + 0.012, sh, zf], [wx - 0.012, sh, zf]], 0.011);
-    const W2 = 0.35, Hh = 0.36, shp = new THREE.Shape();
-    shp.moveTo(-W2 / 2, 0); shp.lineTo(W2 / 2, 0); shp.lineTo(W2 / 2, Hh - 0.06);
-    shp.quadraticCurveTo(W2 / 2 - 0.012, Hh, W2 / 2 - 0.055, Hh);                      // the right ear
-    shp.quadraticCurveTo(0, Hh - 0.085, -W2 / 2 + 0.055, Hh);                          // dipping between them
-    shp.quadraticCurveTo(-W2 / 2 + 0.012, Hh, -W2 / 2, Hh - 0.06);                     // the left ear
+    wd([[-wx + 0.012, sh, zf - 0.01], [wx - 0.012, sh, zf - 0.01]], 0.012);
+    wd([[-wx + 0.012, sh, zb], [wx - 0.012, sh, zb]], 0.011);
+    const Hh = 0.37, shp = new THREE.Shape();
+    shp.moveTo(-0.150, 0); shp.lineTo(0.150, 0); shp.lineTo(0.180, Hh - 0.085);
+    shp.quadraticCurveTo(0.184, Hh, 0.150, Hh);
+    shp.quadraticCurveTo(0.02, Hh - 0.075, -0.150, Hh);
+    shp.quadraticCurveTo(-0.184, Hh, -0.180, Hh - 0.085);
     shp.closePath();
-    const bg = new THREE.ExtrudeGeometry(shp, { depth: 0.02, bevelEnabled: true, bevelThickness: 0.003, bevelSize: 0.003, bevelSegments: 2, curveSegments: 14 });
-    const bp = new THREE.Mesh(bg, wal); bp.position.set(0, sh + 0.02, zb - 0.03); bp.rotation.x = -0.09; bp.castShadow = bp.receiveShadow = true; add(bp);
-    seatPanel(2 * wx - 0.02, zf - zb + 0.01, sh, (zf + zb) / 2);
-    const seat = rbox(2 * wx - 0.03, 0.06, zf - zb - 0.02, 0.03, padM);
-    seat.position.set(0, sh + 0.02, (zf + zb) / 2); seat.userData.cush = 'white'; add(seat);
+    const bg = new THREE.ExtrudeGeometry(shp, { depth: 0.022, bevelEnabled: true, bevelThickness: 0.004, bevelSize: 0.004, bevelSegments: 3, curveSegments: 18 });
+    const bp = new THREE.Mesh(bg, wal); bp.position.set(0, sh - 0.012, zb - 0.058); bp.rotation.x = -0.07;
+    bp.castShadow = bp.receiveShadow = true; add(bp);
+    const seat = rbox(0.43, 0.095, 0.40, 0.035, padM);
+    seat.position.set(0, sh + 0.045, 0); seat.userData.cush = 'white'; seat.castShadow = true; add(seat);
   } else if (style === 12) {
     // the F.Vint 玛丽 chair (2026-10-27): 470 x 510 x 970 - black, a tall lattice-cane back, a woven seat
     const sh = 0.46, H = 0.97, wx = 0.20, zf = 0.225, zb = -0.235;
