@@ -3868,6 +3868,10 @@ hook(() => {
     hallArt.visible = ha !== 'off' && (state.entry === 'tall' || x1 - x0 > 300);
     const h2 = HALL_ART2[state.hart2] ? state.hart2 : 'off'; Object.entries(HALL_ART2).forEach(([k, g]) => { g.visible = k === h2; }); hallArt2.visible = h2 !== 'off' && state.entry === 'new';
     press(['ha2-tallm', 'ha2-tall', 'ha2-two', 'ha2-off', 'ha2-g1', 'ha2-g2', 'ha2-g3', 'ha2-g4'], 'ha2-' + h2); hallArt.position.set((x0 + x1) / 2 * MM, 1.5, 9.656);
+    // the second picture hangs on the SAME panel, stacked under the first (2026-10-27: 两幅上下排着挂) - 740 apart keeps a
+    // gap for two 60 squares, two 50 x 70s, or one of each
+    hallArt2.position.set((x0 + x1) / 2 * MM, 1.5 - 0.74, 9.656);
+    hallArt2.rotation.copy(hallArt.rotation);
     press(['ha-tallm', 'ha-tall', 'ha-two', 'ha-off', 'ha-g1', 'ha-g2', 'ha-g3', 'ha-g4'], 'ha-' + ha); }
   hallSensor.position.set(6.43, H, 9.86);   // on the ceiling over the stool and the shelf in the corner
   press(['hst-armB', 'hst-mushB', 'hst-curule', 'hst-bench', 'hst-ysy', 'hst-ysg', 'hst-ysn', 'hst-boucle', 'hst-boul60', 'hst-xpine', 'hst-cord', 'hst-ybench', 'hst-none'], 'hst-' + hk); hallYBench.visible = hk === 'ybench';
