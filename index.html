@@ -4640,6 +4640,12 @@ const HALL_ART = {};   // one: a 30 x 40; two: two 30 x 40 stacked 70 apart; a4:
       const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.02), blk); b.position.set(x, yy, 0.01); g.add(b); });
     const pic = new THREE.Mesh(new THREE.PlaneGeometry(W - 2 * fw, Hh - 2 * fw), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.9 })); pic.position.z = 0.006; g.add(pic);
     g.position.y = y; return g; };
+  const frameless = (W, Hh, tx, y) => {   // 2026-10-27: the owner wants the four gradient canvases without the black frame
+    const g = new THREE.Group(), sd = new THREE.MeshStandardMaterial({ color: '#f4f1ea', roughness: 0.95 });
+    const edge = new THREE.Mesh(new THREE.BoxGeometry(W, Hh, 0.018), sd); edge.position.z = 0.009; g.add(edge);
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(W, Hh), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.95 }));
+    pic.position.z = 0.019; g.add(pic);
+    g.position.y = y; return g; };
   const set = (k, w, parts) => { const g = new THREE.Group(); parts.forEach(p => g.add(p)); g.userData.w = w; g.visible = false; hallArt.add(g); HALL_ART[k] = g; };
   set('on', 0.3, [framed(0.3, 0.4, sunWaves, 0)]);
   set('two', 0.3, [framed(0.3, 0.4, sunWaves, 0.235), framed(0.3, 0.4, flowers, -0.235)]);
@@ -4710,10 +4716,10 @@ const HALL_ART = {};   // one: a 30 x 40; two: two 30 x 40 stacked 70 apart; a4:
     flower(0.50, 0.27, 0.105 * w, 7); flower(0.35, 0.36, 0.085 * w, 6); flower(0.66, 0.33, 0.09 * w, 6);
     flower(0.24, 0.50, 0.07 * w, 5); flower(0.76, 0.47, 0.065 * w, 5);
     g.fillStyle = '#1e4b33'; g.beginPath(); g.arc(X(0.50), Y(0.27), 0.022 * w, 0, 6.283); g.fill(); });
-  set('g1', 0.6, [framed(0.6, 0.6, gradTeal, 0)]);
-  set('g2', 0.6, [framed(0.6, 0.6, gradCream, 0)]);
-  set('g3', 0.5, [framed(0.5, 0.7, lightStudy, 0)]);
-  set('g4', 0.5, [framed(0.5, 0.7, lineArt, 0)]);
+  set('g1', 0.6, [frameless(0.6, 0.6, gradTeal, 0)]);
+  set('g2', 0.6, [frameless(0.6, 0.6, gradCream, 0)]);
+  set('g3', 0.5, [frameless(0.5, 0.7, lightStudy, 0)]);
+  set('g4', 0.5, [frameless(0.5, 0.7, lineArt, 0)]);
   ['tallm', 'tall', 'two', 'g1', 'g2', 'g3', 'g4'].forEach(k => { const g = HALL_ART[k].clone(true); g.visible = false; hallArt2.add(g); HALL_ART2[k] = g; });   // the same pictures for the side of the right unit
   hallArt.position.y = 1.5; }
 { // the family's own rechargeable motion-sensor spot stuck to the ceiling over the stool, shining down onto the shelf and
