@@ -9138,12 +9138,12 @@ const FREE = (() => {
     // the sofa; the fan and the blue-grey were tried and dropped (2026-10-27: 吊扇换回灯，沙发换回浅蓝色), the tray left to the user; the acrylic table out of the default too (亚克力加直排沙发很丑，还是树瘤能压得住)
     // the set the user made in the Claude browser (2026-10-30): white bamboo 2 + the backless module at the dining end, three olive
     // bolsters, the burl 90 with books and orchid 42 cm off the seat, beige swivel by the window, TIDTABELL rug, acrylic C table
-    // with fruit at the window end; the shell chairs in brown with white pads at the twin-column 160 (mirror base, white top),
+    // with fruit at the window end (v84: table back at 9630, no C table or fruit); the shell chairs in brown with white pads at the twin-column 160 (mirror base, white top),
     // four and the Stokke; silk pendant; the hall: arch mirror, cream pouf, beige rect rug, mist + teal pictures
     C: { v: 2, sfc: 'w', lrug: 'none', sheer: 'none', lmir: 'L',
       opts: {"sfc": "w", "lrug": "none", "sheer": "none", "lart": "none", "lmir": "L", "dchair": "shell", "dcush": "white", "dseat": "caramel", "dback": "low", "kchair": "fblack", "dwall": "chair", "ctuck": "open", "dpend": "silk50", "dart": "off", "hlamp": "none", "hmir": "arch", "hstool": "pf-cream", "hart": "tallm", "hart2": "off", "hrugc": "beige", "hrugs": "rect", "dcol": "white", "hpics": [{"k": "mist", "y": 6380, "h": 2065}, {"k": "teal", "y": 6367, "h": 1525}], "lfan": "off", "ms": "mc", "endp": "75", "ebdp": "20", "mnc": "cyl", "mbp": "white", "tv": "R", "kjoin": "off", "sdopen": "closed", "dframe": "caramel", "dbase": "mirror", "dtab": "twin16", "dtop": "white"},
       dine: {"x": 14.46, "z": 13.9, "r": -9.424777960769376}, dchair: "shell", dset: 'off', dcount: '4', dwall: "chair", hrug: {"p": {"x": 7.07, "z": 9.63, "r": 0}, "c": "beige"}, hst: {"x": 6.34, "z": 9.97, "r": 1.5707963267948966},
-      pieces: [{"k": "bk", "x": 9780, "y": 3440, "a": 1.5708}, {"k": "vs", "x": 9800, "y": 3130, "a": 1.5708}, {"k": "burlpill90", "x": 9780, "y": 3330, "a": 1.5708}, {"k": "casa", "x": 10260, "y": 2430, "a": 2.3562, "c": "beige"}, {"k": "bam2", "x": 8510, "y": 3230, "a": 1.5708, "c": "white"}, {"k": "bamOt", "x": 8510, "y": 4620, "a": 1.5708, "c": "white"}, {"k": "dvs", "x": 6810, "y": 6950, "a": 0}, {"k": "bolster", "x": 8440, "y": 2600, "a": 1.5708}, {"k": "bolster", "x": 8420, "y": 3870, "a": 1.5708}, {"k": "fruit", "x": 8680, "y": 2110, "a": 1.5708}, {"k": "ct", "x": 8610, "y": 2080, "a": 0, "h": 450, "c": "clear"}, {"k": "tidt", "x": 9560, "y": 3230, "a": 0}, {"k": "bolster", "x": 8380, "y": 3220, "a": 1.5708}] } };
+      pieces: [{"k": "bk", "x": 9630, "y": 3440, "a": 1.5708}, {"k": "vs", "x": 9650, "y": 3130, "a": 1.5708}, {"k": "burlpill90", "x": 9630, "y": 3330, "a": 1.5708}, {"k": "casa", "x": 10260, "y": 2430, "a": 2.3562, "c": "beige"}, {"k": "bam2", "x": 8510, "y": 3230, "a": 1.5708, "c": "white"}, {"k": "bamOt", "x": 8520, "y": 4580, "a": 4.7124, "c": "white"}, {"k": "dvs", "x": 6770, "y": 7040, "a": 0.0}, {"k": "bolster", "x": 8430, "y": 3240, "a": 1.5708}, {"k": "bolster", "x": 8430, "y": 2750, "a": 1.5708}, {"k": "bolster", "x": 8440, "y": 3720, "a": 1.5708}, {"k": "tidt", "x": 9640, "y": 3320, "a": 0.0}] } };
   const migrate = list => list.some(p => p.k === 'bk' || p.k === 'vs') ? list : list.concat(list.filter(p => ['nordic', 'burl'].includes(p.k)).map(p => ({ k: 'bk', x: p.x, y: p.y, a: p.a || 0 })));
   let slots = {}; try { slots = JSON.parse(localStorage.getItem(SLOT_KEY) || '{}') || {}; } catch (e) { slots = {}; }
   const slotOf = s => slots[s] || BUILTIN[s] || null;
@@ -9701,8 +9701,8 @@ function placeLivPeople() {
   if (src.sofa && src.bamK) {
     const half = src.bamK === 'bam1' ? 0 : 0.28, d = off(src.sofa, half, 0.12), top = seatTopAt(src.sofa.obj, d.x, d.z) || 0.42;
     dad.visible = true; dad.position.set(d.x, top - 0.42, d.z); dad.rotation.y = src.sofa.a;
-    if (src.ot) { const k = off(src.ot, 0, -0.13), kt = seatTopAt(src.ot.obj, k.x, k.z) || 0.38;
-      kidSprawl.visible = true; kidSprawl.position.set(k.x, kt + 0.075 * FAM.kid[0] / 1.7, k.z); kidSprawl.rotation.y = src.ot.a; }
+    if (src.ot) { const k = off(Object.assign({}, src.ot, { a: src.sofa.a }), 0, -0.13), kt = seatTopAt(src.ot.obj, k.x, k.z) || 0.38;   // facing as the sofa does: the module may be turned either way
+      kidSprawl.visible = true; kidSprawl.position.set(k.x, kt + 0.075 * FAM.kid[0] / 1.7, k.z); kidSprawl.rotation.y = src.sofa.a; }
     else { kidSprawl.visible = false;
       if (half) { const k = off(src.sofa, -0.45, 0.12), kt = seatTopAt(src.sofa.obj, k.x, k.z) || 0.42; livP[2].visible = true; livP[2].position.set(k.x, kt - 0.42, k.z); livP[2].rotation.y = src.sofa.a; } }
   } else if (src.sofa) {
